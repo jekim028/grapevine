@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function Home() {
+export default function Page() {
   return (
     <View style={styles.container}>
-      <Text>Feed Page</Text>
+      <Text>Plus Page</Text>
     </View>
   );
 }
