@@ -1,6 +1,7 @@
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Pressable, Text } from "react-native";
+import { Colors } from "../styles";
 
 export default function Root() {
   return (
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   loginButton: {
-    backgroundColor: "red",
+    backgroundColor: Colors.colors.grapevine,
     padding: 10,
     borderRadius: 8,
   },
