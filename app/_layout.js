@@ -15,15 +15,6 @@ export default function HomeLayout() {
         }}
       />
       <Tabs.Screen
-        name="search"
-        options={{
-          tabBarLabel: "Search",
-          tabBarIcon: ({ size, color }) => (
-            <Ionicons name="search" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="plus"
         options={{
           tabBarLabel: "Plus",
@@ -38,15 +29,6 @@ export default function HomeLayout() {
           tabBarLabel: "Inbox",
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="archive" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ size, color }) => (
-            <Ionicons name="person" size={size} color={color} />
           ),
         }}
       />
