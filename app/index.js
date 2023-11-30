@@ -1,29 +1,22 @@
-import { Link } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, Pressable, Text } from "react-native";
-import { Colors } from "../styles";
+import { router } from "expo-router";
+import { useEffect } from "react";
+import { supabase } from "../utils/supabase";
 
-export default function Root() {
-  return (
-    <SafeAreaView style={styles.container}>
-      <Link href="/home" asChild>
-        <Pressable style={styles.loginButton}>
-          <Text>Login</Text>
-        </Pressable>
-      </Link>
-    </SafeAreaView>
-  );
+export default function IndexPage() {
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        router.replace("/(home)/");
+      }
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        router.replace("/(home)/");
+      } else {
+        console.log("no user");
+        router.replace("/(auth)/login");
+      }
+    });
+  }, []);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  loginButton: {
-    backgroundColor: Colors.colors.grapevine,
-    padding: 10,
-    borderRadius: 8,
-  },
-});
