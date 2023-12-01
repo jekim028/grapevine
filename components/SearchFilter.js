@@ -1,34 +1,14 @@
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import { colors, fonts } from "../styles/base";
-
-const businesses = [
-  {
-    business: "Mr. Cool Mechanic",
-    address: "459 Avenue of the Americas",
-  },
-  {
-    business: "Ms. Great Mechanic",
-    address: "680 Lomita Drive",
-  },
-  {
-    business: "My Mother",
-    address: "500 West Adams Blvd",
-  },
-];
+import { businesses } from "../lib/data";
 
 const SearchResult = ({ business, address }) => {
-  console.log(business, address);
-  // const { business, address } = item;
   return (
     <View>
       <Text style={styles.businessName}>{business}</Text>
       <Text>{address}</Text>
     </View>
   );
-};
-
-const renderSearchResult = ({ item }) => {
-  console.log(item);
 };
 
 const SearchFilter = ({ searchQuery, setSearchQuery }) => {
