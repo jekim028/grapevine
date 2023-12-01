@@ -4,6 +4,8 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
+  ScrollView,
+  Image,
 } from "react-native";
 import {
   iconSize,
@@ -16,7 +18,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import Feed from "../../components/Feed";
-
+import { PaddedLine } from "../components/general/Line";
+import { Title2Primary } from "../components/text/Text";
 const CategoryIconBox = ({ iconName, category }) => {
   return (
     <View style={styles.categoryBox}>
@@ -52,24 +55,42 @@ const CategorySection = () => {
 export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.page}>
-        {/* Grapevine Header */}
-        <Text>Grapevine</Text>
+      <View>
+        <ScrollView>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: padding.sm,
+              paddingHorizontal: padding.med,
+            }}
+          >
+            <Image
+              source={require("../../assets/imgs/Grape.jpg")}
+              style={{ width: 32, height: 33 }}
+            />
+            <Title2Primary text={"Grapevine"} />
+          </View>
 
-        {/* Search Bar*/}
-        <TouchableOpacity
-          onPress={() => router.push("/(p)/search")}
-          style={styles.searchBox}
-        >
-          <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
-          <Text style={styles.placeholderText}>Search</Text>
-        </TouchableOpacity>
+          {/* Search Bar*/}
+          <View style={styles.searchContainer}>
+            <TouchableOpacity
+              onPress={() => router.push("/(p)/search")}
+              style={styles.searchBox}
+            >
+              <Ionicons
+                name="search"
+                size={iconSize}
+                color={colors.textPrimary}
+              />
+              <Text style={styles.placeholderText}>Search</Text>
+            </TouchableOpacity>
+            <CategorySection />
+          </View>
+          <PaddedLine />
 
-        <CategorySection />
-
-        {/* Activity */}
-        <Text style={styles.header}>Activity</Text>
-        <Feed />
+          {/* Activity */}
+          <Feed />
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -79,11 +100,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
   },
-  page: {
-    flex: 1,
-    paddingHorizontal: padding.lg,
+  searchContainer: {
+    paddingHorizontal: padding.med,
+    paddingVertical: padding.med,
   },
   searchBox: {
     display: "flex",

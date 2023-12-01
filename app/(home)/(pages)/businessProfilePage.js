@@ -37,6 +37,7 @@ import { RecommendersDetails } from "../../components/businessProfiles/Recommend
 import Pill from "../../components/general/Pill";
 import { PaddedLine } from "../../components/general/Line";
 import { Dimensions } from "react-native";
+import { ProfileWithDegree } from "../../components/general/ProfileWithDegree";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -44,14 +45,7 @@ const windowHeight = Dimensions.get("window").height;
 const BusinessProfileReview = ({ person, name, degree, reviewText }) => {
   return (
     <View style={styles.businessProfileReview}>
-      <View style={styles.rowContainerMed}>
-        <ProfilePic size={32} person={person} hasBorder={false} />
-        <View style={styles.rowContainerSm}>
-          <TextMedPrimaryBold text={name} />
-          <TextMedSecondary text={"•"} />
-          <TextMedSecondary text={degree} />
-        </View>
-      </View>
+      <ProfileWithDegree personPic={person} name={name} degree={degree} />
       <TextMedPrimary text={reviewText} />
     </View>
   );
@@ -175,7 +169,7 @@ const ReviewScroll = () => {
           reviewText={
             "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
           }
-        />{" "}
+        />
         <BusinessProfileReview
           person={"Chelsea"}
           name={"Chelsea Cho"}
@@ -183,7 +177,7 @@ const ReviewScroll = () => {
           reviewText={
             "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
           }
-        />{" "}
+        />
         <BusinessProfileReview
           person={"Chelsea"}
           name={"Chelsea Cho"}
@@ -191,7 +185,7 @@ const ReviewScroll = () => {
           reviewText={
             "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
           }
-        />{" "}
+        />
         <BusinessProfileReview
           person={"Chelsea"}
           name={"Chelsea Cho"}
@@ -199,7 +193,7 @@ const ReviewScroll = () => {
           reviewText={
             "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
           }
-        />{" "}
+        />
         <BusinessProfileReview
           person={"Chelsea"}
           name={"Chelsea Cho"}
