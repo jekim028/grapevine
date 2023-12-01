@@ -5,9 +5,10 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
+  Touchable,
 } from "react-native";
 
-import { Link } from "expo-router";
+import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   TextXsAccent,
@@ -23,20 +24,21 @@ import {
   TextLgBold,
   Title3Primary,
   Title3PrimaryBold,
-} from "../../components/general/Text";
-import { colors } from "../../../styles/colors";
-import { padding } from "../../../styles/spacing";
+} from "../components/general/Text";
+import { colors } from "../../styles/colors";
+import { padding } from "../../styles/spacing";
 
 import {
   ProfilePic,
   OverlappingProfiles,
-} from "../../components/general/Profiles";
+} from "../components/general/Profiles";
 
-import { BusinessActionLine } from "../../components/businessProfiles/BusinessActionLine";
-import { RecommendersDetails } from "../../components/businessProfiles/RecommendersDetails";
-import Pill from "../../components/general/Pill";
-import { PaddedLine } from "../../components/general/Line";
+import { BusinessActionLine } from "../components/businessProfiles/BusinessActionLine";
+import { RecommendersDetails } from "../components/businessProfiles/RecommendersDetails";
+import Pill from "../components/general/Pill";
+import { PaddedLine } from "../components/general/Line";
 import { Dimensions } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -60,9 +62,9 @@ const BusinessProfileReview = ({ person, name, degree, reviewText }) => {
 const Header = () => {
   return (
     <View style={styles.headerBar}>
-      <Link href="(pages)/searchResultsPage">
+      <TouchableOpacity onPress={() => router.back()}>
         <Ionicons name={"chevron-back"} size={24} color={colors.textPrimary} />
-      </Link>
+      </TouchableOpacity>
       <View style={styles.headerButton}>
         <Ionicons
           name={"bookmark-outline"}
@@ -82,9 +84,9 @@ export const BusinessPhotosScroll = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
       >
-        <Image source={require("../../../assets/imgs/mechanics/mech1.jpg")} />
-        <Image source={require("../../../assets/imgs/mechanics/mech1.jpg")} />
-        <Image source={require("../../../assets/imgs/mechanics/mech1.jpg")} />
+        <Image source={require("../../assets/imgs/mechanics/mech1.jpg")} />
+        <Image source={require("../../assets/imgs/mechanics/mech1.jpg")} />
+        <Image source={require("../../assets/imgs/mechanics/mech1.jpg")} />
       </ScrollView>
     </View>
   );
@@ -214,7 +216,7 @@ const ReviewScroll = () => {
 };
 
 const Map = () => {
-  return <Image source={require("../../../assets/imgs/map.jpg")} />;
+  return <Image source={require("../../assets/imgs/map.jpg")} />;
 };
 
 const TotalRecommendations = () => {

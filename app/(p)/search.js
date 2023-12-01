@@ -25,6 +25,13 @@ export default function Search() {
     setSearchQuery(query);
   };
 
+  const handleSubmit = (query) => {
+    router.push({
+      pathname: "/(p)/searchResultsPage",
+      params: { query },
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.page}>
@@ -43,6 +50,16 @@ export default function Search() {
             value={searchQuery}
             style={styles.search}
             onChangeText={(query) => handleSearch(query)}
+            onSubmitEditing={(event) => {
+              // Extract the query text from the event object
+              const query = event.nativeEvent.text;
+
+              // Use router.push directly with the extracted query
+              router.push({
+                pathname: "/(p)/searchResultsPage",
+                params: { query },
+              });
+            }}
           />
         </View>
 
