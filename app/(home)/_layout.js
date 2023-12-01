@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { colors, iconSize } from "../../styles/base";
+import { colors, iconSize, padding } from "../../styles/base";
 
 export default function HomeLayout() {
   return (
@@ -11,6 +11,7 @@ export default function HomeLayout() {
         tabBarInactiveTintColor: colors.textInverted,
         tabBarStyle: {
           backgroundColor: colors.textPrimary,
+          paddingVertical: padding.sm,
         },
         tabBarLabelStyle: {
           display: "none",
@@ -31,7 +32,7 @@ export default function HomeLayout() {
         options={{
           tabBarLabel: "Plus",
           tabBarIcon: ({ size, color }) => (
-            <Ionicons name="add" size={size} color={color} />
+            <Ionicons name="add" size={size + 10} color={color} />
           ),
         }}
       />
