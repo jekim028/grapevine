@@ -4,4 +4,5 @@ export const colors = {
   textInverted: "#FFFFFF",
   textSecondary: "#D9D9D9",
   formBackground: "#ECECEE",
+  placeholder: "#8e8e8e",
 };
