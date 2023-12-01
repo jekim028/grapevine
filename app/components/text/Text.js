@@ -41,6 +41,19 @@ export const Title3PrimaryBold = ({ text }) => {
   return <Text style={styles.title3PrimaryBold}>{text}</Text>;
 };
 
+export const Title2Primary = ({ text }) => {
+  return (
+    <Text
+      style={{
+        fontFamily: "LobsterTwo_400Regular",
+        fontSize: 32,
+        lineHeight: 36,
+      }}
+    >
+      {text}
+    </Text>
+  );
+};
 const styles = StyleSheet.create({
   textXsPrimary: {
     fontSize: 12,
