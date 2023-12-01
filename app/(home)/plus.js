@@ -3,10 +3,9 @@ import { Link } from "expo-router";
 export default function Page() {
   return (
     <View style={styles.container}>
-      <Link href="(pages)/businessProfilePage">
-        <Text> To Business Profile Page</Text>
+      <Link href="(pages)/searchResultsPage">
+        <Text> Plus To Search Results Page</Text>
       </Link>
-      {/* <Text>Plus Page</Text> */}
     </View>
   );
 }

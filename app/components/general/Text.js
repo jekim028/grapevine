@@ -28,6 +28,12 @@ export const TextMedPrimary = ({ text }) => {
 export const TextMedSecondary = ({ text }) => {
   return <Text style={styles.textMedSecondary}>{text}</Text>;
 };
+export const TextMedAccent = ({ text }) => {
+  return <Text style={styles.textMedAccent}>{text}</Text>;
+};
+export const TextMedInverted = ({ text }) => {
+  return <Text style={styles.textMedInverted}>{text}</Text>;
+};
 export const TextMedPrimaryBold = ({ text }) => {
   return <Text style={styles.textMedPrimaryBold}>{text}</Text>;
 };
@@ -88,6 +94,16 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 22,
     color: colors.textSecondary,
+  },
+  textMedAccent: {
+    fontSize: 17,
+    lineHeight: 22,
+    color: colors.grapevine,
+  },
+  textMedInverted: {
+    fontSize: 17,
+    lineHeight: 22,
+    color: colors.textInverted,
   },
   textMedPrimaryBold: {
     fontSize: 17,

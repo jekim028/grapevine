@@ -41,6 +41,12 @@ export default function HomeLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="(pages)"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

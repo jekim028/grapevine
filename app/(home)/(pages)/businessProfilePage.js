@@ -7,6 +7,7 @@ import {
   SafeAreaView,
 } from "react-native";
 
+import { Link } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   TextXsAccent,
@@ -22,23 +23,25 @@ import {
   TextLgBold,
   Title3Primary,
   Title3PrimaryBold,
-} from "../../components/text/Text";
+} from "../../components/general/Text";
 import { colors } from "../../../styles/colors";
 import { padding } from "../../../styles/spacing";
 
-import ProfilePic from "../../components/ProfilePic";
-import Pill from "../../components/Pill";
+import {
+  ProfilePic,
+  OverlappingProfiles,
+} from "../../components/general/Profiles";
 
-const BusinessActionLine = ({ iconName, iconSize, iconColor, text }) => {
-  return (
-    <View style={styles.rowContainerSm}>
-      <Ionicons name={iconName} size={iconSize} color={iconColor} />
-      <TextXsSecondary text={text} />
-    </View>
-  );
-};
+import { BusinessActionLine } from "../../components/businessProfiles/BusinessActionLine";
+import { RecommendersDetails } from "../../components/businessProfiles/RecommendersDetails";
+import Pill from "../../components/general/Pill";
+import { PaddedLine } from "../../components/general/Line";
+import { Dimensions } from "react-native";
 
-const BusinesProfileReview = ({ person, name, degree, reviewText }) => {
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
+const BusinessProfileReview = ({ person, name, degree, reviewText }) => {
   return (
     <View style={styles.businessProfileReview}>
       <View style={styles.rowContainerMed}>
@@ -57,7 +60,9 @@ const BusinesProfileReview = ({ person, name, degree, reviewText }) => {
 const Header = () => {
   return (
     <View style={styles.headerBar}>
-      <Ionicons name={"chevron-back"} size={24} color={colors.textPrimary} />
+      <Link href="(pages)/searchResultsPage">
+        <Ionicons name={"chevron-back"} size={24} color={colors.textPrimary} />
+      </Link>
       <View style={styles.headerButton}>
         <Ionicons
           name={"bookmark-outline"}
@@ -69,39 +74,18 @@ const Header = () => {
   );
 };
 
-const BusinessPhotosScroll = () => {
+export const BusinessPhotosScroll = () => {
   return (
-    <View style={styles.scrollViewContainer}>
-      <ScrollView horizontal={true} contentContainerStyle={styles.scroll}>
-        <Image source={require("../../../assets/imgs/mech.png")} />
-        <Image source={require("../../../assets/imgs/mech.png")} />
-        <Image source={require("../../../assets/imgs/mech.png")} />
+    <View style={styles.imageScrollContainer}>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.scroll}
+      >
+        <Image source={require("../../../assets/imgs/mechanics/mech1.jpg")} />
+        <Image source={require("../../../assets/imgs/mechanics/mech1.jpg")} />
+        <Image source={require("../../../assets/imgs/mechanics/mech1.jpg")} />
       </ScrollView>
-    </View>
-  );
-};
-
-const OverlappingProfiles = () => {
-  return (
-    <View style={styles.overlappingProfiles}>
-      <ProfilePic
-        size={32}
-        person={"Emily"}
-        hasBorder={true}
-        borderColor={"white"}
-      />
-      <ProfilePic
-        size={32}
-        person={"Ariane"}
-        hasBorder={true}
-        borderColor={"white"}
-      />
-      <ProfilePic
-        size={32}
-        person={"Chelsea"}
-        hasBorder={true}
-        borderColor={"white"}
-      />
     </View>
   );
 };
@@ -112,19 +96,14 @@ const BusinessDetails = () => {
       <View style={styles.colContainerMed}>
         <View style={styles.colContainerXs}>
           <Title3PrimaryBold text={"Mr. Cool Mechanic"} />
-          <View style={styles.rowContainerXs}>
-            <OverlappingProfiles />
-            <View>
-              <View style={styles.rowContainerXs}>
-                <TextXsPrimary text={"Recommended by"} />
-                <TextXsPrimaryBold text={"Chelsea Cho (2nd), Ariane Lee"} />
-              </View>
-              <View style={styles.rowContainerXs}>
-                <TextXsPrimary text={"and"} />
-                <TextXsPrimaryBold text={"6 others"} />
-              </View>
-            </View>
-          </View>
+          <RecommendersDetails
+            person1={"Chelsea"}
+            person2={"Ariane"}
+            person3={"Emily"}
+            first={"Chelsea Cho (2nd)"}
+            second={"Ariane Lee (2nd)"}
+            third={" 6 others"}
+          />
         </View>
         <View style={styles.colContainerSm}>
           <BusinessActionLine
@@ -153,9 +132,19 @@ const BusinessDetails = () => {
 
 const ReviewScroll = () => {
   return (
-    <View style={{ marginTop: -padding.sm, marginBottom: padding.med }}>
-      <ScrollView horizontal={true} contentContainerStyle={styles.scroll}>
-        <BusinesProfileReview
+    <View
+      style={{
+        marginTop: -padding.sm,
+        marginBottom: padding.med,
+        width: windowWidth,
+      }}
+    >
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.scroll}
+      >
+        <BusinessProfileReview
           person={"Chelsea"}
           name={"Chelsea Cho"}
           degree={"2nd"}
@@ -163,7 +152,7 @@ const ReviewScroll = () => {
             "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
           }
         />
-        <BusinesProfileReview
+        <BusinessProfileReview
           person={"Chelsea"}
           name={"Chelsea Cho"}
           degree={"2nd"}
@@ -171,7 +160,7 @@ const ReviewScroll = () => {
             "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
           }
         />
-        <BusinesProfileReview
+        <BusinessProfileReview
           person={"Chelsea"}
           name={"Chelsea Cho"}
           degree={"2nd"}
@@ -180,14 +169,6 @@ const ReviewScroll = () => {
           }
         />
       </ScrollView>
-    </View>
-  );
-};
-
-const Line = () => {
-  return (
-    <View style={styles.lineContainer}>
-      <View style={styles.line} />
     </View>
   );
 };
@@ -231,15 +212,17 @@ const RecommendationsDetails = () => {
 export default function businessProfilePage() {
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
-      <ScrollView>
-        <BusinessPhotosScroll />
-        <BusinessDetails />
-        <Line />
-        <RecommendationsDetails />
-        <ReviewScroll />
-        <Map />
-      </ScrollView>
+      <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Header />
+          <BusinessPhotosScroll />
+          <BusinessDetails />
+          <PaddedLine />
+          <RecommendationsDetails />
+          <ReviewScroll />
+          <Map />
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -248,12 +231,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    gap: padding.med,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
   },
   headerBar: {
     display: "flex",
@@ -261,25 +241,27 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 8,
+    paddingVertical: padding.sm,
     paddingHorizontal: padding.med,
   },
   headerButton: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    width: 44,
-    height: 44,
+    width: 32,
+    height: 32,
     borderRadius: 100000000,
   },
-  scrollViewContainer: {
+  imageScrollContainer: {
     height: 150,
     overflow: "visible",
+    marginBottom: -padding.sm,
+    width: windowWidth,
   },
   scroll: {
     display: "flex",
     paddingHorizontal: padding.med,
-    gap: padding.med,
+    gap: padding.sm,
     height: "auto",
     overflow: "visible",
   },
@@ -299,21 +281,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     lineHeight: 28,
   },
-  lineContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    paddingHorizontal: padding.med,
-  },
-  line: {
-    height: 1,
-    backgroundColor: colors.gray,
-    width: "100%",
-  },
   rowContainerXs: {
     flexDirection: "row",
     gap: padding.xs,
     alignItems: "center",
+    backgroundColor: "red",
   },
   rowContainerXsWrap: {
     flexDirection: "row",
@@ -352,9 +324,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     borderColor: colors.gray,
-  },
-  overlappingProfiles: {
-    flexDirection: "row-reverse",
-    gap: -21,
   },
 });

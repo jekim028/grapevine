@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
-import { TextXsAccent } from "./text/Text";
-import { padding } from "../../styles/spacing";
-import { colors } from "../../styles/colors";
+import { TextXsAccent } from "./Text";
+import { padding } from "../../../styles/spacing";
+import { colors } from "../../../styles/colors";
 
 const Pill = ({ text1, text2 }) => {
   return (
