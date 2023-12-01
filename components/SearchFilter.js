@@ -1,13 +1,28 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { colors, fonts } from "../styles/base";
 import { businesses } from "../lib/data";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { iconSize, padding } from "../styles/base";
+import { router } from "expo-router";
 
 const SearchResult = ({ business, address }) => {
   return (
-    <View>
-      <Text style={styles.businessName}>{business}</Text>
-      <Text>{address}</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() => router.push({ pathname: "/(home)", params: { business } })}
+      style={styles.resultCell}
+    >
+      <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
+      <View>
+        <Text style={styles.businessName}>{business}</Text>
+        <Text>{address}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -27,6 +42,7 @@ const SearchFilter = ({ searchQuery, setSearchQuery }) => {
           }
         }}
         keyExtractor={(item, index) => index.toString()}
+        style={styles.searchResults}
       />
     </View>
   );
@@ -38,5 +54,14 @@ const styles = StyleSheet.create({
   businessName: {
     color: colors.textPrimary,
     fontSize: fonts.med,
+  },
+  resultCell: {
+    flexDirection: "row",
+    padding: padding.sm,
+    gap: padding.sm,
+    alignItems: "center",
+  },
+  searchResults: {
+    paddingVertical: padding.med,
   },
 });
