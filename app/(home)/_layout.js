@@ -32,15 +32,6 @@ export default function HomeLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ size, color }) => (
-            <Ionicons name="person" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="(pages)"
         options={{
           href: null,

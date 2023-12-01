@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { supabase } from "../../utils/supabase";
+import { supabase } from "../../../utils/supabase";
 import { useEffect, useState } from "react";
 
 export default function SettingsPage() {

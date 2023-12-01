@@ -111,7 +111,7 @@ const AllResults = ({ searchQuery }) => {
           item.businessName.toLowerCase().includes(searchQuery.toLowerCase())
         ) {
           return (
-            <View>
+            <View key={item.businessName}>
               <BusinessResult data={item} id={item.businessName} />
               <FullLine />
             </View>
