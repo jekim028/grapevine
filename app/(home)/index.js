@@ -60,16 +60,31 @@ export default function Home() {
           <View
             style={{
               flexDirection: "row",
-              gap: padding.sm,
+              justifyContent: "space-between",
+              alignItems: "center",
               paddingHorizontal: padding.med,
               paddingVertical: padding.sm,
             }}
           >
-            <Image
-              source={require("../../assets/imgs/Grape.jpg")}
-              style={{ width: 32, height: 33 }}
-            />
-            <Title2Primary text={"Grapevine"} />
+            <View
+              style={{
+                flexDirection: "row",
+                gap: padding.sm,
+              }}
+            >
+              <Image
+                source={require("../../assets/imgs/Grape.jpg")}
+                style={{ width: 32, height: 33 }}
+              />
+              <Title2Primary text={"Grapevine"} />
+            </View>
+            <View style={{ paddingHorizontal: padding.sm }}>
+              <Ionicons
+                name="person-outline"
+                size={iconSize}
+                color={colors.textPrimary}
+              />
+            </View>
           </View>
 
           {/* Search Bar*/}
@@ -83,7 +98,9 @@ export default function Home() {
                 size={iconSize}
                 color={colors.textPrimary}
               />
-              <Text style={styles.placeholderText}>Search</Text>
+              <Text style={styles.placeholderText}>
+                Search for recommendations
+              </Text>
             </TouchableOpacity>
             <CategorySection />
           </View>

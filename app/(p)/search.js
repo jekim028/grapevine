@@ -45,7 +45,7 @@ export default function Search() {
             />
           </TouchableOpacity>
           <TextInput
-            placeholder="Search"
+            placeholder="Search for recommendations"
             clearButtonMode="always"
             value={searchQuery}
             style={styles.search}

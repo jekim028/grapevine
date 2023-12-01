@@ -32,7 +32,7 @@ export default function HomeLayout() {
         options={{
           tabBarLabel: "Plus",
           tabBarIcon: ({ size, color }) => (
-            <Ionicons name="add" size={size + 10} color={color} />
+            <Ionicons name="add" size={32} color={color} />
           ),
         }}
       />
