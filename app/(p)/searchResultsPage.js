@@ -5,20 +5,22 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
-  Touchable,
+  TouchableOpacity,
 } from "react-native";
 
-import { Link } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Title3PrimaryBold } from "../../components/general/Text";
-import { AccentButton, InvertedButton } from "../../components/general/Button";
-import { colors } from "../../../styles/colors";
-import { padding } from "../../../styles/spacing";
-import { ImageScroll } from "../../components/general/ImageScroll";
-import { BusinessActionLine } from "../../components/businessProfiles/BusinessActionLine";
-import { RecommendersDetails } from "../../components/businessProfiles/RecommendersDetails";
-import { FullLine } from "../../components/general/Line";
+import { Title3PrimaryBold } from "../components/general/Text";
+import { AccentButton, InvertedButton } from "../components/general/Button";
+import { colors } from "../../styles/colors";
+import { padding } from "../../styles/spacing";
+import { ImageScroll } from "../components/general/ImageScroll";
+import { BusinessActionLine } from "../components/businessProfiles/BusinessActionLine";
+import { RecommendersDetails } from "../components/businessProfiles/RecommendersDetails";
+import { FullLine } from "../components/general/Line";
+import { iconSize, borderRadius, fonts } from "../../styles/base";
+import { bizdata } from "../../lib/data";
 
 import { Dimensions } from "react-native";
 const windowWidth = Dimensions.get("window").width;
@@ -95,87 +97,47 @@ const BusinessResult = ({ data }) => {
   );
 };
 
-const AllResults = () => {
-  const data = [
-    {
-      recommendersText: {
-        first: "Chelsea Cho (2nd)",
-        second: "Ariane Lee (2nd)",
-        third: " 6 others",
-      },
-      recommendersPhotos: {
-        first: "Chelsea",
-        second: "Ariane",
-        third: "Emily",
-      },
-      businessImgs: [
-        { id: 1, pic: "mech1" },
-        { id: 2, pic: "mech2" },
-        { id: 3, pic: "mech3" },
-        { id: 4, pic: "mech4" },
-      ],
-      businessName: "Mr. Cool Mechanic",
-      address: "259 West Peacock Rd, Mountain View, CA",
-    },
-    {
-      recommendersText: {
-        first: "Emily Deng (1st)",
-        second: "Tobey MacIntosh (2nd)",
-        third: " 3 others",
-      },
-      recommendersPhotos: {
-        first: "Emily",
-        second: "Tobey",
-        third: "Jenna",
-      },
-      businessImgs: [
-        { id: 1, pic: "mech5" },
-        { id: 2, pic: "mech6" },
-        { id: 3, pic: "mech7" },
-        { id: 4, pic: "mech8" },
-      ],
-      businessName: "Mr. Awesome Mechanic",
-      address: "585 Cowell Lane, Stanford, CA",
-    },
-    {
-      recommendersText: {
-        first: "Ella Brown (2nd)",
-        second: "Michael Weinstein (2nd)",
-        third: " 2 others",
-      },
-      recommendersPhotos: {
-        first: "StockPerson1",
-        second: "StockPerson2",
-        third: "StockPerson3",
-      },
-      businessImgs: [
-        { id: 1, pic: "mech9" },
-        { id: 2, pic: "mech10" },
-        { id: 3, pic: "mech11" },
-        { id: 4, pic: "mech12" },
-      ],
-      businessName: "Mr. Awesome Mechanic",
-      address: "585 Cowell Lane, Stanford, CA",
-    },
-  ];
+const AllResults = ({ searchQuery }) => {
   return (
     <View style={styles.allReviews}>
-      {data.map((item) => (
-        <View>
-          <BusinessResult data={item} id={item.businessName} />
-          <FullLine />
-        </View>
-      ))}
+      {bizdata.map((item) => {
+        if (
+          searchQuery &&
+          item.businessName.toLowerCase().includes(searchQuery.toLowerCase())
+        ) {
+          return (
+            <View>
+              <BusinessResult data={item} id={item.businessName} />
+              <FullLine />
+            </View>
+          );
+        }
+      })}
     </View>
   );
 };
 
 export default function searchResultsPage() {
+  const { query } = useLocalSearchParams();
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <ScrollView>
-          <AllResults />
+          {/* Search Bar*/}
+          <View style={{ paddingHorizontal: padding.med }}>
+            <TouchableOpacity
+              onPress={() => router.push("/(p)/search")}
+              style={styles.searchBox}
+            >
+              <Ionicons
+                name="chevron-back"
+                size={iconSize}
+                color={colors.textPrimary}
+              />
+              <Text style={styles.searchQuery}>{query}</Text>
+            </TouchableOpacity>
+          </View>
+          <AllResults searchQuery={query} />
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -253,5 +215,24 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: padding.med,
     paddingHorizontal: padding.med,
+  },
+  searchBox: {
+    display: "flex",
+    padding: padding.sm,
+    flexDirection: "row",
+    borderRadius: borderRadius.pill,
+    alignItems: "center",
+    backgroundColor: colors.formBackground,
+    width: "100%",
+    gap: padding.sm,
+  },
+  search: {
+    flex: 1,
+    fontSize: fonts.reg,
+  },
+  searchQuery: {
+    flex: 1,
+    fontSize: fonts.reg,
+    color: colors.textPrimary,
   },
 });

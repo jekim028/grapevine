@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { colors, fonts } from "../styles/base";
-import { businesses } from "../lib/data";
+import { businesses, bizdata } from "../lib/data";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { iconSize, padding } from "../styles/base";
 import { router } from "expo-router";
+import { TextSmPrimary, TextXsSecondary } from "../app/components/general/Text";
 
 const SearchResult = ({ business, address }) => {
   return (
@@ -19,8 +20,8 @@ const SearchResult = ({ business, address }) => {
     >
       <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
       <View>
-        <Text style={styles.businessName}>{business}</Text>
-        <Text>{address}</Text>
+        <TextSmPrimary text={business} />
+        <TextXsSecondary text={address} />
       </View>
     </TouchableOpacity>
   );
@@ -30,14 +31,17 @@ const SearchFilter = ({ searchQuery, setSearchQuery }) => {
   return (
     <View>
       <FlatList
-        data={businesses}
+        data={bizdata}
         renderItem={({ item }) => {
           if (
             searchQuery &&
-            item.business.toLowerCase().includes(searchQuery.toLowerCase())
+            item.businessName.toLowerCase().includes(searchQuery.toLowerCase())
           ) {
             return (
-              <SearchResult business={item.business} address={item.address} />
+              <SearchResult
+                business={item.businessName}
+                address={item.address}
+              />
             );
           }
         }}
