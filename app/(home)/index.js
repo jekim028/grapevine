@@ -15,6 +15,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
+import Feed from "../../components/Feed";
 
 const CategoryIconBox = ({ iconName, category }) => {
   return (
@@ -68,6 +69,7 @@ export default function Home() {
 
         {/* Activity */}
         <Text style={styles.header}>Activity</Text>
+        <Feed />
       </View>
     </SafeAreaView>
   );
