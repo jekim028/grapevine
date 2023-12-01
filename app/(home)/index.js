@@ -15,6 +15,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
+import Feed from "../../components/Feed";
 
 const CategoryIconBox = ({ iconName, category }) => {
   return (
@@ -50,9 +51,27 @@ const CategorySection = () => {
 
 export default function Home() {
   return (
-    <View style={styles.container}>
-      <Text>Home Page</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.page}>
+        {/* Grapevine Header */}
+        <Text>Grapevine</Text>
+
+        {/* Search Bar*/}
+        <TouchableOpacity
+          onPress={() => router.push("/(p)/search")}
+          style={styles.searchBox}
+        >
+          <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
+          <Text style={styles.placeholderText}>Search</Text>
+        </TouchableOpacity>
+
+        <CategorySection />
+
+        {/* Activity */}
+        <Text style={styles.header}>Activity</Text>
+        <Feed />
+      </View>
+    </SafeAreaView>
   );
 }
 
