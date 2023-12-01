@@ -4,4 +4,7 @@ export const padding = {
   lg: 24,
 };
 
-export const borderRadius = 8;
+export const borderRadius = {
+  reg: 8,
+  pill: 100,
+};
