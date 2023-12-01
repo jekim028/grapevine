@@ -10,3 +10,4 @@ export const mech9 = require("./mech9.jpg");
 export const mech10 = require("./mech10.jpg");
 export const mech11 = require("./mech11.jpg");
 export const mech12 = require("./mech12.jpg");
+export const none = require("./none.jpg");

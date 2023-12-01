@@ -83,7 +83,9 @@ export default function Home() {
                 size={iconSize}
                 color={colors.textPrimary}
               />
-              <Text style={styles.placeholderText}>Search</Text>
+              <Text style={styles.placeholderText}>
+                Search for recommendations
+              </Text>
             </TouchableOpacity>
             <CategorySection />
           </View>

@@ -78,6 +78,7 @@ const BusinessResult = ({ data }) => {
   const {
     recommendersText,
     recommendersPhotos,
+    hasPics,
     businessImgs,
     businessName,
     address,
@@ -85,7 +86,7 @@ const BusinessResult = ({ data }) => {
   return (
     <View>
       <View style={styles.result}>
-        <ImageScroll height={100} images={businessImgs} />
+        {hasPics && <ImageScroll height={100} images={businessImgs} />}
         <BusinessDetails
           businessName={businessName}
           address={address}
@@ -93,6 +94,8 @@ const BusinessResult = ({ data }) => {
           photos={recommendersPhotos}
         />
       </View>
+      <FullLine />
+      <FullLine />
       <FullLine />
     </View>
   );
@@ -111,6 +114,7 @@ const AllResults = () => {
         second: "Ariane",
         third: "Emily",
       },
+      hasPics: true,
       businessImgs: [
         { id: 1, pic: "mech1" },
         { id: 2, pic: "mech2" },
@@ -131,12 +135,8 @@ const AllResults = () => {
         second: "Tobey",
         third: "Jenna",
       },
-      businessImgs: [
-        { id: 1, pic: "mech5" },
-        { id: 2, pic: "mech6" },
-        { id: 3, pic: "mech7" },
-        { id: 4, pic: "mech8" },
-      ],
+      hasPics: false,
+      businessImgs: [],
       businessName: "Ms. Great Mechanic",
       address: "585 Cowell Lane, Stanford, CA",
     },
@@ -151,6 +151,7 @@ const AllResults = () => {
         second: "StockPerson2",
         third: "StockPerson3",
       },
+      hasPics: true,
       businessImgs: [
         { id: 1, pic: "mech9" },
         { id: 2, pic: "mech10" },
