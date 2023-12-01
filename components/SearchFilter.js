@@ -39,7 +39,7 @@ const SearchFilter = ({ searchQuery, setSearchQuery }) => {
         renderItem={({ item }) => {
           if (
             searchQuery &&
-            item.business.toLowerCase().startsWith(searchQuery.toLowerCase())
+            item.business.toLowerCase().includes(searchQuery.toLowerCase())
           ) {
             return (
               <SearchResult business={item.business} address={item.address} />
