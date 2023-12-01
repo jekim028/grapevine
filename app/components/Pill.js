@@ -1,7 +1,9 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { TextXsAccent } from "./text/Text";
+import { padding } from "../../styles/spacing";
+import { colors } from "../../styles/colors";
 
-export const Pill = ({ text1, text2 }) => {
+const Pill = ({ text1, text2 }) => {
   return (
     <View style={styles.pill}>
       <TextXsAccent text={text1} />
@@ -9,6 +11,8 @@ export const Pill = ({ text1, text2 }) => {
     </View>
   );
 };
+
+export default Pill;
 
 const styles = StyleSheet.create({
   pill: {

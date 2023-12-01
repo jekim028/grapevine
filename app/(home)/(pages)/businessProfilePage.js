@@ -68,6 +68,7 @@ const Header = () => {
     </View>
   );
 };
+
 const BusinessPhotosScroll = () => {
   return (
     <View style={styles.scrollViewContainer}>
@@ -80,6 +81,31 @@ const BusinessPhotosScroll = () => {
   );
 };
 
+const OverlappingProfiles = () => {
+  return (
+    <View style={styles.overlappingProfiles}>
+      <ProfilePic
+        size={32}
+        person={"Emily"}
+        hasBorder={true}
+        borderColor={"white"}
+      />
+      <ProfilePic
+        size={32}
+        person={"Ariane"}
+        hasBorder={true}
+        borderColor={"white"}
+      />
+      <ProfilePic
+        size={32}
+        person={"Chelsea"}
+        hasBorder={true}
+        borderColor={"white"}
+      />
+    </View>
+  );
+};
+
 const BusinessDetails = () => {
   return (
     <View style={styles.section}>
@@ -87,8 +113,17 @@ const BusinessDetails = () => {
         <View style={styles.colContainerXs}>
           <Title3PrimaryBold text={"Mr. Cool Mechanic"} />
           <View style={styles.rowContainerXs}>
-            <TextXsPrimary text={"Recommended by"} />
-            <TextXsPrimaryBold text={"Chelsea Cho"} />
+            <OverlappingProfiles />
+            <View>
+              <View style={styles.rowContainerXs}>
+                <TextXsPrimary text={"Recommended by"} />
+                <TextXsPrimaryBold text={"Chelsea Cho (2nd), Ariane Lee"} />
+              </View>
+              <View style={styles.rowContainerXs}>
+                <TextXsPrimary text={"and"} />
+                <TextXsPrimaryBold text={"6 others"} />
+              </View>
+            </View>
           </View>
         </View>
         <View style={styles.colContainerSm}>
@@ -280,6 +315,13 @@ const styles = StyleSheet.create({
     gap: padding.xs,
     alignItems: "center",
   },
+  rowContainerXsWrap: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: padding.xs,
+    alignItems: "center",
+    flexShrink: 1,
+  },
   rowContainerSm: {
     flexDirection: "row",
     gap: padding.sm,
@@ -310,5 +352,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     borderColor: colors.gray,
+  },
+  overlappingProfiles: {
+    flexDirection: "row-reverse",
+    gap: -21,
   },
 });
