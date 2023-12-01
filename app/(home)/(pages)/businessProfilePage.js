@@ -91,33 +91,35 @@ const BusinessPhotosScroll = () => {
 
 const BusinessDetails = () => {
   return (
-    <View style={styles.colContainerMed}>
-      <View style={styles.colContainerXs}>
-        <Title3PrimaryBold text={"Mr. Cool Mechanic"} />
-        <View style={styles.rowContainerXs}>
-          <TextXsPrimary text={"Recommended by"} />
-          <TextXsPrimaryBold text={"Chelsea Cho"} />
+    <View style={styles.section}>
+      <View style={styles.colContainerMed}>
+        <View style={styles.colContainerXs}>
+          <Title3PrimaryBold text={"Mr. Cool Mechanic"} />
+          <View style={styles.rowContainerXs}>
+            <TextXsPrimary text={"Recommended by"} />
+            <TextXsPrimaryBold text={"Chelsea Cho"} />
+          </View>
         </View>
-      </View>
-      <View style={styles.colContainerSm}>
-        <BusinessActionLine
-          iconName={"location"}
-          iconSize={16}
-          iconColor={colors.grapevine}
-          text={"259 West Peacock Rd, Mountain View, CA"}
-        />
-        <BusinessActionLine
-          iconName={"call"}
-          iconSize={16}
-          iconColor={colors.grapevine}
-          text={"201-248-8682"}
-        />
-        <BusinessActionLine
-          iconName={"globe"}
-          iconSize={16}
-          iconColor={colors.grapevine}
-          text={"www.mrcoolmechanic.com"}
-        />
+        <View style={styles.colContainerSm}>
+          <BusinessActionLine
+            iconName={"location"}
+            iconSize={16}
+            iconColor={colors.grapevine}
+            text={"259 West Peacock Rd, Mountain View, CA"}
+          />
+          <BusinessActionLine
+            iconName={"call"}
+            iconSize={16}
+            iconColor={colors.grapevine}
+            text={"201-248-8682"}
+          />
+          <BusinessActionLine
+            iconName={"globe"}
+            iconSize={16}
+            iconColor={colors.grapevine}
+            text={"www.mrcoolmechanic.com"}
+          />
+        </View>
       </View>
     </View>
   );
@@ -164,6 +166,10 @@ const Line = () => {
   );
 };
 
+const Map = () => {
+  return <Image source={require("../../../assets/imgs/map.jpg")} />;
+};
+
 const TotalRecommendations = () => {
   return (
     <View>
@@ -187,22 +193,26 @@ const ReviewKeyMentions = () => {
     </View>
   );
 };
+
+const RecommendationsDetails = () => {
+  return (
+    <View style={styles.section}>
+      <TotalRecommendations />
+      <ReviewKeyMentions />
+    </View>
+  );
+};
 export default function businessProfilePage() {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       <ScrollView>
         <BusinessPhotosScroll />
-        <View style={styles.section}>
-          <BusinessDetails />
-        </View>
+        <BusinessDetails />
         <Line />
-        <View style={styles.section}>
-          <TotalRecommendations />
-          <ReviewKeyMentions />
-        </View>
+        <RecommendationsDetails />
         <ReviewScroll />
-        <Image source={require("../../../assets/imgs/map.jpg")} />
+        <Map />
       </ScrollView>
     </SafeAreaView>
   );
@@ -235,7 +245,6 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 100000000,
-    // backgroundColor: "#D9D9D9",
   },
   scrollViewContainer: {
     height: 150,
