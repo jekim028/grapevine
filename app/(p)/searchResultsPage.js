@@ -26,15 +26,22 @@ import { Dimensions } from "react-native";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const ActionButtons = () => {
+const ActionButtons = ({ actions }) => {
   return (
     <View style={styles.rowContainerMed}>
-      <InvertedButton text={"Call"} />
-      <InvertedButton text={"Website"} />
+      {actions.map((item) => (
+        <InvertedButton text={item.title} key={item.id} />
+      ))}
     </View>
   );
 };
-const BusinessDetails = ({ businessName, address, recommenders, photos }) => {
+const BusinessDetails = ({
+  businessName,
+  address,
+  recommenders,
+  photos,
+  actions,
+}) => {
   return (
     <View style={styles.section}>
       <View style={styles.colContainerMed}>
@@ -70,7 +77,7 @@ const BusinessDetails = ({ businessName, address, recommenders, photos }) => {
             third={recommenders.third}
           />
         </View>
-        <ActionButtons />
+        <ActionButtons actions={actions} />
       </View>
     </View>
   );
@@ -81,8 +88,10 @@ const BusinessResult = ({ data }) => {
     recommendersText,
     recommendersPhotos,
     businessImgs,
+    hasPics,
     businessName,
     address,
+    actions,
   } = data;
   return (
     <TouchableOpacity
@@ -91,12 +100,13 @@ const BusinessResult = ({ data }) => {
       }
       style={styles.result}
     >
-      <ImageScroll height={100} images={businessImgs} />
+      {hasPics && <ImageScroll height={100} images={businessImgs} />}
       <BusinessDetails
         businessName={businessName}
         address={address}
         recommenders={recommendersText}
         photos={recommendersPhotos}
+        actions={actions}
       />
     </TouchableOpacity>
   );
@@ -113,6 +123,8 @@ const AllResults = ({ searchQuery }) => {
           return (
             <View key={item.businessName}>
               <BusinessResult data={item} id={item.businessName} />
+              <FullLine />
+              <FullLine />
               <FullLine />
             </View>
           );

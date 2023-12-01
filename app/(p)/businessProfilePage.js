@@ -84,9 +84,18 @@ export const BusinessPhotosScroll = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
       >
-        <Image source={require("../../assets/imgs/mechanics/mech1.jpg")} />
-        <Image source={require("../../assets/imgs/mechanics/mech1.jpg")} />
-        <Image source={require("../../assets/imgs/mechanics/mech1.jpg")} />
+        <Image
+          source={require("../../assets/imgs/mechanics/mech1.jpg")}
+          style={{ width: 150, height: 150 }}
+        />
+        <Image
+          source={require("../../assets/imgs/mechanics/mech2.jpg")}
+          style={{ width: 150, height: 150, borderRadius: 8 }}
+        />
+        <Image
+          source={require("../../assets/imgs/mechanics/mech3.jpg")}
+          style={{ width: 150, height: 150, borderRadius: 8 }}
+        />
       </ScrollView>
     </View>
   );
