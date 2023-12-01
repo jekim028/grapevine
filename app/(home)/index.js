@@ -44,7 +44,7 @@ const CategorySection = () => {
       </View>
       <View style={styles.row}>
         <CategoryIconBox iconName="paw" category="Petsitter" />
-        <CategoryIconBox iconName="baby" category="Childcare" />
+        <CategoryIconBox iconName="baby" category="Nanny" />
         <CategoryIconBox iconName="cut" category="Barber" />
         <CategoryIconBox iconName="tooth" category="Dentist" />
       </View>
