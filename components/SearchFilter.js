@@ -15,7 +15,12 @@ import { TextSmPrimary, TextXsSecondary } from "../app/components/general/Text";
 const SearchResult = ({ business, address }) => {
   return (
     <TouchableOpacity
-      onPress={() => router.push({ pathname: "/(home)", params: { business } })}
+      onPress={() =>
+        router.push({
+          pathname: "/(p)/businessProfilePage",
+          params: { business },
+        })
+      }
       style={styles.resultCell}
     >
       <Ionicons name="search" size={iconSize} color={colors.textPrimary} />

@@ -85,7 +85,12 @@ const BusinessResult = ({ data }) => {
     address,
   } = data;
   return (
-    <View style={styles.result}>
+    <TouchableOpacity
+      onPress={() =>
+        router.push({ pathname: "/(p)/businessProfilePage", params: {} })
+      }
+      style={styles.result}
+    >
       <ImageScroll height={100} images={businessImgs} />
       <BusinessDetails
         businessName={businessName}
@@ -93,7 +98,7 @@ const BusinessResult = ({ data }) => {
         recommenders={recommendersText}
         photos={recommendersPhotos}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 

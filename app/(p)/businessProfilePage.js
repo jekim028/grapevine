@@ -5,9 +5,10 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
+  Touchable,
 } from "react-native";
 
-import { Link } from "expo-router";
+import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   TextXsAccent,
@@ -37,6 +38,7 @@ import { RecommendersDetails } from "../components/businessProfiles/Recommenders
 import Pill from "../components/general/Pill";
 import { PaddedLine } from "../components/general/Line";
 import { Dimensions } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -60,9 +62,9 @@ const BusinessProfileReview = ({ person, name, degree, reviewText }) => {
 const Header = () => {
   return (
     <View style={styles.headerBar}>
-      <Link href="(pages)/searchResultsPage">
+      <TouchableOpacity onPress={() => router.back()}>
         <Ionicons name={"chevron-back"} size={24} color={colors.textPrimary} />
-      </Link>
+      </TouchableOpacity>
       <View style={styles.headerButton}>
         <Ionicons
           name={"bookmark-outline"}
