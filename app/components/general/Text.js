@@ -1,8 +1,18 @@
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import { colors } from "../../../styles/colors";
 
 export const TextXsSecondary = ({ text }) => {
   return <Text style={styles.textXsSecondary}>{text}</Text>;
+};
+
+export const TextXsSecondaryUnderline = ({ text }) => {
+  return (
+    <View
+      style={{ borderBottomColor: colors.textSecondary, borderBottomWidth: 1 }}
+    >
+      <Text style={styles.textXsSecondaryUnderline}>{text}</Text>
+    </View>
+  );
 };
 export const TextXsPrimary = ({ text }) => {
   return <Text style={styles.textXsPrimary}>{text}</Text>;
@@ -57,6 +67,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
     color: colors.textSecondary,
+  },
+  textXsSecondaryUnderline: {
+    fontSize: 12,
+    lineHeight: 12,
+    color: colors.textSecondary,
+    textDecorationColor: colors.textSecondary,
   },
   textXsAccent: {
     fontSize: 12,

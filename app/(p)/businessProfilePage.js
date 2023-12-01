@@ -142,6 +142,64 @@ const BusinessDetails = () => {
 };
 
 const ReviewScroll = () => {
+  const reviewData = [
+    {
+      person: "Chelsea",
+      name: "Chelsea Cho",
+      degree: "2nd",
+      reviewText:
+        "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”",
+    },
+    {
+      person: "Ariane",
+      name: "Ariane Lee",
+      degree: "2nd",
+      reviewText:
+        "“Quick and efficient! They fixed my brakes faster than expected. Definitely the best service around!”",
+    },
+    {
+      person: "Tobey",
+      name: "Tobey MacIntosh",
+      degree: "2nd",
+      reviewText:
+        "“Superb attention to detail. They found and repaired a leak I didn't even know I had. Top-notch work!”",
+    },
+    {
+      person: "Emily",
+      name: "Emily Deng",
+      degree: "3rd",
+      reviewText:
+        "“Great customer experience! They explained everything clearly and had my car running smoothly in no time. Highly recommend!”",
+    },
+    {
+      person: "Jenna",
+      name: "Jenna Kim",
+      degree: "3rd",
+      reviewText:
+        "“Incredible diagnostics! Solved an engine issue that others couldn’t. The most reliable mechanic I’ve found.”",
+    },
+    {
+      person: "StockPerson1",
+      name: "Michael Weinstein",
+      degree: "3rd",
+      reviewText:
+        "“Fantastic turnaround time. Got my AC fixed just in time for summer. Can't beat their prices and quality!”",
+    },
+    {
+      person: "StockPerson2",
+      name: "Ella Brown",
+      degree: "3rd",
+      reviewText:
+        "“Really knowledgeable team. They handled my transmission problem with ease. Best value for money in town!”",
+    },
+    {
+      person: "StockPerson3",
+      name: "Kyle Haslett",
+      degree: "3rd",
+      reviewText:
+        "“Outstanding service! They went above and beyond to ensure my car was in perfect condition. Trustworthy and efficient.”",
+    },
+  ];
   return (
     <View
       style={{
@@ -155,70 +213,15 @@ const ReviewScroll = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
       >
-        <BusinessProfileReview
-          person={"Chelsea"}
-          name={"Chelsea Cho"}
-          degree={"2nd"}
-          reviewText={
-            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
-          }
-        />
-        <BusinessProfileReview
-          person={"Chelsea"}
-          name={"Chelsea Cho"}
-          degree={"2nd"}
-          reviewText={
-            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
-          }
-        />
-        <BusinessProfileReview
-          person={"Chelsea"}
-          name={"Chelsea Cho"}
-          degree={"2nd"}
-          reviewText={
-            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
-          }
-        />
-        <BusinessProfileReview
-          person={"Chelsea"}
-          name={"Chelsea Cho"}
-          degree={"2nd"}
-          reviewText={
-            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
-          }
-        />
-        <BusinessProfileReview
-          person={"Chelsea"}
-          name={"Chelsea Cho"}
-          degree={"2nd"}
-          reviewText={
-            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
-          }
-        />
-        <BusinessProfileReview
-          person={"Chelsea"}
-          name={"Chelsea Cho"}
-          degree={"2nd"}
-          reviewText={
-            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
-          }
-        />
-        <BusinessProfileReview
-          person={"Chelsea"}
-          name={"Chelsea Cho"}
-          degree={"2nd"}
-          reviewText={
-            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
-          }
-        />
-        <BusinessProfileReview
-          person={"Chelsea"}
-          name={"Chelsea Cho"}
-          degree={"2nd"}
-          reviewText={
-            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
-          }
-        />
+        {reviewData.map((item) => (
+          <BusinessProfileReview
+            person={item.person}
+            name={item.name}
+            degree={item.degree}
+            reviewText={item.reviewText}
+            key={item.person}
+          />
+        ))}
       </ScrollView>
     </View>
   );
@@ -234,7 +237,8 @@ const TotalRecommendations = () => {
       <TextLgBold text={"8 recommendations"} />
       <View style={styles.rowContainerSm}>
         <TextXsPrimary text={"3 second degree friends"} />
-        <TextXsPrimary text={"5 second degree friends"} />
+        <TextXsPrimary text={"•"} />
+        <TextXsPrimary text={"5 third degree friends"} />
       </View>
     </View>
   );
@@ -243,7 +247,7 @@ const TotalRecommendations = () => {
 const ReviewKeyMentions = () => {
   return (
     <View style={styles.colContainerXs}>
-      <TextSmPrimary text={"Review Key Mentions"} />
+      <TextSmPrimary text={"Key Mentions"} />
       <View style={styles.rowContainerSm}>
         <Pill text1={"price"} text2={"2"} />
         <Pill text1={"friendly"} text2={"1"} />
