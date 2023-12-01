@@ -62,6 +62,7 @@ export default function Home() {
               flexDirection: "row",
               gap: padding.sm,
               paddingHorizontal: padding.med,
+              paddingVertical: padding.sm,
             }}
           >
             <Image
