@@ -168,6 +168,46 @@ const ReviewScroll = () => {
             "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
           }
         />
+        <BusinessProfileReview
+          person={"Chelsea"}
+          name={"Chelsea Cho"}
+          degree={"2nd"}
+          reviewText={
+            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
+          }
+        />{" "}
+        <BusinessProfileReview
+          person={"Chelsea"}
+          name={"Chelsea Cho"}
+          degree={"2nd"}
+          reviewText={
+            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
+          }
+        />{" "}
+        <BusinessProfileReview
+          person={"Chelsea"}
+          name={"Chelsea Cho"}
+          degree={"2nd"}
+          reviewText={
+            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
+          }
+        />{" "}
+        <BusinessProfileReview
+          person={"Chelsea"}
+          name={"Chelsea Cho"}
+          degree={"2nd"}
+          reviewText={
+            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
+          }
+        />{" "}
+        <BusinessProfileReview
+          person={"Chelsea"}
+          name={"Chelsea Cho"}
+          degree={"2nd"}
+          reviewText={
+            "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”"
+          }
+        />
       </ScrollView>
     </View>
   );

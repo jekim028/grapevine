@@ -134,7 +134,7 @@ const AllResults = () => {
         { id: 3, pic: "mech7" },
         { id: 4, pic: "mech8" },
       ],
-      businessName: "Mr. Awesome Mechanic",
+      businessName: "Ms. Great Mechanic",
       address: "585 Cowell Lane, Stanford, CA",
     },
     {
