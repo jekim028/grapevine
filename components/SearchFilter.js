@@ -1,34 +1,29 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { colors, fonts } from "../styles/base";
-
-const businesses = [
-  {
-    business: "Mr. Cool Mechanic",
-    address: "459 Avenue of the Americas",
-  },
-  {
-    business: "Ms. Great Mechanic",
-    address: "680 Lomita Drive",
-  },
-  {
-    business: "My Mother",
-    address: "500 West Adams Blvd",
-  },
-];
+import { businesses } from "../lib/data";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { iconSize, padding } from "../styles/base";
+import { router } from "expo-router";
 
 const SearchResult = ({ business, address }) => {
-  console.log(business, address);
-  // const { business, address } = item;
   return (
-    <View>
-      <Text style={styles.businessName}>{business}</Text>
-      <Text>{address}</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() => router.push({ pathname: "/(home)", params: { business } })}
+      style={styles.resultCell}
+    >
+      <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
+      <View>
+        <Text style={styles.businessName}>{business}</Text>
+        <Text>{address}</Text>
+      </View>
+    </TouchableOpacity>
   );
-};
-
-const renderSearchResult = ({ item }) => {
-  console.log(item);
 };
 
 const SearchFilter = ({ searchQuery, setSearchQuery }) => {
@@ -47,6 +42,7 @@ const SearchFilter = ({ searchQuery, setSearchQuery }) => {
           }
         }}
         keyExtractor={(item, index) => index.toString()}
+        style={styles.searchResults}
       />
     </View>
   );
@@ -58,5 +54,14 @@ const styles = StyleSheet.create({
   businessName: {
     color: colors.textPrimary,
     fontSize: fonts.med,
+  },
+  resultCell: {
+    flexDirection: "row",
+    padding: padding.sm,
+    gap: padding.sm,
+    alignItems: "center",
+  },
+  searchResults: {
+    paddingVertical: padding.med,
   },
 });

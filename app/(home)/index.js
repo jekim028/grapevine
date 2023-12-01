@@ -1,14 +1,10 @@
 import {
   StyleSheet,
-  TextInput,
   View,
   SafeAreaView,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from "react-native";
-import { useState } from "react";
 import {
   iconSize,
   colors,
@@ -16,9 +12,8 @@ import {
   borderRadius,
   fonts,
 } from "../../styles/base";
-import SearchFilter from "../../components/SearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { FontAwesome5, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 const CategoryIconBox = ({ iconName, category }) => {
@@ -29,7 +24,6 @@ const CategoryIconBox = ({ iconName, category }) => {
         size={iconSize}
         color={colors.textPrimary}
       />
-      {/* <Ionicons name={iconName} size={iconSize} color={colors.textPrimary} /> */}
       <Text style={styles.categoryDesc}>{category}</Text>
     </View>
   );
@@ -58,6 +52,9 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.page}>
+        {/* Grapevine Header */}
+        <Text>Grapevine</Text>
+
         {/* Search Bar*/}
         <TouchableOpacity
           onPress={() => router.push("/(p)/search")}
