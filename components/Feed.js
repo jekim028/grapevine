@@ -13,12 +13,15 @@ import { padding } from "../styles/spacing";
 import { colors } from "../styles/colors";
 import * as FeedImgs from "../assets/imgs/feedImgs";
 
-
 const PostImgs = ({ images }) => {
   return (
     <View style={styles.rowContainerSm}>
       {images.map((item) => (
-        <Image source={FeedImgs[`${item.pic}`]} style={styles.businessImg} />
+        <Image
+          source={FeedImgs[`${item.pic}`]}
+          style={styles.businessImg}
+          key={item.pic}
+        />
       ))}
     </View>
   );
@@ -37,32 +40,35 @@ const FeedPost = ({ item }) => {
     message,
   } = item;
   return (
-    <View style={styles.post}>
-      <View style={styles.colContainerMed}>
-        <ProfileWithDegree
-          personPic={profilePic}
-          name={poster}
-          degree={degree}
-        />
-        <TextMedPrimary text={message} />
-      </View>
-      {hasPics && <PostImgs images={images} />}
-      <View style={styles.businessContainer}>
-        <View style={styles.businessTextContainer}>
-          <TextMedPrimaryBold text={businessName} />
-          <View style={styles.rowContainerSm}>
-            <TextSmSecondary text={`${numRecommendations} recommendations`} />
-            <TextSmSecondary text={"•"} />
-            <TextSmSecondary text={businessType} />
-          </View>
+    <View>
+      <View style={styles.post}>
+        <View style={styles.colContainerMed}>
+          <ProfileWithDegree
+            personPic={profilePic}
+            name={poster}
+            degree={degree}
+          />
+          <TextMedPrimary text={message} />
         </View>
-        <Ionicons
-          name={"bookmark-outline"}
-          size={32}
-          color={colors.textSecondary}
-        />
+        {hasPics && <PostImgs images={images} />}
+        <View style={styles.businessContainer}>
+          <View style={styles.businessTextContainer}>
+            <TextMedPrimaryBold text={businessName} />
+            <View style={styles.rowContainerSm}>
+              <TextSmSecondary text={`${numRecommendations} recommendations`} />
+              <TextSmSecondary text={"•"} />
+              <TextSmSecondary text={businessType} />
+            </View>
+          </View>
+          <Ionicons
+            name={"bookmark-outline"}
+            size={32}
+            color={colors.textSecondary}
+          />
+        </View>
+        <TextSmSecondary text={timestamp} />
       </View>
-      <TextSmSecondary text={timestamp} />
+      <FullLine />
     </View>
   );
 };
@@ -74,10 +80,7 @@ const Feed = () => {
         <Title3PrimaryBold text={"Activity"} />
       </View>
       {feedData.map((item) => (
-        <>
-          <FeedPost item={item} key={item.businessName} />
-          <FullLine />
-        </>
+        <FeedPost item={item} key={item.businessName} />
       ))}
     </View>
   );

@@ -31,7 +31,11 @@ export const ImageScroll = ({ images, height }) => {
         contentContainerStyle={styles.scroll}
       >
         {images.map((item) => (
-          <Image source={MechPics[`${item.pic}`]} style={styles.scrollImage} />
+          <Image
+            source={MechPics[`${item.pic}`]}
+            style={styles.scrollImage}
+            key={item.id}
+          />
         ))}
       </ScrollView>
     </View>

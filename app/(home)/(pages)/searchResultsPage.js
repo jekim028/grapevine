@@ -83,14 +83,17 @@ const BusinessResult = ({ data }) => {
     address,
   } = data;
   return (
-    <View style={styles.result}>
-      <ImageScroll height={100} images={businessImgs} />
-      <BusinessDetails
-        businessName={businessName}
-        address={address}
-        recommenders={recommendersText}
-        photos={recommendersPhotos}
-      />
+    <View>
+      <View style={styles.result}>
+        <ImageScroll height={100} images={businessImgs} />
+        <BusinessDetails
+          businessName={businessName}
+          address={address}
+          recommenders={recommendersText}
+          photos={recommendersPhotos}
+        />
+      </View>
+      <FullLine />
     </View>
   );
 };
@@ -161,10 +164,7 @@ const AllResults = () => {
   return (
     <View style={styles.allReviews}>
       {data.map((item) => (
-        <View>
-          <BusinessResult data={item} id={item.businessName} />
-          <FullLine />
-        </View>
+        <BusinessResult data={item} key={item.businessName} />
       ))}
     </View>
   );
