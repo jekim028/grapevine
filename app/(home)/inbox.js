@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Redirect } from "expo-router";
+import { Link } from "expo-router";
 
 export default function Page() {
   return (
     <View style={styles.container}>
-      <Text>Inbox Page</Text>
+      <Link href="(pages)/businessProfilePage">
+        <Text> Inbox To business profile Page</Text>
+      </Link>
     </View>
   );
 }
