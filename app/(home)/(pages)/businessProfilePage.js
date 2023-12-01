@@ -8,7 +8,6 @@ import {
 } from "react-native";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
-import ProfilePic from "../../components/ProfilePic";
 import {
   TextXsAccent,
   TextXsSecondary,
@@ -27,20 +26,14 @@ import {
 import { colors } from "../../../styles/colors";
 import { padding } from "../../../styles/spacing";
 
+import ProfilePic from "../../components/ProfilePic";
+import Pill from "../../components/Pill";
+
 const BusinessActionLine = ({ iconName, iconSize, iconColor, text }) => {
   return (
     <View style={styles.rowContainerSm}>
       <Ionicons name={iconName} size={iconSize} color={iconColor} />
       <TextXsSecondary text={text} />
-    </View>
-  );
-};
-
-const Pill = ({ text1, text2 }) => {
-  return (
-    <View style={styles.pill}>
-      <TextXsAccent text={text1} />
-      <TextXsAccent text={text2} />
     </View>
   );
 };
@@ -64,9 +57,7 @@ const BusinesProfileReview = ({ person, name, degree, reviewText }) => {
 const Header = () => {
   return (
     <View style={styles.headerBar}>
-      {/* <View style={styles.headerButton}> */}
       <Ionicons name={"chevron-back"} size={24} color={colors.textPrimary} />
-      {/* </View> */}
       <View style={styles.headerButton}>
         <Ionicons
           name={"bookmark-outline"}
@@ -310,15 +301,7 @@ const styles = StyleSheet.create({
     flexDirection: "col",
     gap: padding.med,
   },
-  pill: {
-    display: "flex",
-    flexDirection: "row",
-    gap: padding.sm,
-    padding: padding.sm,
-    borderWidth: 1,
-    borderRadius: 8,
-    borderColor: colors.grapevine,
-  },
+
   businessProfileReview: {
     flexDirection: "col",
     width: 326,
