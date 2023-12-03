@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { supabase } from "../../../utils/supabase";
 import { useEffect, useState } from "react";
@@ -31,12 +32,12 @@ export default function SettingsPage() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Stack.Screen options={{ headerShown: true, title: "Settings" }} />
-      <View style={{ padding: 16 }}>
+      <ScrollView style={{ padding: 16 }}>
         <Text>{JSON.stringify(user, null, 2)}</Text>
         <TouchableOpacity onPress={doLogout} style={styles.buttonContainer}>
           <Text style={styles.buttonText}>LOGOUT</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
