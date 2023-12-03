@@ -6,17 +6,36 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { supabase } from "../../../utils/supabase";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../../utils/AuthProvider";
+import { supabase } from "../../../utils/supabase";
+import { TextMedPrimaryBold } from "../../components/general/Text";
 
 export default function ProfilePage() {
   const { user, signOut } = useAuth();
+  const [profile, setProfile] = useState([]);
+
+  // Get profile info
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const response = await supabase
+        .from("profiles")
+        .select()
+        .eq("id", user.id);
+      setProfile(response.data[0]);
+    };
+    fetchProfile();
+  }, []);
+
+  console.log(profile);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Stack.Screen options={{ headerShown: true, title: "Settings" }} />
       <View style={{ padding: 16 }}>
+        <TextMedPrimaryBold
+          text={profile.first_name + " " + profile.last_name}
+        />
         <TouchableOpacity onPress={signOut} style={styles.buttonContainer}>
           <Text style={styles.buttonText}>LOGOUT</Text>
         </TouchableOpacity>
