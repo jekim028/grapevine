@@ -88,7 +88,6 @@ export default function Home() {
                 color={colors.textPrimary}
               />
             </TouchableOpacity>
-            </TouchableOpacity>
           </View>
 
           {/* Search Bar*/}
