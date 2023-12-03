@@ -6,34 +6,37 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../../utils/AuthProvider";
 import { supabase } from "../../../utils/supabase";
-import { useEffect, useState } from "react";
+import { TextMedPrimaryBold } from "../../components/general/Text";
 
-export default function SettingsPage() {
-  const [user, setUser] = useState(null);
+export default function ProfilePage() {
+  const { user, signOut } = useAuth();
+  const [profile, setProfile] = useState([]);
+
+  // Get profile info
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) {
-        setUser(user);
-      } else {
-        Alert.alert("Error Accessing User");
-      }
-    });
+    const fetchProfile = async () => {
+      const response = await supabase
+        .from("profiles")
+        .select()
+        .eq("id", user.id);
+      setProfile(response.data[0]);
+    };
+    fetchProfile();
   }, []);
 
-  const doLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      Alert.alert("Error Signing Out User", error.message);
-    }
-  };
+  console.log(profile);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Stack.Screen options={{ headerShown: true, title: "Settings" }} />
       <View style={{ padding: 16 }}>
-        <Text>{JSON.stringify(user, null, 2)}</Text>
-        <TouchableOpacity onPress={doLogout} style={styles.buttonContainer}>
+        <TextMedPrimaryBold
+          text={profile.first_name + " " + profile.last_name}
+        />
+        <TouchableOpacity onPress={signOut} style={styles.buttonContainer}>
           <Text style={styles.buttonText}>LOGOUT</Text>
         </TouchableOpacity>
       </View>

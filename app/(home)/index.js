@@ -78,13 +78,16 @@ export default function Home() {
               />
               <Title2Primary text={"Grapevine"} />
             </View>
-            <View style={{ paddingHorizontal: padding.sm }}>
+            <TouchableOpacity
+              onPress={() => router.push("/(pages)/profile")}
+              style={{ paddingHorizontal: padding.sm }}
+            >
               <Ionicons
                 name="person-outline"
                 size={iconSize}
                 color={colors.textPrimary}
               />
-            </View>
+            </TouchableOpacity>
           </View>
 
           {/* Search Bar*/}
