@@ -5,39 +5,22 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
 } from "react-native";
 import { supabase } from "../../../utils/supabase";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../utils/AuthProvider";
 
-export default function SettingsPage() {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) {
-        setUser(user);
-      } else {
-        Alert.alert("Error Accessing User");
-      }
-    });
-  }, []);
-
-  const doLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      Alert.alert("Error Signing Out User", error.message);
-    }
-  };
+export default function ProfilePage() {
+  const { user, signOut } = useAuth();
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Stack.Screen options={{ headerShown: true, title: "Settings" }} />
-      <ScrollView style={{ padding: 16 }}>
-        <Text>{JSON.stringify(user, null, 2)}</Text>
-        <TouchableOpacity onPress={doLogout} style={styles.buttonContainer}>
+      <View style={{ padding: 16 }}>
+        <TouchableOpacity onPress={signOut} style={styles.buttonContainer}>
           <Text style={styles.buttonText}>LOGOUT</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

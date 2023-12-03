@@ -79,7 +79,7 @@ export default function Home() {
               <Title2Primary text={"Grapevine"} />
             </View>
             <TouchableOpacity
-              onPress={() => router.push("(pages)/settings")}
+              onPress={() => router.push("/(pages)/profile")}
               style={{ paddingHorizontal: padding.sm }}
             >
               <Ionicons
@@ -87,6 +87,7 @@ export default function Home() {
                 size={iconSize}
                 color={colors.textPrimary}
               />
+            </TouchableOpacity>
             </TouchableOpacity>
           </View>
 
