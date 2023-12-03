@@ -11,7 +11,11 @@ import {
 import { router, useLocalSearchParams } from "expo-router";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Title3PrimaryBold } from "../components/general/Text";
+import {
+  TextMedPrimaryBold,
+  TextMedPrimary,
+  Title3PrimaryBold,
+} from "../components/general/Text";
 import { AccentButton, InvertedButton } from "../components/general/Button";
 import { colors } from "../../styles/colors";
 import { padding } from "../../styles/spacing";
@@ -30,7 +34,7 @@ const ActionButtons = ({ actions }) => {
   return (
     <View style={styles.rowContainerMed}>
       {actions.map((item) => (
-        <InvertedButton text={item.title} key={item.id} />
+        <AccentButton text={item.title} key={item.id} />
       ))}
     </View>
   );
@@ -113,8 +117,24 @@ const BusinessResult = ({ data }) => {
 };
 
 const AllResults = ({ searchQuery }) => {
+  let numResults = 0;
+  bizdata.map((item) => {
+    if (
+      searchQuery &&
+      item.businessName.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      numResults += 1;
+    }
+  });
   return (
     <View style={styles.allReviews}>
+      <View
+        style={{ paddingHorizontal: padding.med, paddingVertical: padding.med }}
+      >
+        <TextMedPrimary
+          text={`Showing ${numResults} results for '${searchQuery}'`}
+        />
+      </View>
       {bizdata.map((item) => {
         if (
           searchQuery &&
@@ -237,7 +257,7 @@ const styles = StyleSheet.create({
     display: "flex",
     padding: padding.sm,
     flexDirection: "row",
-    borderRadius: borderRadius.pill,
+    borderRadius: padding.sm,
     alignItems: "center",
     backgroundColor: colors.formBackground,
     width: "100%",
