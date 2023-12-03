@@ -12,6 +12,8 @@ import { FullLine } from "../app/components/general/Line";
 import { padding } from "../styles/spacing";
 import { colors } from "../styles/colors";
 import * as FeedImgs from "../assets/imgs/feedImgs";
+import { useState, useEffect } from "react";
+import { supabase } from "../utils/supabase";
 
 const PostImgs = ({ images }) => {
   return (
@@ -26,6 +28,7 @@ const PostImgs = ({ images }) => {
     </View>
   );
 };
+
 const FeedPost = ({ item }) => {
   const {
     poster,
@@ -74,14 +77,154 @@ const FeedPost = ({ item }) => {
 };
 
 const Feed = () => {
+  const [session, setSession] = useState(null);
+  const [data, setData] = useState([]);
+
+  const handleRecordUpdated = (payload) => {
+    console.log("UDPATE", payload);
+    setData((oldData) =>
+      oldData.map((post) => {
+        if (post.id === payload.new.id) {
+          return payload.new;
+        } else {
+          return post;
+        }
+      })
+    );
+  };
+
+  const handleRecordInserted = (payload) => {
+    console.log("INSERT", payload);
+    setData((oldData) => [...oldData, payload.new]);
+  };
+
+  const handleRecordDeleted = (payload) => {
+    console.log("DELETE", payload);
+    setData((oldData) => oldData.filter((post) => post.id !== payload.old.id));
+  };
+
+  // Get User Session
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await supabase.from("recs").select("*");
+      setData(response.data);
+    };
+    fetchData();
+  }, [session]);
+
+  useEffect(() => {
+    // From https://supabase.com/docs/guides/realtime/concepts#postgres-changes
+    if (session) {
+      const subscription = supabase
+        .channel("schema-db-changes")
+        .on(
+          "postgres_changes",
+          { event: "UPDATE", schema: "public", table: "posts_secure" },
+          handleRecordUpdated
+        )
+        .on(
+          "postgres_changes",
+          { event: "INSERT", schema: "public", table: "posts_secure" },
+          handleRecordInserted
+        )
+        .on(
+          "postgres_changes",
+          { event: "DELETE", schema: "public", table: "posts_secure" },
+          handleRecordDeleted
+        )
+        .subscribe();
+
+      return () => supabase.removeAllChannels();
+    }
+  }, [session]);
+
   return (
     <View style={styles.feed}>
       <View style={{ paddingHorizontal: padding.med }}>
         <Title3PrimaryBold text={"Activity"} />
       </View>
-      {feedData.map((item) => (
-        <FeedPost item={item} key={item.businessName} />
+      {data.map((item) => (
+        <FeedPost2 item={item} key={item.id} />
       ))}
+    </View>
+  );
+};
+
+const FeedPost2 = ({ item }) => {
+  const { business_id, message, created_at, photos, user_id, visibility } =
+    item;
+
+  const [business, setBusiness] = useState([]);
+  const [profile, setProfile] = useState([]);
+
+  useEffect(() => {
+    const fetchBusiness = async () => {
+      const response = await supabase
+        .from("businesses")
+        .select()
+        .eq("id", business_id);
+      setBusiness(response.data[0]);
+    };
+    fetchBusiness();
+  }, []);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const response = await supabase
+        .from("profiles")
+        .select()
+        .eq("id", user_id);
+      setProfile(response.data[0]);
+    };
+    fetchProfile();
+  }, []);
+
+  console.log(profile);
+
+  return (
+    <View>
+      <View style={styles.post}>
+        <View style={styles.colContainerMed}>
+          {/* <ProfileWithDegree
+            personPic={profilePic}
+            name={poster}
+            degree={degree}
+          /> */}
+          <TextMedPrimary text={message} />
+        </View>
+        {photos && <PostImgs images={photos} />}
+        <View style={styles.businessContainer}>
+          <View style={styles.businessTextContainer}>
+            <TextMedPrimaryBold text={business.name} />
+            <View style={styles.rowContainerSm}>
+              <TextSmSecondary text={`${business.num_recs} recommendations`} />
+              <TextSmSecondary text={"•"} />
+              <TextSmSecondary text={business.type} />
+            </View>
+          </View>
+          <Ionicons
+            name={"bookmark-outline"}
+            size={32}
+            color={colors.textSecondary}
+          />
+        </View>
+        {/* <TextSmSecondary text={timestamp} /> */}
+      </View>
+      <FullLine />
     </View>
   );
 };
