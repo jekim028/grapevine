@@ -101,7 +101,7 @@ export default function ProfilePage() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Stack.Screen options={{ headerShown: true, title: "Settings" }} />
+      <Stack.Screen options={{ headerShown: true, title: "Profile" }} />
       <View style={{ padding: 16 }}>
         <ScrollView>
           {files.map((item, index) => (
@@ -114,7 +114,7 @@ export default function ProfilePage() {
           ))}
         </ScrollView>
         <TouchableOpacity onPress={onSelectImage} style={styles.fab}>
-          <Ionicons name="camera-outline" size={30} color={"#fff"} />
+          <Ionicons name="camera-outline" size={30} color={"#000"} />
         </TouchableOpacity>
         <TextMedPrimaryBold
           text={profile.first_name + " " + profile.last_name}

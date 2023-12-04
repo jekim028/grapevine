@@ -14,7 +14,7 @@ export const ProfilePicURL = ({ size, uri, hasBorder, borderColor }) => {
   return <Image source={{ uri: uri }} style={styles.profilePic} />;
 };
 
-export const ProfilePic = ({ size, person, hasBorder, borderColor }) => {
+export const ProfilePic = ({ size, uri, hasBorder, borderColor }) => {
   const styles = StyleSheet.create({
     profilePic: {
       borderRadius: 1000000,
@@ -24,30 +24,24 @@ export const ProfilePic = ({ size, person, hasBorder, borderColor }) => {
       borderColor: hasBorder ? borderColor : null,
     },
   });
-  return <Image source={People[`${person}`]} style={styles.profilePic} />;
+  return <Image source={{ uri: uri }} style={styles.profilePic} />;
 };
 
-export const OverlappingProfiles = ({ person1, person2, person3 }) => {
+export const OverlappingProfiles = ({ people }) => {
   return (
     <View style={styles.overlappingProfiles}>
-      <ProfilePic
-        size={32}
-        person={person3}
-        hasBorder={true}
-        borderColor={"white"}
-      />
-      <ProfilePic
-        size={32}
-        person={person2}
-        hasBorder={true}
-        borderColor={"white"}
-      />
-      <ProfilePic
-        size={32}
-        person={person1}
-        hasBorder={true}
-        borderColor={"white"}
-      />
+      {people.map((person) => {
+        if (person[0].avatar_url) {
+          return (
+            <ProfilePicURL
+              size={32}
+              uri={person[0].avatar_url}
+              hasBorder={true}
+              borderColor={"white"}
+            />
+          );
+        }
+      })}
     </View>
   );
 };

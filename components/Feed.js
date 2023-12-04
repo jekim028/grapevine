@@ -120,7 +120,7 @@ const Feed = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await supabase.from("recs").select("*");
+      const response = await supabase.from("recs").select("*").limit(5);
       setData(response.data);
     };
     fetchData();
