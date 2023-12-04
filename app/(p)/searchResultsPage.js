@@ -9,11 +9,10 @@ import {
 } from "react-native";
 
 import { router, useLocalSearchParams } from "expo-router";
-
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
-  TextMedPrimaryBold,
   TextMedPrimary,
+  TextMedPrimaryBold,
   Title3PrimaryBold,
 } from "../components/general/Text";
 import { AccentButton, InvertedButton } from "../components/general/Button";
@@ -129,9 +128,12 @@ const AllResults = ({ searchQuery }) => {
   return (
     <View style={styles.allReviews}>
       <View
-        style={{ paddingHorizontal: padding.med, paddingVertical: padding.med }}
+        style={{
+          paddingHorizontal: padding.med,
+          paddingTop: padding.lg,
+        }}
       >
-        <TextMedPrimary
+        <TextMedPrimaryBold
           text={`Showing ${numResults} results for '${searchQuery}'`}
         />
       </View>

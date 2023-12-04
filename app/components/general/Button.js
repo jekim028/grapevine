@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 8,
     paddingVertical: 10,
-    backgroundColor: colors.textInverted,
+    backgroundColor: "white",
     borderWidth: 1,
     borderColor: colors.grapevine,
   },
