@@ -5,15 +5,22 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../utils/AuthProvider";
 import { supabase } from "../../../utils/supabase";
 import { TextMedPrimaryBold } from "../../components/general/Text";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import ImageItem from "../../../components/ImageItem";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
+import { decode } from "base64-arraybuffer";
 
 export default function ProfilePage() {
   const { user, signOut } = useAuth();
   const [profile, setProfile] = useState([]);
+  const [files, setFiles] = useState([]);
 
   // Get profile info
   useEffect(() => {
@@ -27,12 +34,75 @@ export default function ProfilePage() {
     fetchProfile();
   }, []);
 
-  console.log(profile);
+  useEffect(() => {
+    if (!user) return;
+    // Load user images
+    loadImages();
+  }, [user]);
+
+  const loadImages = async () => {
+    const { data } = await supabase.storage.from("avatars").list(user.id);
+    if (data) {
+      setFiles(data);
+    }
+  };
+
+  const onSelectImage = async () => {
+    const options = {
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+    };
+
+    const result = await ImagePicker.launchImageLibraryAsync(options);
+
+    // Save image if not cancelled
+    if (!result.canceled) {
+      const img = result.assets[0];
+      const base64 = await FileSystem.readAsStringAsync(img.uri, {
+        encoding: "base64",
+      });
+      // Delete the existing profile image if any
+      const { data } = await supabase.storage.from("avatars").list(user.id);
+
+      const filePath = `${user.id}/${new Date().getTime()}.${
+        img.type === "image" ? "png" : "mp4"
+      }`;
+      const contentType = img.type === "image" ? "image/png" : "video/mp4";
+      if (data && data.length > 0) {
+        supabase.storage.from("avatars").remove([`${user.id}/${data[0].name}`]);
+      }
+      await supabase.storage
+        .from("avatars")
+        .upload(filePath, decode(base64), { contentType });
+
+      loadImages();
+    }
+  };
+
+  const onRemoveImage = async (item, listIndex) => {
+    supabase.storage.from("avatars").remove([`${user.id}/${item.name}`]);
+    const newFiles = [...files];
+    newFiles.splice(listIndex, 1);
+    setFiles(newFiles);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Stack.Screen options={{ headerShown: true, title: "Settings" }} />
       <View style={{ padding: 16 }}>
+        <ScrollView>
+          {files.map((item, index) => (
+            <ImageItem
+              key={item.id}
+              item={item}
+              userId={user.id}
+              onRemoveImage={() => onRemoveImage(item, index)}
+            />
+          ))}
+        </ScrollView>
+        <TouchableOpacity onPress={onSelectImage} style={styles.fab}>
+          <Ionicons name="camera-outline" size={30} color={"#fff"} />
+        </TouchableOpacity>
         <TextMedPrimaryBold
           text={profile.first_name + " " + profile.last_name}
         />
