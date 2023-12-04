@@ -11,18 +11,12 @@ import {
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
-  TextXsAccent,
-  TextXsSecondary,
   TextXsPrimary,
-  TextXsPrimaryBold,
   TextSmPrimary,
-  TextSmPrimaryBold,
   TextMedPrimary,
   TextMedSecondary,
   TextMedPrimaryBold,
-  TextSmSecondary,
-  TextLgBold,
-  Title3Primary,
+  TextLgPrimaryBold,
   Title3PrimaryBold,
 } from "../components/general/Text";
 import { colors } from "../../styles/colors";
@@ -35,7 +29,7 @@ import {
 
 import { BusinessActionLine } from "../components/businessProfiles/BusinessActionLine";
 import { RecommendersDetails } from "../components/businessProfiles/RecommendersDetails";
-import Pill from "../components/general/Pill";
+import { Pill } from "../components/general/Pill";
 import { PaddedLine } from "../components/general/Line";
 import { Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -234,7 +228,7 @@ const Map = () => {
 const TotalRecommendations = () => {
   return (
     <View>
-      <TextLgBold text={"8 recommendations"} />
+      <TextLgPrimaryBold text={"8 recommendations"} />
       <View style={styles.rowContainerSm}>
         <TextXsPrimary text={"3 second degree friends"} />
         <TextXsPrimary text={"•"} />

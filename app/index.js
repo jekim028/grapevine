@@ -11,12 +11,9 @@ import { useState } from "react";
 import React from "react";
 import Spinner from "react-native-loading-spinner-overlay";
 import { supabase } from "../utils/supabase";
-import { useFonts, LobsterTwo_400Regular } from "@expo-google-fonts/dev";
 
 const Login = () => {
-  let [fontsLoaded] = useFonts({
-    LobsterTwo_400Regular,
-  });
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

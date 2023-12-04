@@ -3,7 +3,7 @@ import { TextXsAccent } from "./Text";
 import { padding } from "../../../styles/spacing";
 import { colors } from "../../../styles/colors";
 
-const Pill = ({ text1, text2 }) => {
+export const Pill = ({ text1, text2 }) => {
   return (
     <View style={styles.pill}>
       <TextXsAccent text={text1} />
@@ -11,8 +11,6 @@ const Pill = ({ text1, text2 }) => {
     </View>
   );
 };
-
-export default Pill;
 
 const styles = StyleSheet.create({
   pill: {
