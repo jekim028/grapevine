@@ -47,6 +47,18 @@ export default function ProfilePage() {
     }
   };
 
+  const getUrl = async ({ filePath }) => {
+    const { data } = await supabase.storage
+      .from("avatars")
+      .getPublicUrl(filePath);
+
+    const publicUrl = data.publicUrl;
+    await supabase
+      .from("profiles")
+      .update({ avatar_url: publicUrl })
+      .eq("id", user.id);
+  };
+
   const onSelectImage = async () => {
     const options = {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -61,12 +73,12 @@ export default function ProfilePage() {
       const base64 = await FileSystem.readAsStringAsync(img.uri, {
         encoding: "base64",
       });
-      // Delete the existing profile image if any
       const { data } = await supabase.storage.from("avatars").list(user.id);
 
-      const filePath = `${user.id}/${new Date().getTime()}.${
+      const filePath = `${user.id}/profile.${
         img.type === "image" ? "png" : "mp4"
       }`;
+
       const contentType = img.type === "image" ? "image/png" : "video/mp4";
       if (data && data.length > 0) {
         supabase.storage.from("avatars").remove([`${user.id}/${data[0].name}`]);
@@ -75,12 +87,13 @@ export default function ProfilePage() {
         .from("avatars")
         .upload(filePath, decode(base64), { contentType });
 
+      getUrl({ filePath });
       loadImages();
     }
   };
 
   const onRemoveImage = async (item, listIndex) => {
-    supabase.storage.from("avatars").remove([`${user.id}/${item.name}`]);
+    await supabase.storage.from("avatars").remove([`${user.id}/${item.name}`]);
     const newFiles = [...files];
     newFiles.splice(listIndex, 1);
     setFiles(newFiles);
