@@ -49,11 +49,25 @@ export const TextMedSecondaryBold = ({ text }) => {
 export const TextMedAccent = ({ text }) => {
   return <Text style={styles.textMedAccent}>{text}</Text>;
 };
+
+export const TextMedAccentBold = ({ text }) => {
+  return <Text style={styles.textMedAccentBold}>{text}</Text>;
+};
+
 export const TextMedInverted = ({ text }) => {
   return <Text style={styles.textMedInverted}>{text}</Text>;
 };
+
+export const TextMedInvertedBold = ({ text }) => {
+  return <Text style={styles.textMedInvertedBold}>{text}</Text>;
+};
+
 export const TextMedPrimaryBold = ({ text }) => {
   return <Text style={styles.textMedPrimaryBold}>{text}</Text>;
+};
+
+export const TextLgPrimary = ({ text }) => {
+  return <Text style={styles.textLgPrimary}>{text}</Text>;
 };
 export const TextLgPrimaryBold = ({ text }) => {
   return <Text style={styles.textLgPrimaryBold}>{text}</Text>;
@@ -148,9 +162,21 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: colors.grapevine,
   },
+  textMedAccentBold: {
+    fontSize: 17,
+    lineHeight: 22,
+    fontWeight: "700",
+    color: colors.grapevine,
+  },
   textMedInverted: {
     fontSize: 17,
     lineHeight: 22,
+    color: colors.textInverted,
+  },
+  textMedInvertedBold: {
+    fontSize: 17,
+    lineHeight: 22,
+    fontWeight: "700",
     color: colors.textInverted,
   },
   textMedPrimaryBold: {
@@ -164,6 +190,11 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     fontWeight: "700",
     color: colors.textSecondary,
+  },
+  textLgPrimary: {
+    fontSize: 19,
+    lineHeight: 24,
+    color: colors.textPrimary,
   },
   textLgPrimaryBold: {
     fontSize: 19,
