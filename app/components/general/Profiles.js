@@ -31,13 +31,14 @@ export const OverlappingProfiles = ({ people }) => {
   return (
     <View style={styles.overlappingProfiles}>
       {people.map((person) => {
-        if (person[0].avatar_url) {
+        if (person.avatar_url) {
           return (
             <ProfilePicURL
               size={32}
-              uri={person[0].avatar_url}
+              uri={person.avatar_url}
               hasBorder={true}
               borderColor={"white"}
+              key={person.id}
             />
           );
         }

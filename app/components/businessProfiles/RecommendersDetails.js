@@ -17,7 +17,7 @@ export const RecommendersDetails = ({ people, num_recs }) => {
         console.error("Error fetching data:", error);
         return null;
       }
-      return data;
+      return data[0];
     };
 
     const getAllProfiles = async () => {
@@ -35,20 +35,43 @@ export const RecommendersDetails = ({ people, num_recs }) => {
     getAllProfiles();
   }, [people]);
 
-  console.log(profiles);
-
   return (
     <View style={styles.rowContainerSm}>
       <OverlappingProfiles people={profiles} />
       <View style={styles.rowContainerXsWrap}>
         <Text style={{ fontSize: 12, lineHeight: 16 }}>
           Recommended by
-          {profiles.map((item) => {
-            return <Text> {item[0].first_name}</Text>;
-          })}
-          {/* <Text style={{ fontWeight: "700" }}> {first}</Text>,
-          <Text style={{ fontWeight: "700" }}> {second}</Text>, and
-          <Text style={{ fontWeight: "700" }}>{third} </Text> */}
+          {profiles.length === 1 && (
+            <Text style={{ fontWeight: "700" }}> {profiles[0].first_name}</Text>
+          )}
+          {profiles.length === 2 && (
+            <>
+              <Text style={{ fontWeight: "700" }}>
+                {" "}
+                {profiles[0].first_name}
+              </Text>
+              <Text> and</Text>
+              <Text style={{ fontWeight: "700" }}>
+                {" "}
+                {profiles[1].first_name}
+              </Text>
+            </>
+          )}
+          {profiles.length > 2 && (
+            <>
+              {profiles.slice(0, -1).map((item, index) => (
+                <Text key={item.id} style={{ fontWeight: "700" }}>
+                  {index > 0 ? ", " : " "}
+                  {item.first_name}
+                </Text>
+              ))}
+              <Text>, and</Text>
+              <Text style={{ fontWeight: "700" }}>
+                {" "}
+                {profiles[profiles.length - 1].first_name}
+              </Text>
+            </>
+          )}
         </Text>
       </View>
     </View>
