@@ -124,7 +124,10 @@ const BusinessResult = ({ data }) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        router.push({ pathname: "/(p)/businessProfilePage", params: {} })
+        router.push({
+          pathname: "/(p)/businessProfilePage",
+          params: { business_id: id },
+        })
       }
       style={styles.result}
     >
@@ -142,12 +145,33 @@ const BusinessResult = ({ data }) => {
 
 const AllResults = ({ searchQuery }) => {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const getBusinesses = async () => {
-    const { data, error } = await supabase.from("businesses").select("*");
-    setData(data);
-  };
-  getBusinesses();
+  useEffect(() => {
+    const getBusinesses = async () => {
+      try {
+        console.log("getting businesses", searchQuery);
+        const { data, error } = await supabase
+          .from("businesses")
+          .select()
+          .textSearch("name", searchQuery);
+
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          setData(data);
+        }
+      } catch (error) {
+        console.error("Error getting businesses:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getBusinesses();
+  }, []);
 
   let numResults = 0;
 
@@ -162,28 +186,37 @@ const AllResults = ({ searchQuery }) => {
 
   return (
     <View style={styles.allReviews}>
-      <View
-        style={{ paddingHorizontal: padding.med, paddingVertical: padding.med }}
-      >
-        <TextMedPrimary
-          text={`Showing ${numResults} results for '${searchQuery}'`}
-        />
-      </View>
-      {data.map((item) => {
-        if (
-          searchQuery &&
-          item.name.toLowerCase().includes(searchQuery.toLowerCase())
-        ) {
-          return (
-            <View key={item.id}>
-              <BusinessResult data={item} id={item.name} />
-              <FullLine />
-              <FullLine />
-              <FullLine />
-            </View>
-          );
-        }
-      })}
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <View>
+          <View
+            style={{
+              paddingHorizontal: padding.med,
+              paddingVertical: padding.med,
+            }}
+          >
+            <TextMedPrimary
+              text={`Showing ${numResults} results for '${searchQuery}'`}
+            />
+          </View>
+          {data.map((item) => {
+            if (
+              searchQuery &&
+              item.name.toLowerCase().includes(searchQuery.toLowerCase())
+            ) {
+              return (
+                <View key={item.id}>
+                  <BusinessResult data={item} id={item.name} />
+                  <FullLine />
+                  <FullLine />
+                  <FullLine />
+                </View>
+              );
+            }
+          })}
+        </View>
+      )}
     </View>
   );
 };

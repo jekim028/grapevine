@@ -8,7 +8,7 @@ import {
   Touchable,
 } from "react-native";
 
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   TextXsAccent,
@@ -39,6 +39,8 @@ import Pill from "../components/general/Pill";
 import { PaddedLine } from "../components/general/Line";
 import { Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useState, useEffect } from "react";
+import { supabase } from "../../utils/supabase";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -101,40 +103,47 @@ export const BusinessPhotosScroll = () => {
   );
 };
 
-const BusinessDetails = () => {
+const BusinessDetails = ({ business }) => {
+  console.log(business);
   return (
     <View style={styles.section}>
       <View style={styles.colContainerMed}>
         <View style={styles.colContainerXs}>
-          <Title3PrimaryBold text={"Mr. Cool Mechanic"} />
-          <RecommendersDetails
+          <Title3PrimaryBold text={business.name} />
+          {/* <RecommendersDetails
             person1={"Chelsea"}
             person2={"Ariane"}
             person3={"Emily"}
             first={"Chelsea Cho (2nd)"}
             second={"Ariane Lee (2nd)"}
             third={" 6 others"}
-          />
+          /> */}
         </View>
         <View style={styles.colContainerSm}>
-          <BusinessActionLine
-            iconName={"location"}
-            iconSize={16}
-            iconColor={colors.grapevine}
-            text={"259 West Peacock Rd, Mountain View, CA"}
-          />
-          <BusinessActionLine
-            iconName={"call"}
-            iconSize={16}
-            iconColor={colors.grapevine}
-            text={"201-248-8682"}
-          />
-          <BusinessActionLine
-            iconName={"globe"}
-            iconSize={16}
-            iconColor={colors.grapevine}
-            text={"www.mrcoolmechanic.com"}
-          />
+          {business.address && (
+            <BusinessActionLine
+              iconName={"location"}
+              iconSize={16}
+              iconColor={colors.grapevine}
+              text={business.address}
+            />
+          )}
+          {business.phone && (
+            <BusinessActionLine
+              iconName={"call"}
+              iconSize={16}
+              iconColor={colors.grapevine}
+              text={business.phone}
+            />
+          )}
+          {business.website && (
+            <BusinessActionLine
+              iconName={"globe"}
+              iconSize={16}
+              iconColor={colors.grapevine}
+              text={business.website}
+            />
+          )}
         </View>
       </View>
     </View>
@@ -264,17 +273,37 @@ const RecommendationsDetails = () => {
     </View>
   );
 };
+
 export default function businessProfilePage() {
+  const [data, setData] = useState([]);
+  const { business_id } = useLocalSearchParams();
+
+  useEffect(() => {
+    const getBusiness = async () => {
+      const { data, error } = await supabase
+        .from("businesses")
+        .select()
+        .eq("id", business_id);
+      if (error) {
+        console.error("Error fetching data:", error);
+        return null;
+      }
+      setData(data[0]);
+    };
+
+    getBusiness();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Header />
           <BusinessPhotosScroll />
-          <BusinessDetails />
+          <BusinessDetails business={data} />
           <PaddedLine />
-          <RecommendationsDetails />
-          <ReviewScroll />
+          {/* <RecommendationsDetails />
+          <ReviewScroll /> */}
           <Map />
         </ScrollView>
       </View>
