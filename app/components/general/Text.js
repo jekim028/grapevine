@@ -32,12 +32,20 @@ export const TextSmSecondary = ({ text }) => {
 export const TextSmPrimaryBold = ({ text }) => {
   return <Text style={styles.textSmPrimaryBold}>{text}</Text>;
 };
+export const TextSmSecondaryBold = ({ text }) => {
+  return <Text style={styles.textSmSecondaryBold}>{text}</Text>;
+};
 export const TextMedPrimary = ({ text }) => {
   return <Text style={styles.textMedPrimary}>{text}</Text>;
 };
 export const TextMedSecondary = ({ text }) => {
   return <Text style={styles.textMedSecondary}>{text}</Text>;
 };
+
+export const TextMedSecondaryBold = ({ text }) => {
+  return <Text style={styles.textMedSecondaryBold}>{text}</Text>;
+};
+
 export const TextMedAccent = ({ text }) => {
   return <Text style={styles.textMedAccent}>{text}</Text>;
 };
@@ -47,14 +55,32 @@ export const TextMedInverted = ({ text }) => {
 export const TextMedPrimaryBold = ({ text }) => {
   return <Text style={styles.textMedPrimaryBold}>{text}</Text>;
 };
-export const TextLgBold = ({ text }) => {
+export const TextLgPrimaryBold = ({ text }) => {
   return <Text style={styles.textLgPrimaryBold}>{text}</Text>;
 };
+export const TextLgSecondaryBold = ({ text }) => {
+  return <Text style={styles.textLgSecondaryBold}>{text}</Text>;
+};
+
 export const Title3Primary = ({ text }) => {
   return <Text style={styles.title3Primary}>{text}</Text>;
 };
 export const Title3PrimaryBold = ({ text }) => {
   return <Text style={styles.title3PrimaryBold}>{text}</Text>;
+};
+
+export const Title2Primary = ({ text }) => {
+  return (
+    <Text
+      style={{
+        fontFamily: "LobsterTwo_400Regular",
+        fontSize: 32,
+        lineHeight: 36,
+      }}
+    >
+      {text}
+    </Text>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -101,6 +127,12 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: colors.textPrimary,
   },
+  textSmSecondaryBold: {
+    fontSize: 14,
+    lineHeight: 18,
+    fontWeight: "700",
+    color: colors.textSecondary,
+  },
   textMedPrimary: {
     fontSize: 17,
     lineHeight: 22,
@@ -127,11 +159,23 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: colors.textPrimary,
   },
+  textMedSecondaryBold: {
+    fontSize: 17,
+    lineHeight: 22,
+    fontWeight: "700",
+    color: colors.textSecondary,
+  },
   textLgPrimaryBold: {
     fontSize: 19,
     lineHeight: 24,
     fontWeight: "700",
     color: colors.textPrimary,
+  },
+  textLgSecondaryBold: {
+    fontSize: 19,
+    lineHeight: 24,
+    fontWeight: "700",
+    color: colors.textSecondary,
   },
   title3Primary: {
     fontSize: 24,

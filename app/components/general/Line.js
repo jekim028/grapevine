@@ -17,6 +17,18 @@ export const FullLine = () => {
   );
 };
 
+export const PartialLine = ({ width }) => {
+  return (
+    <View
+      style={{
+        width: width,
+        height: 1,
+        backgroundColor: colors.gray,
+      }}
+    />
+  );
+};
+
 const styles = StyleSheet.create({
   paddedLineContainer: {
     flexDirection: "row",

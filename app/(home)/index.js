@@ -19,7 +19,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import Feed from "../../components/Feed";
 import { PaddedLine } from "../components/general/Line";
-import { Title2Primary } from "../components/text/Text";
+import { Title2Primary } from "../components/general/Text";
 const CategoryIconBox = ({ iconName, category }) => {
   return (
     <View style={styles.categoryBox}>
@@ -120,11 +120,13 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
   },
   searchContainer: {
     paddingHorizontal: padding.med,
     paddingVertical: padding.med,
+    gap: padding.med,
+    backgroundColor: "white",
   },
   searchBox: {
     display: "flex",
@@ -141,9 +143,7 @@ const styles = StyleSheet.create({
     fontSize: fonts.reg,
     color: colors.placeholder,
   },
-  categorySection: {
-    paddingVertical: padding.lg,
-  },
+  categorySection: {},
   categoryBox: {
     display: "flex",
     gap: padding.sm,
