@@ -1,6 +1,6 @@
 import { feedData } from "../lib/feed-data";
 import { FlatList, View, Text, StyleSheet, Image } from "react-native";
-import { ProfileWithDegree } from "../app/components/general/ProfileWithDegree";
+import { ProfileWithDegreeURI } from "../app/components/general/ProfileWithDegree";
 import {
   Title3PrimaryBold,
   TextMedPrimary,
@@ -193,17 +193,11 @@ const FeedPost2 = ({ item }) => {
     fetchProfile();
   }, []);
 
-  console.log(profile);
-
   return (
     <View>
       <View style={styles.post}>
         <View style={styles.colContainerMed}>
-          {/* <ProfileWithDegree
-            personPic={profilePic}
-            name={poster}
-            degree={degree}
-          /> */}
+          <ProfileWithDegreeURI profile={profile} />
           <TextMedPrimary text={message} />
         </View>
         {photos && <PostImgs images={photos} />}
