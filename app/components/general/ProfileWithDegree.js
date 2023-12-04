@@ -4,9 +4,8 @@ import { ProfilePicURL } from "./Profiles";
 import { TextMedPrimaryBold, TextMedSecondary } from "./Text";
 
 export const ProfileWithDegreeURI = ({ profile }) => {
-  const { avatar_url, first_name, last_name } = profile;
-  const degree = 2;
-  console.log(profile);
+  const { avatar_url, first_name, last_name, degree } = profile;
+
   return (
     <View style={styles.rowContainerMed}>
       <ProfilePicURL size={32} uri={avatar_url} hasBorder={false} />
