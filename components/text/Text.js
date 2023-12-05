@@ -45,7 +45,7 @@ export const Title2Primary = ({ text }) => {
   return (
     <Text
       style={{
-        fontFamily: "LobsterTwo_400Regular",
+        // fontFamily: "LobsterTwo_400Regular",
         fontSize: 32,
         lineHeight: 36,
       }}

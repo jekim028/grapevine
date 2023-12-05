@@ -12,6 +12,7 @@ import { colors } from "../../styles/colors";
 import * as FeedImgs from "../../assets/imgs/feedImgs";
 import { useState, useEffect } from "react";
 import { supabase } from "../../utils/supabase";
+import { useAuth } from "../../utils/AuthProvider";
 
 const PostImgs = ({ images }) => {
   return (
@@ -94,24 +95,14 @@ const FeedPost = ({ item }) => {
   );
 };
 
-const Feed = () => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await supabase.from("recs").select("*").limit(5);
-      setData(response.data);
-    };
-    fetchData();
-  }, []);
-
+const Feed = ({ recs }) => {
   return (
     <View style={styles.feed}>
       <View style={{ paddingHorizontal: padding.med }}>
         <Title3PrimaryBold text={"Activity"} />
       </View>
       <View style={{ gap: 1, backgroundColor: colors.gray }}>
-        {data.map((item) => (
+        {recs.map((item) => (
           <FeedPost item={item} key={item.id} />
         ))}
       </View>
