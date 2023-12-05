@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { padding } from "../../../styles/spacing";
 import { colors } from "../../../styles/colors";
 import { ProfilePic, ProfileWithDegreeAndTimestamp } from "../general/Profiles";
@@ -14,6 +14,7 @@ import { BusinessShortcut } from "../businessProfiles/BusinessShortcut";
 import { InvertedButton, AccentButton } from "../general/Button";
 import { PartialLine } from "../general/Line";
 import { useAuth } from "../../../utils/AuthProvider";
+import { supabase } from "../../../utils/supabase";
 
 const RequestButtons = ({ text1, text2 }) => {
   return (
@@ -50,16 +51,36 @@ const PendingRequest = ({ requestType, timestamp, requestText }) => {
 };
 
 const PendingRequestsSection = ({ data }) => {
+  const { profile } = useAuth();
+  const [pendingRequests, setPendingRequests] = useState([]);
+
+  useEffect(() => {
+    const getPendingRequests = async () => {
+      const { data, error } = await supabase
+        .from("requests")
+        .select("*")
+        .eq("user_id", profile.id)
+        .eq("status", "REQUESTED");
+      if (error) {
+        console.error("Error fetching pending requests:", error);
+      }
+      setPendingRequests(data);
+    };
+    getPendingRequests();
+  }, []);
+
+  console.log(pendingRequests);
+
   return (
     <View>
       <TextLgSecondaryBold text={"Your Pending Requests"} />
       <View style={{ gap: 1, backgroundColor: colors.gray }}>
-        {data.map((item) => (
+        {pendingRequests.map((item) => (
           <PendingRequest
-            requestType={item.requestType}
-            timestamp={item.timestamp}
-            requestText={item.requestText}
-            key={item.requestText}
+            requestType={item.category}
+            timestamp={item.created_at}
+            requestText={item.message}
+            key={item.id}
           />
         ))}
       </View>
