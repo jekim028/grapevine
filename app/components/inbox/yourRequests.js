@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { padding } from "../../../styles/spacing";
 import { colors } from "../../../styles/colors";
 import { ProfilePic, ProfileWithDegreeAndTimestamp } from "../general/Profiles";
@@ -13,6 +13,8 @@ import {
 import { BusinessShortcut } from "../businessProfiles/BusinessShortcut";
 import { InvertedButton, AccentButton } from "../general/Button";
 import { PartialLine } from "../general/Line";
+import { useAuth } from "../../../utils/AuthProvider";
+import { supabase } from "../../../utils/supabase";
 
 const RequestButtons = ({ text1, text2 }) => {
   return (
@@ -24,10 +26,12 @@ const RequestButtons = ({ text1, text2 }) => {
 };
 
 const PendingRequest = ({ requestType, timestamp, requestText }) => {
+  const { profile } = useAuth();
+
   return (
     <View style={styles.pendingRequest}>
       <View style={styles.rowContainerMed}>
-        {/* <ProfilePic size={32} person={"Emily"} /> */}
+        <ProfilePic size={32} uri={profile.avatar_url} />
         <View style={styles.colContainerSm}>
           <View style={styles.colContainerXxs}>
             <View style={styles.rowContainerXsWrap}>
@@ -47,16 +51,34 @@ const PendingRequest = ({ requestType, timestamp, requestText }) => {
 };
 
 const PendingRequestsSection = ({ data }) => {
+  const { profile } = useAuth();
+  const [pendingRequests, setPendingRequests] = useState([]);
+
+  useEffect(() => {
+    const getPendingRequests = async () => {
+      const { data, error } = await supabase
+        .from("requests")
+        .select("*")
+        .eq("user_id", profile.id)
+        .eq("status", "REQUESTED");
+      if (error) {
+        console.error("Error fetching pending requests:", error);
+      }
+      setPendingRequests(data);
+    };
+    getPendingRequests();
+  }, []);
+
   return (
     <View>
       <TextLgSecondaryBold text={"Your Pending Requests"} />
       <View style={{ gap: 1, backgroundColor: colors.gray }}>
-        {data.map((item) => (
+        {pendingRequests.map((item) => (
           <PendingRequest
-            requestType={item.requestType}
-            timestamp={item.timestamp}
-            requestText={item.requestText}
-            key={item.requestText}
+            requestType={item.category}
+            timestamp={item.created_at}
+            requestText={item.message}
+            key={item.id}
           />
         ))}
       </View>
@@ -65,6 +87,7 @@ const PendingRequestsSection = ({ data }) => {
 };
 
 const CompletedRequest = ({ requestType, requestTimestamp, responseData }) => {
+  const { profile } = useAuth();
   const [isShowingAllResponses, setIsShowingAllResponses] = useState(false);
   const toggleShow = () => {
     setIsShowingAllResponses((prevState) => !prevState);
@@ -73,7 +96,7 @@ const CompletedRequest = ({ requestType, requestTimestamp, responseData }) => {
   return (
     <View style={styles.pendingRequest}>
       <View style={styles.rowContainerMed}>
-        {/* <ProfilePic size={32} person={"Emily"} /> */}
+        <ProfilePic size={32} uri={profile.avatar_url} />
         <View style={styles.colContainerXxs}>
           <View style={styles.rowContainerXsWrap}>
             <TextMedPrimary text={"Your"} />
