@@ -1,5 +1,10 @@
 import { View, StyleSheet } from "react-native";
-import { TextMedAccent, TextMedInverted, TextMedPrimary } from "./Text";
+import {
+  TextMedAccent,
+  TextMedInverted,
+  TextMedInvertedBold,
+  TextMedPrimary,
+} from "./Text";
 import { colors } from "../../../styles/colors";
 
 export const AccentButton = ({ text }) => {
