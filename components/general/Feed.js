@@ -12,6 +12,7 @@ import { colors } from "../../styles/colors";
 import * as FeedImgs from "../../assets/imgs/feedImgs";
 import { useState, useEffect } from "react";
 import { supabase } from "../../utils/supabase";
+import { convertTimestampFromIso } from "../functions/convertTimestampFromIso";
 import { useAuth } from "../../utils/AuthProvider";
 
 const PostImgs = ({ images }) => {
@@ -28,24 +29,24 @@ const PostImgs = ({ images }) => {
   );
 };
 
-const convertToMonthDayFormat = (isoDateString) => {
-  const dateCreated = new Date(isoDateString);
-  const currentDate = new Date();
-  const millisecondsInAnHour = 60 * 60 * 1000;
-  const millisecondsIn24Hours = 24 * millisecondsInAnHour;
-  const differenceInMilliseconds = currentDate - dateCreated;
+// const convertTimestampFromIso = (isoDateString) => {
+//   const dateCreated = new Date(isoDateString);
+//   const currentDate = new Date();
+//   const millisecondsInAnHour = 60 * 60 * 1000;
+//   const millisecondsIn24Hours = 24 * millisecondsInAnHour;
+//   const differenceInMilliseconds = currentDate - dateCreated;
 
-  if (differenceInMilliseconds < millisecondsIn24Hours) {
-    const numHours = differenceInMilliseconds / millisecondsInAnHour;
-    return `${numHours.toFixed(0)} hours`;
-  } else {
-    const formatter = new Intl.DateTimeFormat("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-    return formatter.format(dateCreated);
-  }
-};
+//   if (differenceInMilliseconds < millisecondsIn24Hours) {
+//     const numHours = differenceInMilliseconds / millisecondsInAnHour;
+//     return `${numHours.toFixed(0)} hours`;
+//   } else {
+//     const formatter = new Intl.DateTimeFormat("en-US", {
+//       month: "short",
+//       day: "numeric",
+//     });
+//     return formatter.format(dateCreated);
+//   }
+// };
 
 const FeedPost = ({ item }) => {
   const { business_id, message, created_at, photos, user_id, visibility } =
@@ -78,7 +79,7 @@ const FeedPost = ({ item }) => {
     }
   }, [user_id]);
 
-  const timestamp = convertToMonthDayFormat(created_at);
+  const timestamp = convertTimestampFromIso(created_at);
   return (
     <View style={styles.post}>
       <View style={styles.colContainerMed}>

@@ -9,18 +9,38 @@ import {
   TextMedPrimaryBold,
   TextSmSecondary,
   TextSmSecondaryBold,
+  TextMedSecondary,
 } from "../general/Text";
 import { BusinessShortcut } from "../businessProfiles/BusinessShortcut";
 import { InvertedButton, AccentButton } from "../general/Button";
 import { PartialLine } from "../general/Line";
 import { useAuth } from "../../utils/AuthProvider";
 import { supabase } from "../../utils/supabase";
+import { convertTimestampFromIso } from "../functions/convertTimestampFromIso";
+import Toast from "react-native-toast-message";
+
+function showSuccessToast(text) {
+  Toast.show({
+    type: "success",
+    props: { text: text },
+  });
+}
 
 const RequestButtons = ({ text1, text2 }) => {
   return (
     <View style={styles.rowContainerMed}>
-      <InvertedButton text={text1} />
-      <AccentButton text={text2} />
+      <TouchableOpacity
+        onPress={() => showSuccessToast("Request Cancelled")}
+        style={{ flex: 1 }}
+      >
+        <InvertedButton text={text1} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => showSuccessToast("Request Resent")}
+        style={{ flex: 1 }}
+      >
+        <AccentButton text={text2} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -38,10 +58,8 @@ const PendingRequest = ({ requestType, timestamp, requestText }) => {
               <TextMedPrimary text={"You requested a"} />
               <TextMedPrimaryBold text={requestType} />
             </View>
-            <TextSmSecondary text={timestamp} />
+            <TextSmSecondary text={convertTimestampFromIso(timestamp)} />
           </View>
-
-          {/* // lowkey need to fix this wrapping!! */}
           <Text style={{ flexWrap: "wrap" }}>{requestText}</Text>
         </View>
       </View>
@@ -72,16 +90,23 @@ const PendingRequestsSection = ({ data }) => {
   return (
     <View>
       <TextLgSecondaryBold text={"Your Pending Requests"} />
-      <View style={{ gap: 1, backgroundColor: colors.gray }}>
-        {pendingRequests.map((item) => (
-          <PendingRequest
-            requestType={item.category}
-            timestamp={item.created_at}
-            requestText={item.message}
-            key={item.id}
-          />
-        ))}
-      </View>
+      {pendingRequests.length == 0 && (
+        <View style={{ padding: padding.med }}>
+          <TextMedSecondary text={"No pending requests"} />
+        </View>
+      )}
+      {pendingRequests.length != 0 && (
+        <View style={{ gap: 1, backgroundColor: colors.gray }}>
+          {pendingRequests.map((item) => (
+            <PendingRequest
+              requestType={item.category}
+              timestamp={item.created_at}
+              requestText={item.message}
+              key={item.id}
+            />
+          ))}
+        </View>
+      )}
     </View>
   );
 };

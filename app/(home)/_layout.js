@@ -55,13 +55,17 @@ export default function HomeLayout() {
               justifyContent: "space-between",
             }}
           >
-            <Ionicons name="close" size={24} color={"white"} />
+            <Ionicons name="close" size={iconSize} color={"white"} />
             <View style={{ alignItems: "center" }}>
               <TextMedPrimaryBold text={"Create or Request a"} />
               <TextMedPrimaryBold text={"Recommendation"} />
             </View>
             <TouchableOpacity onPress={onClose}>
-              <Ionicons name="close" size={24} color={colors.textPrimary} />
+              <Ionicons
+                name="close"
+                size={iconSize}
+                color={colors.textPrimary}
+              />
             </TouchableOpacity>
           </View>
           <PlusButtons />
