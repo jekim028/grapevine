@@ -20,6 +20,9 @@ import { router } from "expo-router";
 import Feed from "../../components/Feed";
 import { PaddedLine } from "../components/general/Line";
 import { Title2Primary } from "../components/general/Text";
+import { ProfilePic } from "../components/general/Profiles";
+import { useAuth } from "../../utils/AuthProvider";
+
 const CategoryIconBox = ({ iconName, category }) => {
   return (
     <View style={styles.categoryBox}>
@@ -53,6 +56,8 @@ const CategorySection = () => {
 };
 
 export default function Home() {
+  const { profile } = useAuth();
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -82,11 +87,15 @@ export default function Home() {
               onPress={() => router.push("/(pages)/profile")}
               style={{ paddingHorizontal: padding.sm }}
             >
-              <Ionicons
-                name="person-outline"
-                size={iconSize}
-                color={colors.textPrimary}
-              />
+              {profile && profile.avatar_url ? (
+                <ProfilePic size={32} uri={profile.avatar_url} />
+              ) : (
+                <Ionicons
+                  name="person-outline"
+                  size={iconSize}
+                  color={colors.textPrimary}
+                />
+              )}
             </TouchableOpacity>
           </View>
 
