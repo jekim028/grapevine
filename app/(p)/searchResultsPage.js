@@ -213,10 +213,13 @@ export default function searchResultsPage() {
   const { query } = useLocalSearchParams();
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <ScrollView>
+      <View style={{ width: "100%", justifyContent: "flex-start" }}>
+        <ScrollView
+          style={{ width: "100%" }}
+          contentContainerStyle={{ justifyContent: "flex-start" }}
+        >
           {/* Search Bar*/}
-          <View style={{ paddingHorizontal: padding.med }}>
+          <View style={{ paddingHorizontal: padding.med, width: "100%" }}>
             <TouchableOpacity
               onPress={() => router.push("/(p)/search")}
               style={styles.searchBox}
@@ -241,7 +244,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     overflow: "hidden",
   },
   result: {
