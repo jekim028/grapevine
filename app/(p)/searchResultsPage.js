@@ -150,7 +150,6 @@ const AllResults = ({ searchQuery }) => {
   useEffect(() => {
     const getBusinesses = async () => {
       try {
-        console.log("getting businesses", searchQuery);
         const { data, error } = await supabase
           .from("businesses")
           .select()

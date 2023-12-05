@@ -45,18 +45,40 @@ import { supabase } from "../../utils/supabase";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const BusinessProfileReview = ({ person, name, degree, reviewText }) => {
+const BusinessProfileReview = ({ review }) => {
+  const [profile, setProfile] = useState([]);
+  const { message, user_id, visibility } = review;
+
+  useEffect(() => {
+    const getProfile = async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select()
+        .eq("id", user_id);
+      if (error) {
+        console.error("Error fetching data:", error);
+      }
+      setProfile(data[0]);
+    };
+
+    getProfile();
+  }, []);
+
   return (
     <View style={styles.businessProfileReview}>
       <View style={styles.rowContainerMed}>
-        <ProfilePic size={32} person={person} hasBorder={false} />
+        {profile.avatar_url && (
+          <ProfilePic size={32} uri={profile.avatar_url} hasBorder={false} />
+        )}
         <View style={styles.rowContainerSm}>
-          <TextMedPrimaryBold text={name} />
+          <TextMedPrimaryBold
+            text={profile.first_name + " " + profile.last_name}
+          />
           <TextMedSecondary text={"•"} />
-          <TextMedSecondary text={degree} />
+          <TextMedSecondary text={profile.degree} />
         </View>
       </View>
-      <TextMedPrimary text={reviewText} />
+      <TextMedPrimary text={message} />
     </View>
   );
 };
@@ -103,21 +125,18 @@ export const BusinessPhotosScroll = () => {
   );
 };
 
-const BusinessDetails = ({ business }) => {
-  console.log(business);
+const BusinessDetails = ({ business, recs }) => {
+  let people = [];
+  recs.map((item) => {
+    people.push(item.user_id);
+  });
+
   return (
     <View style={styles.section}>
       <View style={styles.colContainerMed}>
         <View style={styles.colContainerXs}>
           <Title3PrimaryBold text={business.name} />
-          {/* <RecommendersDetails
-            person1={"Chelsea"}
-            person2={"Ariane"}
-            person3={"Emily"}
-            first={"Chelsea Cho (2nd)"}
-            second={"Ariane Lee (2nd)"}
-            third={" 6 others"}
-          /> */}
+          <RecommendersDetails people={people} num_recs={business.num_recs} />
         </View>
         <View style={styles.colContainerSm}>
           {business.address && (
@@ -150,65 +169,7 @@ const BusinessDetails = ({ business }) => {
   );
 };
 
-const ReviewScroll = () => {
-  const reviewData = [
-    {
-      person: "Chelsea",
-      name: "Chelsea Cho",
-      degree: "2nd",
-      reviewText:
-        "“He knew exactly what was wrong with my car when it was making a weird sound. Best quote in the area!”",
-    },
-    {
-      person: "Ariane",
-      name: "Ariane Lee",
-      degree: "2nd",
-      reviewText:
-        "“Quick and efficient! They fixed my brakes faster than expected. Definitely the best service around!”",
-    },
-    {
-      person: "Tobey",
-      name: "Tobey MacIntosh",
-      degree: "2nd",
-      reviewText:
-        "“Superb attention to detail. They found and repaired a leak I didn't even know I had. Top-notch work!”",
-    },
-    {
-      person: "Emily",
-      name: "Emily Deng",
-      degree: "3rd",
-      reviewText:
-        "“Great customer experience! They explained everything clearly and had my car running smoothly in no time. Highly recommend!”",
-    },
-    {
-      person: "Jenna",
-      name: "Jenna Kim",
-      degree: "3rd",
-      reviewText:
-        "“Incredible diagnostics! Solved an engine issue that others couldn’t. The most reliable mechanic I’ve found.”",
-    },
-    {
-      person: "StockPerson1",
-      name: "Michael Weinstein",
-      degree: "3rd",
-      reviewText:
-        "“Fantastic turnaround time. Got my AC fixed just in time for summer. Can't beat their prices and quality!”",
-    },
-    {
-      person: "StockPerson2",
-      name: "Ella Brown",
-      degree: "3rd",
-      reviewText:
-        "“Really knowledgeable team. They handled my transmission problem with ease. Best value for money in town!”",
-    },
-    {
-      person: "StockPerson3",
-      name: "Kyle Haslett",
-      degree: "3rd",
-      reviewText:
-        "“Outstanding service! They went above and beyond to ensure my car was in perfect condition. Trustworthy and efficient.”",
-    },
-  ];
+const ReviewScroll = ({ recs }) => {
   return (
     <View
       style={{
@@ -222,14 +183,8 @@ const ReviewScroll = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
       >
-        {reviewData.map((item) => (
-          <BusinessProfileReview
-            person={item.person}
-            name={item.name}
-            degree={item.degree}
-            reviewText={item.reviewText}
-            key={item.person}
-          />
+        {recs.map((item) => (
+          <BusinessProfileReview review={item} key={item.id} />
         ))}
       </ScrollView>
     </View>
@@ -276,6 +231,7 @@ const RecommendationsDetails = () => {
 
 export default function businessProfilePage() {
   const [data, setData] = useState([]);
+  const [recs, setRecs] = useState([]);
   const { business_id } = useLocalSearchParams();
 
   useEffect(() => {
@@ -294,16 +250,34 @@ export default function businessProfilePage() {
     getBusiness();
   }, []);
 
+  useEffect(() => {
+    const getRecs = async () => {
+      const { data, error } = await supabase
+        .from("recs")
+        .select()
+        .eq("business_id", business_id)
+        .limit(3);
+
+      if (error) {
+        console.error("Error fetching recs:", error);
+      }
+
+      setRecs(data);
+    };
+
+    getRecs();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Header />
           <BusinessPhotosScroll />
-          <BusinessDetails business={data} />
+          <BusinessDetails business={data} recs={recs} />
           <PaddedLine />
-          {/* <RecommendationsDetails />
-          <ReviewScroll /> */}
+          <RecommendationsDetails />
+          <ReviewScroll recs={recs} />
           <Map />
         </ScrollView>
       </View>
