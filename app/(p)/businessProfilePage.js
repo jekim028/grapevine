@@ -36,9 +36,10 @@ import { Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useState, useEffect } from "react";
 import { supabase } from "../../utils/supabase";
+import { numberToStringWithEnding } from "../../components/functions/numberToStringWithEnding";
+import { convertNumberstoPhone } from "../../components/functions/convertNumberstoPhone";
 
 const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 const BusinessProfileReview = ({ review }) => {
   const [profile, setProfile] = useState([]);
@@ -59,6 +60,8 @@ const BusinessProfileReview = ({ review }) => {
     getProfile();
   }, []);
 
+  const degree = numberToStringWithEnding(profile.degree);
+
   return (
     <View style={styles.businessProfileReview}>
       <View style={styles.rowContainerMed}>
@@ -69,8 +72,7 @@ const BusinessProfileReview = ({ review }) => {
           <TextMedPrimaryBold
             text={profile.first_name + " " + profile.last_name}
           />
-          <TextMedSecondary text={"•"} />
-          <TextMedSecondary text={profile.degree} />
+          <TextMedSecondary text={degree} />
         </View>
       </View>
       <TextMedPrimary text={message} />
@@ -129,6 +131,9 @@ const BusinessDetails = ({ business, recs }) => {
   recs.map((item) => {
     people.push(item.user_id);
   });
+  console.log("NUmber", business.phone);
+
+  // const convertedNumber = convertNumberstoPhone(business.phone);
 
   return (
     <View style={styles.section}>
@@ -151,7 +156,7 @@ const BusinessDetails = ({ business, recs }) => {
               iconName={"call"}
               iconSize={16}
               iconColor={colors.grapevine}
-              text={business.phone}
+              text={convertNumberstoPhone(business.phone)}
             />
           )}
           {business.website && (
@@ -194,15 +199,15 @@ const Map = () => {
   return <Image source={require("../../assets/imgs/map.jpg")} />;
 };
 
-const TotalRecommendations = () => {
+const TotalRecommendations = ({ totalNumRecs }) => {
   return (
     <View>
-      <TextLgPrimaryBold text={"8 recommendations"} />
-      <View style={styles.rowContainerSm}>
+      <TextLgPrimaryBold text={`${totalNumRecs} recommendations`} />
+      {/* <View style={styles.rowContainerSm}>
         <TextXsPrimary text={"3 second degree friends"} />
         <TextXsPrimary text={"•"} />
         <TextXsPrimary text={"5 third degree friends"} />
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -219,10 +224,10 @@ const ReviewKeyMentions = () => {
   );
 };
 
-const RecommendationsDetails = () => {
+const RecommendationsDetails = ({ totalNumRecs }) => {
   return (
-    <View style={styles.section}>
-      <TotalRecommendations />
+    <View style={styles.recommendationsDetails}>
+      <TotalRecommendations totalNumRecs={totalNumRecs} />
       <ReviewKeyMentions />
     </View>
   );
@@ -275,9 +280,10 @@ export default function businessProfilePage() {
           <BusinessPhotosScroll />
           <BusinessDetails business={data} recs={recs} />
           <PaddedLine />
-          <RecommendationsDetails />
+          <RecommendationsDetails totalNumRecs={recs.length} />
           <ReviewScroll recs={recs} />
-          <Map />
+
+          {data.address && <Map />}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -326,6 +332,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     gap: padding.med,
+    paddingVertical: padding.lg,
+    paddingHorizontal: padding.med,
+  },
+  recommendationsDetails: {
+    display: "flex",
+    flexDirection: "column",
+    gap: padding.sm,
     paddingVertical: padding.lg,
     paddingHorizontal: padding.med,
   },

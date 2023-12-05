@@ -1,6 +1,7 @@
 import { View, Image, StyleSheet } from "react-native";
 import { padding } from "../../styles/spacing";
 import { TextMedPrimaryBold, TextMedSecondary, TextSmSecondary } from "./Text";
+import { numberToStringWithEnding } from "../functions/numberToStringWithEnding";
 
 export const ProfilePic = ({ size, uri, hasBorder, borderColor }) => {
   const styles = StyleSheet.create({
@@ -35,20 +36,8 @@ export const OverlappingProfiles = ({ people }) => {
   );
 };
 
-function numberToStringWithEnding(number) {
-  if (number === 1) {
-    return "(1st)";
-  } else if (number === 2) {
-    return "(2nd)";
-  } else if (number === 3) {
-    return "(3rd)";
-  } else {
-    return "Invalid input"; // or any other error handling
-  }
-}
-
 export const ProfileWithDegreeAndTimestamp = ({ user, timestamp }) => {
-  degree = numberToStringWithEnding(user.degree);
+  const degree = numberToStringWithEnding(user.degree);
   return (
     <View style={styles.rowContainerMed}>
       <ProfilePic size={40} uri={user.avatar_url} hasBorder={false} />

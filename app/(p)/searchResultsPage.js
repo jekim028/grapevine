@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
@@ -11,25 +10,22 @@ import {
 import { router, useLocalSearchParams } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
-  TextMedPrimary,
   TextMedPrimaryBold,
   Title3PrimaryBold,
 } from "../../components/general/Text";
-import { AccentButton, InvertedButton } from "../../components/general/Button";
+import { AccentButton } from "../../components/general/Button";
 import { colors } from "../../styles/colors";
 import { padding } from "../../styles/spacing";
 import { ImageScroll } from "../../components/general/ImageScroll";
 import { BusinessActionLine } from "../../components/businessProfiles/BusinessActionLine";
 import { RecommendersDetails } from "../../components/businessProfiles/RecommendersDetails";
-import { FullLine } from "../../components/general/Line";
-import { iconSize, borderRadius, fonts } from "../../styles/base";
+import { iconSize, fonts } from "../../styles/base";
 import { useState } from "react";
 import { supabase } from "../../utils/supabase";
 import { useEffect } from "react";
 
 import { Dimensions } from "react-native";
 const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 const ActionButtons = ({ actions }) => {
   return (
@@ -66,12 +62,14 @@ const BusinessDetails = ({
                 color={colors.textPrimary}
               />
             </View>
-            <BusinessActionLine
-              iconName={"location"}
-              iconSize={iconSize}
-              iconColor={colors.grapevine}
-              text={address}
-            />
+            {address && (
+              <BusinessActionLine
+                iconName={"location"}
+                iconSize={iconSize}
+                iconColor={colors.grapevine}
+                text={address}
+              />
+            )}
           </View>
           <RecommendersDetails people={people} num_recs={num_recs} />
         </View>
@@ -172,7 +170,14 @@ const AllResults = ({ searchQuery }) => {
   return (
     <View style={styles.allReviews}>
       {isLoading ? (
-        <Text>Loading...</Text>
+        <View
+          style={{
+            paddingHorizontal: padding.med,
+            paddingTop: padding.lg,
+          }}
+        >
+          <TextMedPrimaryBold text={"Loading results..."} />
+        </View>
       ) : (
         <View>
           <View
@@ -185,21 +190,18 @@ const AllResults = ({ searchQuery }) => {
               text={`Showing ${numResults} results for '${searchQuery}'`}
             />
           </View>
-          {data.map((item) => {
-            if (
-              searchQuery &&
-              item.name.toLowerCase().includes(searchQuery.toLowerCase())
-            ) {
-              return (
-                <View key={item.id}>
-                  <BusinessResult data={item} id={item.name} />
-                  <FullLine />
-                  <FullLine />
-                  <FullLine />
-                </View>
-              );
-            }
-          })}
+          <View style={{ gap: 2, backgroundColor: colors.gray, paddingTop: 2 }}>
+            {data.map((item) => {
+              if (
+                searchQuery &&
+                item.name.toLowerCase().includes(searchQuery.toLowerCase())
+              ) {
+                return (
+                  <BusinessResult data={item} id={item.name} key={item.id} />
+                );
+              }
+            })}
+          </View>
         </View>
       )}
     </View>
@@ -212,7 +214,7 @@ export default function searchResultsPage() {
     <SafeAreaView style={styles.container}>
       <View style={{ width: "100%", justifyContent: "flex-start" }}>
         <ScrollView
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: "100%" }}
           contentContainerStyle={{ justifyContent: "flex-start" }}
         >
           {/* Search Bar*/}
@@ -248,6 +250,7 @@ const styles = StyleSheet.create({
     flexDirection: "col",
     paddingVertical: 24,
     gap: 16,
+    backgroundColor: "white",
   },
   imageScrollContainer: {
     height: 100,

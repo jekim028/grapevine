@@ -29,7 +29,7 @@ const SearchResult = ({ business }) => {
       <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
       <View>
         <TextSmPrimary text={business.name} />
-        <TextXsSecondary text={business.address} />
+        {business.address && <TextXsSecondary text={business.address} />}
       </View>
     </TouchableOpacity>
   );
