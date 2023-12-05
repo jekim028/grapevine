@@ -13,6 +13,8 @@ import { FullLine } from "../app/components/general/Line";
 import { padding } from "../styles/spacing";
 import { colors } from "../styles/colors";
 import * as FeedImgs from "../assets/imgs/feedImgs";
+import { useState, useEffect } from "react";
+import { supabase } from "../utils/supabase";
 
 const PostImgs = ({ images }) => {
   return (
@@ -27,19 +29,36 @@ const PostImgs = ({ images }) => {
     </View>
   );
 };
+
 const FeedPost = ({ item }) => {
-  const {
-    poster,
-    profilePic,
-    degree,
-    businessName,
-    numRecommendations,
-    businessType,
-    timestamp,
-    hasPics,
-    images,
-    message,
-  } = item;
+  const { business_id, message, created_at, photos, user_id, visibility } =
+    item;
+
+  const [business, setBusiness] = useState([]);
+  const [profile, setProfile] = useState([]);
+
+  useEffect(() => {
+    const fetchBusiness = async () => {
+      const response = await supabase
+        .from("businesses")
+        .select()
+        .eq("id", business_id);
+      setBusiness(response.data[0]);
+    };
+    fetchBusiness();
+  }, []);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const response = await supabase
+        .from("profiles")
+        .select()
+        .eq("id", user_id);
+      setProfile(response.data[0]);
+    };
+    fetchProfile();
+  }, []);
+
   return (
     <View style={styles.post}>
       <View style={styles.colContainerMed}>
@@ -62,14 +81,24 @@ const FeedPost = ({ item }) => {
 };
 
 const Feed = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await supabase.from("recs").select("*").limit(5);
+      setData(response.data);
+    };
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.feed}>
       <View style={{ paddingHorizontal: padding.med }}>
         <Title3PrimaryBold text={"Activity"} />
       </View>
       <View style={{ gap: 1, backgroundColor: colors.gray }}>
-        {feedData.map((item) => (
-          <FeedPost item={item} key={item.businessName} />
+        {data.map((item) => (
+          <FeedPost item={item} key={item.id} />
         ))}
       </View>
     </View>

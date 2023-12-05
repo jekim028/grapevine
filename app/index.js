@@ -10,11 +10,21 @@ import {
 import { useState } from "react";
 import React from "react";
 import Spinner from "react-native-loading-spinner-overlay";
+import {
+  Alert,
+  View,
+  Button,
+  TextInput,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import { useState } from "react";
+import React from "react";
+import Spinner from "react-native-loading-spinner-overlay";
 import { supabase } from "../utils/supabase";
 
 const Login = () => {
-
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

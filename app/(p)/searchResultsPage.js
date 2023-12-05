@@ -24,6 +24,9 @@ import { RecommendersDetails } from "../components/businessProfiles/Recommenders
 import { FullLine } from "../components/general/Line";
 import { iconSize, borderRadius, fonts } from "../../styles/base";
 import { bizdata } from "../../lib/data";
+import { useState } from "react";
+import { supabase } from "../../utils/supabase";
+import { useEffect } from "react";
 
 import { Dimensions } from "react-native";
 const windowWidth = Dimensions.get("window").width;
@@ -34,6 +37,7 @@ const ActionButtons = ({ actions }) => {
     <View style={styles.rowContainerMed}>
       {actions.map((item) => (
         <AccentButton text={item.title} key={item.id} />
+        <AccentButton text={item.title} key={item.id} />
       ))}
     </View>
   );
@@ -41,8 +45,8 @@ const ActionButtons = ({ actions }) => {
 const BusinessDetails = ({
   businessName,
   address,
-  recommenders,
-  photos,
+  people,
+  num_recs,
   actions,
 }) => {
   return (
@@ -71,14 +75,15 @@ const BusinessDetails = ({
               text={address}
             />
           </View>
-          <RecommendersDetails
+          <RecommendersDetails people={people} num_recs={num_recs} />
+          {/* <RecommendersDetails
             person1={photos.first}
             person2={photos.second}
             person3={photos.third}
             first={recommenders.first}
             second={recommenders.second}
             third={recommenders.third}
-          />
+          /> */}
         </View>
         <ActionButtons actions={actions} />
       </View>
@@ -87,28 +92,51 @@ const BusinessDetails = ({
 };
 
 const BusinessResult = ({ data }) => {
-  const {
-    recommendersText,
-    recommendersPhotos,
-    businessImgs,
-    hasPics,
-    businessName,
-    address,
-    actions,
-  } = data;
+  const [recs, setRecs] = useState([]);
+  const { address, name, id, num_recs, phone, type, website } = data;
+  const hasPics = false;
+
+  useEffect(() => {
+    const getRecs = async () => {
+      const { data, error } = await supabase
+        .from("recs")
+        .select()
+        .eq("business_id", id)
+        .limit(3);
+      setRecs(data);
+    };
+    getRecs();
+  }, []);
+
+  let people = [];
+  recs.map((item) => {
+    people.push(item.user_id);
+  });
+
+  let actions = [];
+  if (phone) {
+    actions.push({ id: 1, title: "Call" });
+  }
+  if (website) {
+    actions.push({ id: 2, title: "Website" });
+  }
+
   return (
     <TouchableOpacity
       onPress={() =>
-        router.push({ pathname: "/(p)/businessProfilePage", params: {} })
+        router.push({
+          pathname: "/(p)/businessProfilePage",
+          params: { business_id: id },
+        })
       }
       style={styles.result}
     >
       {hasPics && <ImageScroll height={100} images={businessImgs} />}
       <BusinessDetails
-        businessName={businessName}
+        businessName={name}
         address={address}
-        recommenders={recommendersText}
-        photos={recommendersPhotos}
+        people={people}
+        num_recs={num_recs}
         actions={actions}
       />
     </TouchableOpacity>
@@ -116,15 +144,45 @@ const BusinessResult = ({ data }) => {
 };
 
 const AllResults = ({ searchQuery }) => {
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const getBusinesses = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("businesses")
+          .select()
+          .textSearch("name", searchQuery);
+
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          setData(data);
+        }
+      } catch (error) {
+        console.error("Error getting businesses:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getBusinesses();
+  }, []);
+
   let numResults = 0;
-  bizdata.map((item) => {
+
+  data.map((item) => {
     if (
       searchQuery &&
-      item.businessName.toLowerCase().includes(searchQuery.toLowerCase())
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
     ) {
       numResults += 1;
     }
   });
+
   return (
     <View style={styles.allReviews}>
       <View
@@ -137,21 +195,37 @@ const AllResults = ({ searchQuery }) => {
           text={`Showing ${numResults} results for '${searchQuery}'`}
         />
       </View>
-      {bizdata.map((item) => {
-        if (
-          searchQuery &&
-          item.businessName.toLowerCase().includes(searchQuery.toLowerCase())
-        ) {
-          return (
-            <View key={item.businessName}>
-              <BusinessResult data={item} id={item.businessName} />
-              <FullLine />
-              <FullLine />
-              <FullLine />
-            </View>
-          );
-        }
-      })}
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <View>
+          <View
+            style={{
+              paddingHorizontal: padding.med,
+              paddingVertical: padding.med,
+            }}
+          >
+            <TextMedPrimary
+              text={`Showing ${numResults} results for '${searchQuery}'`}
+            />
+          </View>
+          {data.map((item) => {
+            if (
+              searchQuery &&
+              item.name.toLowerCase().includes(searchQuery.toLowerCase())
+            ) {
+              return (
+                <View key={item.id}>
+                  <BusinessResult data={item} id={item.name} />
+                  <FullLine />
+                  <FullLine />
+                  <FullLine />
+                </View>
+              );
+            }
+          })}
+        </View>
+      )}
     </View>
   );
 };
@@ -259,6 +333,7 @@ const styles = StyleSheet.create({
     display: "flex",
     padding: padding.sm,
     flexDirection: "row",
+    borderRadius: padding.sm,
     borderRadius: padding.sm,
     alignItems: "center",
     backgroundColor: colors.formBackground,

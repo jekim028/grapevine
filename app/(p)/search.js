@@ -20,16 +20,10 @@ import { router } from "expo-router";
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState("");
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-  };
-
-  const handleSubmit = (query) => {
-    router.push({
-      pathname: "/(p)/searchResultsPage",
-      params: { query },
-    });
   };
 
   return (
@@ -64,10 +58,7 @@ export default function Search() {
         </View>
 
         {/* Search Results */}
-        <SearchFilter
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
+        <SearchFilter searchQuery={searchQuery} />
       </View>
     </SafeAreaView>
   );

@@ -11,43 +11,49 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { iconSize, padding } from "../styles/base";
 import { router } from "expo-router";
 import { TextSmPrimary, TextXsSecondary } from "../app/components/general/Text";
+import { useState, useEffect } from "react";
+import { supabase } from "../utils/supabase";
 
-const SearchResult = ({ business, address }) => {
+const SearchResult = ({ business }) => {
   return (
     <TouchableOpacity
       onPress={() =>
         router.push({
           pathname: "/(p)/businessProfilePage",
-          params: { business },
+          params: { business_id: business.id },
         })
       }
       style={styles.resultCell}
     >
       <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
       <View>
-        <TextSmPrimary text={business} />
-        <TextXsSecondary text={address} />
+        <TextSmPrimary text={business.name} />
+        <TextXsSecondary text={business.address} />
       </View>
     </TouchableOpacity>
   );
 };
 
-const SearchFilter = ({ searchQuery, setSearchQuery }) => {
+const SearchFilter = ({ searchQuery }) => {
+  const [data, setData] = useState([]);
+
+  const getBusinesses = async () => {
+    const { data, error } = await supabase.from("businesses").select("*");
+    setData(data);
+  };
+
+  getBusinesses();
+
   return (
     <View>
       <FlatList
-        data={bizdata}
+        data={data}
         renderItem={({ item }) => {
           if (
             searchQuery &&
-            item.businessName.toLowerCase().includes(searchQuery.toLowerCase())
+            item.name.toLowerCase().includes(searchQuery.toLowerCase())
           ) {
-            return (
-              <SearchResult
-                business={item.businessName}
-                address={item.address}
-              />
-            );
+            return <SearchResult business={item} />;
           }
         }}
         keyExtractor={(item, index) => index.toString()}
