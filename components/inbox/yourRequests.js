@@ -9,6 +9,7 @@ import {
   TextMedPrimaryBold,
   TextSmSecondary,
   TextSmSecondaryBold,
+  TextMedSecondary,
 } from "../general/Text";
 import { BusinessShortcut } from "../businessProfiles/BusinessShortcut";
 import { InvertedButton, AccentButton } from "../general/Button";
@@ -89,16 +90,23 @@ const PendingRequestsSection = ({ data }) => {
   return (
     <View>
       <TextLgSecondaryBold text={"Your Pending Requests"} />
-      <View style={{ gap: 1, backgroundColor: colors.gray }}>
-        {pendingRequests.map((item) => (
-          <PendingRequest
-            requestType={item.category}
-            timestamp={item.created_at}
-            requestText={item.message}
-            key={item.id}
-          />
-        ))}
-      </View>
+      {pendingRequests.length == 0 && (
+        <View style={{ padding: padding.med }}>
+          <TextMedSecondary text={"No pending requests"} />
+        </View>
+      )}
+      {pendingRequests.length != 0 && (
+        <View style={{ gap: 1, backgroundColor: colors.gray }}>
+          {pendingRequests.map((item) => (
+            <PendingRequest
+              requestType={item.category}
+              timestamp={item.created_at}
+              requestText={item.message}
+              key={item.id}
+            />
+          ))}
+        </View>
+      )}
     </View>
   );
 };
