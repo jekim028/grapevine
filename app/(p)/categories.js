@@ -19,7 +19,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { supabase } from "../../utils/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FullLine } from "../components/general/Line";
 const Category = ({ category }) => {
   const handleSelect = async () => {
     try {

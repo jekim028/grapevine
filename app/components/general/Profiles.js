@@ -51,8 +51,8 @@ export const ProfileWithDegreeAndTimestamp = ({ user, timestamp }) => {
   degree = numberToStringWithEnding(user.degree);
   return (
     <View style={styles.rowContainerMed}>
-      <ProfilePic size={32} uri={user.avatar_url} hasBorder={false} />
-      <View style={styles.colContainerXxs}>
+      <ProfilePic size={40} uri={user.avatar_url} hasBorder={false} />
+      <View style={{ gap: 2 }}>
         <View style={styles.rowContainerSm}>
           <TextMedPrimaryBold text={user.first_name + " " + user.last_name} />
           <TextMedSecondary text={degree} />
@@ -76,10 +76,6 @@ const styles = StyleSheet.create({
   rowContainerMed: {
     flexDirection: "row",
     gap: padding.med,
-  },
-  colContainerXxs: {
-    flexDirection: "col",
-    gap: padding.xxs,
-    flexShrink: 1,
+    alignItems: "center",
   },
 });
