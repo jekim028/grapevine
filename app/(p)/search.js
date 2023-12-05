@@ -20,7 +20,6 @@ import { router } from "expo-router";
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState("");
 
   const handleSearch = (query) => {
     setSearchQuery(query);

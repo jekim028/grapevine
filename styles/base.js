@@ -1,4 +1,6 @@
 export const padding = {
+  xxs: 2,
+  xs: 4,
   sm: 8,
   med: 16,
   lg: 24,
@@ -13,9 +15,11 @@ export const colors = {
   grapevine: "#8C69C6",
   textPrimary: "#000000",
   textInverted: "#FFFFFF",
-  textSecondary: "#D9D9D9",
   formBackground: "#ECECEE",
   placeholder: "#8e8e8e",
+  textSecondary: "#828385",
+  formBackground: "#ECECEE",
+  gray: "#D9D9D9",
 };
 
 export const fonts = {
