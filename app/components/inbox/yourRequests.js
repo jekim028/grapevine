@@ -22,11 +22,12 @@ const RequestButtons = ({ text1, text2 }) => {
     </View>
   );
 };
+
 const PendingRequest = ({ requestType, timestamp, requestText }) => {
   return (
     <View style={styles.pendingRequest}>
       <View style={styles.rowContainerMed}>
-        <ProfilePic size={32} person={"Emily"} />
+        {/* <ProfilePic size={32} person={"Emily"} /> */}
         <View style={styles.colContainerSm}>
           <View style={styles.colContainerXxs}>
             <View style={styles.rowContainerXsWrap}>
@@ -72,7 +73,7 @@ const CompletedRequest = ({ requestType, requestTimestamp, responseData }) => {
   return (
     <View style={styles.pendingRequest}>
       <View style={styles.rowContainerMed}>
-        <ProfilePic size={32} person={"Emily"} />
+        {/* <ProfilePic size={32} person={"Emily"} /> */}
         <View style={styles.colContainerXxs}>
           <View style={styles.rowContainerXsWrap}>
             <TextMedPrimary text={"Your"} />
@@ -124,12 +125,12 @@ const RequestResponse = (props) => {
   return (
     <View style={styles.colContainerMed}>
       <View style={styles.colContainerMed}>
-        <ProfileWithDegreeAndTimestamp
+        {/* <ProfileWithDegreeAndTimestamp
           personPic={personPic}
           name={name}
           degree={degree}
           timestamp={timestamp}
-        />
+        /> */}
       </View>
       <BusinessShortcut
         businessName={businessName}

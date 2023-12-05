@@ -34,7 +34,7 @@ const FriendsPendingRequest = ({
   return (
     <View style={styles.pendingRequest}>
       <View style={styles.rowContainerMed}>
-        <ProfilePic size={32} person={personPic} />
+        {/* <ProfilePic size={32} person={personPic} /> */}
         <View style={styles.colContainerSm}>
           <View style={styles.colContainerXxs}>
             <View style={styles.rowContainerLg}>
@@ -89,7 +89,7 @@ const FriendsCompletedRequest = ({
   return (
     <View style={styles.completedRequest}>
       <View style={styles.rowContainerMed}>
-        <ProfilePic size={32} person={personPic} />
+        {/* <ProfilePic size={32} person={personPic} /> */}
         <View style={styles.colContainerXxs}>
           <View style={styles.rowContainerLg}>
             <View style={styles.rowContainerXsWrap}>
