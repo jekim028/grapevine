@@ -32,8 +32,10 @@ export default function Page() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [isCategoryFilled, setIsCategoryFilled] = useState(false);
-  const [isRequestFilled, setIsRequestFilled] = useState(false);
+  const [isCategoryFilled, setIsCategoryFilled] = useState(true);
+  const [isRequestFilled, setIsRequestFilled] = useState(true);
+  const notify = () => toast("Here is your toast.");
+
 
   const ToggleButton = () => {
     const [isToggled, setIsToggled] = useState(false);
@@ -254,14 +256,17 @@ export default function Page() {
         <AnonymousSetter />
         <PrivacySetter />
         {(!isCategoryFilled || !isRequestFilled) && (
-          <View style={styles.greyedButton}>
+          <TouchableOpacity style={styles.greyedButton}>
             <TextMedInverted text={"Send"} />
-          </View>
+          </TouchableOpacity>
         )}
         {isCategoryFilled && isRequestFilled && (
-          <View style={styles.accentButton}>
+          <TouchableOpacity
+            style={styles.accentButton}
+            onPress={() => router.back()}
+          >
             <TextMedInverted text={"Send"} />
-          </View>
+          </TouchableOpacity>
         )}
       </View>
     );
@@ -269,6 +274,7 @@ export default function Page() {
 
   return (
     <SafeAreaView style={styles.container}>
+
       <View>
         <ScrollView
           style={{ paddingHorizontal: padding.med }}

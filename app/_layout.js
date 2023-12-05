@@ -2,6 +2,8 @@ import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
 import { AuthProvider, useAuth } from "../utils/AuthProvider";
 import { useFonts, LobsterTwo_400Regular } from "@expo-google-fonts/dev";
+import toast, { Toaster } from "react-hot-toast/src/core/use-toaster";
+
 // Makes sure the user is authenticated before accessing protected pages
 const InitialLayout = () => {
   let [fontsLoaded] = useFonts({
@@ -34,7 +36,9 @@ const InitialLayout = () => {
 const RootLayout = () => {
   return (
     <AuthProvider>
-      <InitialLayout />
+      <InitialLayout>
+        <Toaster />
+      </InitialLayout>
     </AuthProvider>
   );
 };
