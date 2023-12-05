@@ -69,8 +69,6 @@ const PendingRequestsSection = ({ data }) => {
     getPendingRequests();
   }, []);
 
-  console.log(pendingRequests);
-
   return (
     <View>
       <TextLgSecondaryBold text={"Your Pending Requests"} />
