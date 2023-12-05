@@ -35,14 +35,27 @@ export const OverlappingProfiles = ({ people }) => {
   );
 };
 
+function numberToStringWithEnding(number) {
+  if (number === 1) {
+    return "(1st)";
+  } else if (number === 2) {
+    return "(2nd)";
+  } else if (number === 3) {
+    return "(3rd)";
+  } else {
+    return "Invalid input"; // or any other error handling
+  }
+}
+
 export const ProfileWithDegreeAndTimestamp = ({ user, timestamp }) => {
+  degree = numberToStringWithEnding(user.degree);
   return (
     <View style={styles.rowContainerMed}>
-      <ProfilePic size={32} uri={user.avatar_url} hasBorder={false} />
-      <View style={styles.colContainerXxs}>
+      <ProfilePic size={40} uri={user.avatar_url} hasBorder={false} />
+      <View style={{ gap: 2 }}>
         <View style={styles.rowContainerSm}>
           <TextMedPrimaryBold text={user.first_name + " " + user.last_name} />
-          <TextMedSecondary text={user.degree} />
+          <TextMedSecondary text={degree} />
         </View>
         <TextSmSecondary text={timestamp} />
       </View>
@@ -63,10 +76,6 @@ const styles = StyleSheet.create({
   rowContainerMed: {
     flexDirection: "row",
     gap: padding.med,
-  },
-  colContainerXxs: {
-    flexDirection: "col",
-    gap: padding.xxs,
-    flexShrink: 1,
+    alignItems: "center",
   },
 });

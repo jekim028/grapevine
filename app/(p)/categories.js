@@ -8,14 +8,17 @@ import {
   TextInput,
   FlatList,
 } from "react-native";
-import { TextLgPrimary, TextSmPrimaryBold } from "../components/general/Text";
+import {
+  TextLgPrimary,
+  TextMedPrimaryBold,
+  TextSmPrimaryBold,
+} from "../components/general/Text";
 import { iconSize, padding, colors } from "../../styles/base";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { supabase } from "../../utils/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 const Category = ({ category }) => {
   const handleSelect = async () => {
     try {
@@ -27,9 +30,18 @@ const Category = ({ category }) => {
   };
 
   return (
-    <TouchableOpacity onPress={handleSelect}>
-      <Text>{category.category}</Text>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity
+        style={{
+          paddingVertical: 10,
+          backgroundColor: "white",
+          paddingHorizontal: padding.med,
+        }}
+        onPress={handleSelect}
+      >
+        <TextMedPrimaryBold text={category.category} />
+      </TouchableOpacity>
+    </>
   );
 };
 
@@ -46,20 +58,58 @@ const CategoryFilter = ({ searchQuery }) => {
   }, []);
 
   return (
-    <View>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => {
-          if (
-            !searchQuery ||
-            (searchQuery &&
-              item.category.toLowerCase().includes(searchQuery.toLowerCase()))
-          ) {
-            return <Category category={item} />;
-          }
-        }}
-        keyExtracter={(item) => item.id}
-      />
+    <View
+      style={{
+        paddingTop: padding.sm,
+      }}
+    >
+      {data.map((item) => {
+        if (
+          !searchQuery ||
+          (searchQuery &&
+            item.category.toLowerCase().includes(searchQuery.toLowerCase()))
+        ) {
+          return <Category category={item} key={item.id} />;
+        }
+      })}
+    </View>
+  );
+};
+
+const Header = () => {
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+        paddingVertical: padding.med,
+      }}
+    >
+      <TouchableOpacity onPress={() => router.back()}>
+        <Ionicons name="close" size={iconSize} color={colors.textPrimary} />
+      </TouchableOpacity>
+      <TextLgPrimary text={"Select a Business Category"} />
+      <Ionicons name="close" size={iconSize} color={"white"} />
+    </View>
+  );
+};
+
+const TopPinned = () => {
+  return (
+    <View style={{ paddingHorizontal: padding.med }}>
+      <Header />
+      <View style={styles.searchBox}>
+        <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
+        <TextInput
+          placeholder="E.g. Doctor, Nanny, Mechanic, etc."
+          clearButtonMode="always"
+          value={searchQuery}
+          onChangeText={(query) => handleSearch(query)}
+          style={styles.search}
+        />
+      </View>
     </View>
   );
 };
@@ -72,27 +122,34 @@ export default function Categories() {
   };
 
   return (
-    <SafeAreaView
-      style={[styles.container, { paddingHorizontal: padding.med }]}
-    >
-      <View style={styles.searchBox}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons
-            name="chevron-back"
-            size={iconSize}
-            color={colors.textPrimary}
-          />
-        </TouchableOpacity>
-        <TextInput
-          placeholder="E.g. Doctor, Nanny, Mechanic, etc."
-          clearButtonMode="always"
-          value={searchQuery}
-          onChangeText={(query) => handleSearch(query)}
-          style={styles.search}
-        />
+    <SafeAreaView style={[styles.container]}>
+      <View style={{ width: "100%" }}>
+        <View style={{ paddingHorizontal: padding.med }}>
+          <Header />
+          <View style={styles.searchBox}>
+            <Ionicons
+              name="search"
+              size={iconSize}
+              color={colors.textPrimary}
+            />
+            <TextInput
+              placeholder="E.g. Doctor, Nanny, Mechanic, etc."
+              clearButtonMode="always"
+              value={searchQuery}
+              onChangeText={(query) => handleSearch(query)}
+              style={styles.search}
+            />
+          </View>
+        </View>
+        <ScrollView
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <CategoryFilter searchQuery={searchQuery} />
+        </ScrollView>
       </View>
-
-      <CategoryFilter searchQuery={searchQuery} />
     </SafeAreaView>
   );
 }
