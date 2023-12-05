@@ -169,7 +169,7 @@ export default function ProfilePage() {
           <TextSmSecondaryBold text={title} />
         </View>
         {sectionBarData.map((item) => (
-          <Bar iconName={item.iconName} title={item.title} />
+          <Bar iconName={item.iconName} title={item.title} key={item.title} />
         ))}
         <View></View>
       </View>

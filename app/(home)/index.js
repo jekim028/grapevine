@@ -87,15 +87,11 @@ export default function Home() {
               onPress={() => router.push("/(pages)/profile")}
               style={{ paddingHorizontal: padding.sm }}
             >
-              {profile && profile.avatar_url ? (
-                <ProfilePic size={32} uri={profile.avatar_url} />
-              ) : (
-                <Ionicons
-                  name="person-outline"
-                  size={iconSize}
-                  color={colors.textPrimary}
-                />
-              )}
+              <Ionicons
+                name="person-outline"
+                size={iconSize}
+                color={colors.textPrimary}
+              />
             </TouchableOpacity>
           </View>
 
