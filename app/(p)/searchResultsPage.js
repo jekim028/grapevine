@@ -313,7 +313,6 @@ const styles = StyleSheet.create({
     padding: padding.sm,
     flexDirection: "row",
     borderRadius: padding.sm,
-    borderRadius: padding.sm,
     alignItems: "center",
     backgroundColor: colors.formBackground,
     width: "100%",

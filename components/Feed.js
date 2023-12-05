@@ -27,6 +27,25 @@ const PostImgs = ({ images }) => {
   );
 };
 
+const convertToMonthDayFormat = (isoDateString) => {
+  const dateCreated = new Date(isoDateString);
+  const currentDate = new Date();
+  const millisecondsInAnHour = 60 * 60 * 1000;
+  const millisecondsIn24Hours = 24 * millisecondsInAnHour;
+  const differenceInMilliseconds = currentDate - dateCreated;
+
+  if (differenceInMilliseconds < millisecondsIn24Hours) {
+    const numHours = differenceInMilliseconds / millisecondsInAnHour;
+    return `${numHours.toFixed(0)} hours`;
+  } else {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+    return formatter.format(dateCreated);
+  }
+};
+
 const FeedPost = ({ item }) => {
   const { business_id, message, created_at, photos, user_id, visibility } =
     item;
@@ -56,10 +75,11 @@ const FeedPost = ({ item }) => {
     fetchProfile();
   }, []);
 
+  const timestamp = convertToMonthDayFormat(created_at);
   return (
     <View style={styles.post}>
       <View style={styles.colContainerMed}>
-        <ProfileWithDegreeAndTimestamp user={profile} timestamp={created_at} />
+        <ProfileWithDegreeAndTimestamp user={profile} timestamp={timestamp} />
         <TextMedPrimary text={message} />
       </View>
       {photos && <PostImgs images={images} />}
