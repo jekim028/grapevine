@@ -13,6 +13,7 @@ import {
 import { BusinessShortcut } from "../businessProfiles/BusinessShortcut";
 import { InvertedButton, AccentButton } from "../general/Button";
 import { PartialLine } from "../general/Line";
+import { useAuth } from "../../../utils/AuthProvider";
 
 const RequestButtons = ({ text1, text2 }) => {
   return (
@@ -24,10 +25,12 @@ const RequestButtons = ({ text1, text2 }) => {
 };
 
 const PendingRequest = ({ requestType, timestamp, requestText }) => {
+  const { profile } = useAuth();
+
   return (
     <View style={styles.pendingRequest}>
       <View style={styles.rowContainerMed}>
-        {/* <ProfilePic size={32} person={"Emily"} /> */}
+        <ProfilePic size={32} uri={profile.avatar_url} />
         <View style={styles.colContainerSm}>
           <View style={styles.colContainerXxs}>
             <View style={styles.rowContainerXsWrap}>
@@ -65,6 +68,7 @@ const PendingRequestsSection = ({ data }) => {
 };
 
 const CompletedRequest = ({ requestType, requestTimestamp, responseData }) => {
+  const { profile } = useAuth();
   const [isShowingAllResponses, setIsShowingAllResponses] = useState(false);
   const toggleShow = () => {
     setIsShowingAllResponses((prevState) => !prevState);
@@ -73,7 +77,7 @@ const CompletedRequest = ({ requestType, requestTimestamp, responseData }) => {
   return (
     <View style={styles.pendingRequest}>
       <View style={styles.rowContainerMed}>
-        {/* <ProfilePic size={32} person={"Emily"} /> */}
+        <ProfilePic size={32} uri={profile.avatar_url} />
         <View style={styles.colContainerXxs}>
           <View style={styles.rowContainerXsWrap}>
             <TextMedPrimary text={"Your"} />

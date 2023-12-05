@@ -46,15 +46,17 @@ const FeedPost = ({ item }) => {
   }, []);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const response = await supabase
-        .from("profiles")
-        .select()
-        .eq("id", user_id);
-      setProfile(response.data[0]);
-    };
-    fetchProfile();
-  }, []);
+    if (user_id) {
+      const fetchProfile = async () => {
+        const response = await supabase
+          .from("profiles")
+          .select()
+          .eq("id", user_id);
+        setProfile(response.data[0]);
+      };
+      fetchProfile();
+    }
+  }, [user_id]);
 
   return (
     <View style={styles.post}>

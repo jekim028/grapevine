@@ -39,7 +39,7 @@ export default function Page() {
   const [isRequestFilled, setIsRequestFilled] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [message, setMessage] = useState(null);
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
 
   const ToggleButton = () => {
     const handleToggle = () => {
