@@ -30,6 +30,7 @@ import {
   TextLgPrimaryBold,
 } from "../../../components/general/Text";
 import { router } from "expo-router";
+
 export default function ProfilePage() {
   const { user, signOut } = useAuth();
   const [profile, setProfile] = useState([]);

@@ -58,7 +58,7 @@ export default function Search() {
         </View>
 
         {/* Search Results */}
-        <SearchFilter searchQuery={searchQuery} />
+        <SearchFilter searchQuery={searchQuery} isRegSearch={true} />
       </View>
     </SafeAreaView>
   );
