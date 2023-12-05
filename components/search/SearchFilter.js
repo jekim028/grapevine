@@ -40,7 +40,6 @@ const SearchFilter = ({ searchQuery, isRegSearch }) => {
         console.log("Debouncing error:", error);
       }
       setData(data);
-      console.log(data);
     }, 300),
     []
   );
@@ -76,8 +75,12 @@ const SearchFilter = ({ searchQuery, isRegSearch }) => {
               <TouchableOpacity
                 onPress={() =>
                   router.push({
-                    pathname: "/(p)/leaveRecSearch",
-                    params: { business_id: item.id },
+                    pathname: "/(p)/leaveRecPage",
+                    params: {
+                      business_id: item.id,
+                      category: item.type,
+                      business_name: item.name,
+                    },
                   })
                 }
               >
