@@ -17,25 +17,17 @@ import debounce from "lodash/debounce";
 
 const SearchResult = ({ business }) => {
   return (
-    <TouchableOpacity
-      onPress={() =>
-        router.push({
-          pathname: "/(p)/businessProfilePage",
-          params: { business_id: business.id },
-        })
-      }
-      style={styles.resultCell}
-    >
+    <View style={styles.resultCell}>
       <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
       <View>
         <TextSmPrimary text={business.name} />
         <TextXsSecondary text={business.address} />
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
-const SearchFilter = ({ searchQuery }) => {
+const SearchFilter = ({ searchQuery, isRegSearch }) => {
   const [data, setData] = useState([]);
 
   const debouncedFetchData = useCallback(
@@ -66,11 +58,32 @@ const SearchFilter = ({ searchQuery }) => {
       <FlatList
         data={data}
         renderItem={({ item }) => {
-          if (
-            searchQuery &&
-            item.name.toLowerCase().includes(searchQuery.toLowerCase())
-          ) {
-            return <SearchResult business={item} />;
+          if (isRegSearch) {
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  router.push({
+                    pathname: "/(p)/businessProfilePage",
+                    params: { business_id: item.id },
+                  })
+                }
+              >
+                <SearchResult business={item} />
+              </TouchableOpacity>
+            );
+          } else {
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  router.push({
+                    pathname: "/(p)/leaveRecSearch",
+                    params: { business_id: item.id },
+                  })
+                }
+              >
+                <SearchResult business={item} />
+              </TouchableOpacity>
+            );
           }
         }}
         keyExtractor={(item, index) => index.toString()}

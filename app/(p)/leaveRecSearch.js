@@ -26,13 +26,6 @@ export default function leaveRecSearch() {
     setSearchQuery(query);
   };
 
-  const handleSubmit = (query) => {
-    router.push({
-      pathname: "/(p)/searchResultsPage",
-      params: { query },
-    });
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.page}>
@@ -51,24 +44,12 @@ export default function leaveRecSearch() {
             value={searchQuery}
             style={styles.search}
             onChangeText={(query) => handleSearch(query)}
-            onSubmitEditing={(event) => {
-              // Extract the query text from the event object
-              const query = event.nativeEvent.text;
-
-              // Use router.push directly with the extracted query
-              router.push({
-                pathname: "/(p)/searchResultsPage",
-                params: { query },
-              });
-            }}
+            onSubmitEditing={() => {}}
           />
         </View>
 
         {/* Search Results */}
-        <SearchFilter
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
+        <SearchFilter searchQuery={searchQuery} isRegSearch={false} />
       </View>
     </SafeAreaView>
   );
