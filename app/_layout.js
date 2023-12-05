@@ -1,8 +1,39 @@
 import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
+import { View, StyleSheet } from "react-native";
 import { AuthProvider, useAuth } from "../utils/AuthProvider";
 import { useFonts, LobsterTwo_400Regular } from "@expo-google-fonts/dev";
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
+import { colors } from "../styles/colors";
+import { padding } from "../styles/spacing";
+import { iconSize } from "../styles/base";
+import { TextMedInvertedBold } from "../components/general/Text";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Dimensions } from "react-native";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 // Makes sure the user is authenticated before accessing protected pages
+
+const toastConfig = {
+  success: ({ props }) => (
+    <View style={[styles.notification, { backgroundColor: colors.green }]}>
+      <Ionicons name="checkmark" size={iconSize} color={colors.textInverted} />
+      <TextMedInvertedBold text={props.text} />
+    </View>
+  ),
+  failed: ({ props }) => (
+    <View style={[styles.notification, { backgroundColor: colors.red }]}>
+      <Ionicons
+        name="alert-circle"
+        size={iconSize}
+        color={colors.textInverted}
+      />
+      <TextMedInvertedBold text={props.text} />
+    </View>
+  ),
+};
+
 const InitialLayout = () => {
   let [fontsLoaded] = useFonts({
     LobsterTwo_400Regular,
@@ -33,10 +64,25 @@ const InitialLayout = () => {
 // Wrap the app with the AuthProvider
 const RootLayout = () => {
   return (
-    <AuthProvider>
-      <InitialLayout />
-    </AuthProvider>
+    <>
+      <AuthProvider>
+        <InitialLayout />
+      </AuthProvider>
+      <Toast config={toastConfig} />
+    </>
   );
 };
 
 export default RootLayout;
+
+const styles = StyleSheet.create({
+  notification: {
+    width: windowWidth - padding.med * 2,
+    flexDirection: "row",
+    paddingVertical: padding.sm,
+    paddingHorizontal: padding.med,
+    borderRadius: padding.sm,
+    alignItems: "center",
+    gap: padding.sm,
+  },
+});

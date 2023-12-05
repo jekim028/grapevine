@@ -7,7 +7,6 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
-  Animated,
 } from "react-native";
 import { useEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -20,17 +19,24 @@ import {
   TextMedSecondary,
   TextMedAccentBold,
   TextMedPrimaryBold,
-  TextMedInvertedBold,
   TextMedInverted,
   TextMedPrimary,
 } from "../../components/general/Text";
-import { FullLine, PaddedLine } from "../../components/general/Line";
+import { FullLine } from "../../components/general/Line";
 import { iconSize } from "../../styles/base";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/core";
 import { useAuth } from "../../utils/AuthProvider";
 import { supabase } from "../../utils/supabase";
+import Toast from "react-native-toast-message";
+
+function showSuccessToast(text) {
+  Toast.show({
+    type: "success",
+    props: { text: text },
+  });
+}
 
 export default function Page() {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -70,12 +76,12 @@ export default function Page() {
         }}
       >
         <TouchableOpacity onPress={onClose}>
-          <Ionicons name="close" size={24} color={colors.textPrimary} />
+          <Ionicons name="close" size={iconSize} color={colors.textPrimary} />
         </TouchableOpacity>
         <View style={{ alignItems: "center" }}>
           <TextMedPrimaryBold text={"Who can see this?"} />
         </View>
-        <Ionicons name="close" size={24} color={"white"} />
+        <Ionicons name="close" size={iconSize} color={"white"} />
       </View>
     );
   };
@@ -287,6 +293,7 @@ export default function Page() {
     console.log("error:", error);
 
     router.replace("/(home)/inbox");
+    showSuccessToast("Request sent");
   };
 
   const BottomPinned = () => {
@@ -403,9 +410,8 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    width: "100%", // Set modal width to 80% of the screen width
+    width: "100%",
     paddingBottom: 40,
-    // gap: padding.med,
     borderRadius: 20,
     backgroundColor: "white",
     alignItems: "center",

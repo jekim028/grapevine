@@ -1,30 +1,41 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useState } from "react";
 import { padding } from "../../styles/spacing";
 import { colors } from "../../styles/colors";
-import { ProfilePic, ProfileWithDegreeAndTimestamp } from "../general/Profiles";
 import {
   TextLgSecondaryBold,
   TextMedPrimary,
   TextMedPrimaryBold,
   TextSmSecondary,
-  TextSmSecondaryBold,
 } from "../general/Text";
-import { BusinessShortcut } from "../businessProfiles/BusinessShortcut";
 import { InvertedButton, AccentButton } from "../general/Button";
-import { PartialLine } from "../general/Line";
+import Toast from "react-native-toast-message";
 
+function showSuccessToast(text) {
+  Toast.show({
+    type: "success",
+    props: { text: text },
+  });
+}
 const RequestButtons = ({ text1, text2 }) => {
   return (
     <View style={styles.rowContainerMed}>
-      <InvertedButton text={text1} />
-      <AccentButton text={text2} />
+      <TouchableOpacity
+        onPress={() => showSuccessToast("Request Cancelled")}
+        style={{ flex: 1 }}
+      >
+        <InvertedButton text={text1} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => showSuccessToast("Request Resent")}
+        style={{ flex: 1 }}
+      >
+        <AccentButton text={text2} />
+      </TouchableOpacity>
     </View>
   );
 };
 
 const FriendsPendingRequest = ({
-  personPic,
   name,
   degree,
   requestType,
@@ -34,7 +45,6 @@ const FriendsPendingRequest = ({
   return (
     <View style={styles.pendingRequest}>
       <View style={styles.rowContainerMed}>
-        {/* <ProfilePic size={32} person={personPic} /> */}
         <View style={styles.colContainerSm}>
           <View style={styles.colContainerXxs}>
             <View style={styles.rowContainerLg}>
@@ -48,8 +58,6 @@ const FriendsPendingRequest = ({
 
             <TextSmSecondary text={timestamp} />
           </View>
-
-          {/* // lowkey need to fix this wrapping!! */}
           <Text style={{ flexWrap: "wrap" }}>{requestText}</Text>
         </View>
       </View>
@@ -79,17 +87,10 @@ const FriendsPendingRequestsSection = ({ data }) => {
   );
 };
 
-const FriendsCompletedRequest = ({
-  personPic,
-  name,
-  degree,
-  requestType,
-  timestamp,
-}) => {
+const FriendsCompletedRequest = ({ name, degree, requestType, timestamp }) => {
   return (
     <View style={styles.completedRequest}>
       <View style={styles.rowContainerMed}>
-        {/* <ProfilePic size={32} person={personPic} /> */}
         <View style={styles.colContainerXxs}>
           <View style={styles.rowContainerLg}>
             <View style={styles.rowContainerXsWrap}>
@@ -187,7 +188,14 @@ const styles = StyleSheet.create({
     gap: padding.med,
     flexShrink: 1,
     alignItems: "start",
+  },
+  requestButtonsContainer: {
+    flexDirection: "row",
+    gap: padding.med,
     flexShrink: 1,
+    alignItems: "center",
+    flexShrink: 1,
+    width: "100%",
   },
   colContainerSm: {
     flexDirection: "col",

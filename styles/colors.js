@@ -7,4 +7,6 @@ export const colors = {
   textSecondary: "#828385",
   formBackground: "#ECECEE",
   gray: "#D9D9D9",
+  green: "#07B24B",
+  red: "#E12F4C",
 };

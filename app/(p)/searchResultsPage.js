@@ -62,13 +62,13 @@ const BusinessDetails = ({
               <Title3PrimaryBold text={businessName} />
               <Ionicons
                 name={"bookmark-outline"}
-                size={24}
+                size={iconSize}
                 color={colors.textPrimary}
               />
             </View>
             <BusinessActionLine
               iconName={"location"}
-              iconSize={16}
+              iconSize={iconSize}
               iconColor={colors.grapevine}
               text={address}
             />

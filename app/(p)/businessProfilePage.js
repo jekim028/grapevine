@@ -21,6 +21,7 @@ import {
 } from "../../components/general/Text";
 import { colors } from "../../styles/colors";
 import { padding } from "../../styles/spacing";
+import { iconSize } from "../../styles/base";
 
 import {
   ProfilePic,
@@ -81,12 +82,16 @@ const Header = () => {
   return (
     <View style={styles.headerBar}>
       <TouchableOpacity onPress={() => router.back()}>
-        <Ionicons name={"chevron-back"} size={24} color={colors.textPrimary} />
+        <Ionicons
+          name={"chevron-back"}
+          size={iconSize}
+          color={colors.textPrimary}
+        />
       </TouchableOpacity>
       <View style={styles.headerButton}>
         <Ionicons
           name={"bookmark-outline"}
-          size={24}
+          size={iconSize}
           color={colors.textPrimary}
         />
       </View>
