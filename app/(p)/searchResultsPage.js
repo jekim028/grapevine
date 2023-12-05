@@ -23,7 +23,6 @@ import { BusinessActionLine } from "../components/businessProfiles/BusinessActio
 import { RecommendersDetails } from "../components/businessProfiles/RecommendersDetails";
 import { FullLine } from "../components/general/Line";
 import { iconSize, borderRadius, fonts } from "../../styles/base";
-import { bizdata } from "../../lib/data";
 import { useState } from "react";
 import { supabase } from "../../utils/supabase";
 import { useEffect } from "react";
