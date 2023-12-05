@@ -1,8 +1,8 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { View, StyleSheet } from "react-native";
 import { TextSmSecondary, TextMedPrimaryBold } from "../general/Text";
-import { padding } from "../../../styles/spacing";
-import { colors } from "../../../styles/colors";
+import { padding } from "../../styles/spacing";
+import { colors } from "../../styles/colors";
 
 export const BusinessShortcut = ({
   businessName,

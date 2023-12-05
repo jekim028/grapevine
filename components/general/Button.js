@@ -5,7 +5,7 @@ import {
   TextMedInvertedBold,
   TextMedPrimary,
 } from "./Text";
-import { colors } from "../../../styles/colors";
+import { colors } from "../../styles/colors";
 
 export const AccentButton = ({ text }) => {
   return (

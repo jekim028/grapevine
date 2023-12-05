@@ -17,10 +17,10 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { router } from "expo-router";
-import Feed from "../../components/Feed";
-import { PaddedLine } from "../components/general/Line";
-import { Title2Primary } from "../components/general/Text";
-import { ProfilePic } from "../components/general/Profiles";
+import Feed from "../../components/general/Feed";
+import { PaddedLine } from "../../components/general/Line";
+import { Title2Primary } from "../../components/general/Text";
+import { ProfilePic } from "../../components/general/Profiles";
 import { useAuth } from "../../utils/AuthProvider";
 
 const CategoryIconBox = ({ iconName, category }) => {

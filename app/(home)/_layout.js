@@ -10,8 +10,8 @@ import {
 import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, iconSize, padding } from "../../styles/base";
-import { TextMedPrimaryBold } from "../components/general/Text";
-import { AccentButton } from "../components/general/Button";
+import { TextMedPrimaryBold } from "../../components/general/Text";
+import { AccentButton } from "../../components/general/Button";
 import { router } from "expo-router";
 export default function HomeLayout() {
   const [isModalVisible, setModalVisible] = useState(false);

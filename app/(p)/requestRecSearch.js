@@ -23,8 +23,8 @@ import {
   TextMedInvertedBold,
   TextMedInverted,
   TextMedPrimary,
-} from "../components/general/Text";
-import { FullLine, PaddedLine } from "../components/general/Line";
+} from "../../components/general/Text";
+import { FullLine, PaddedLine } from "../../components/general/Line";
 import { iconSize } from "../../styles/base";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";

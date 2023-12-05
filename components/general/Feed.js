@@ -1,17 +1,17 @@
 import { View, StyleSheet, Image } from "react-native";
-import { ProfileWithDegreeAndTimestamp } from "../app/components/general/Profiles";
+import { ProfileWithDegreeAndTimestamp } from "./Profiles";
 import {
   Title3PrimaryBold,
   TextMedPrimary,
   TextMedPrimaryBold,
   TextSmSecondary,
-} from "../app/components/general/Text";
-import { BusinessShortcut } from "../app/components/businessProfiles/BusinessShortcut";
-import { padding } from "../styles/spacing";
-import { colors } from "../styles/colors";
-import * as FeedImgs from "../assets/imgs/feedImgs";
+} from "./Text";
+import { BusinessShortcut } from "../businessProfiles/BusinessShortcut";
+import { padding } from "../../styles/spacing";
+import { colors } from "../../styles/colors";
+import * as FeedImgs from "../../assets/imgs/feedImgs";
 import { useState, useEffect } from "react";
-import { supabase } from "../utils/supabase";
+import { supabase } from "../../utils/supabase";
 
 const PostImgs = ({ images }) => {
   return (

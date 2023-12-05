@@ -1,7 +1,7 @@
 import { View, Image } from "react-native";
 import { Title2Primary } from "./Text";
-import { padding } from "../../../styles/spacing";
-import { colors } from "../../../styles/colors";
+import { padding } from "../../styles/spacing";
+import { colors } from "../../styles/colors";
 
 export const HeaderLogo = () => {
   return (

@@ -16,9 +16,9 @@ import {
   TextMedSecondary,
   TextMedSecondaryBold,
   TextSmSecondaryBold,
-} from "../../components/general/Text";
+} from "../../../components/general/Text";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import ImageItem from "../../../components/ImageItem";
+import ImageItem from "../../../components/general/ImageItem";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { decode } from "base64-arraybuffer";
@@ -28,7 +28,7 @@ import { colors } from "../../../styles/colors";
 import {
   TextLgPrimary,
   TextLgPrimaryBold,
-} from "../../components/general/Text";
+} from "../../../components/general/Text";
 import { router } from "expo-router";
 export default function ProfilePage() {
   const { user, signOut } = useAuth();

@@ -14,14 +14,14 @@ import {
   TextMedPrimary,
   TextMedPrimaryBold,
   Title3PrimaryBold,
-} from "../components/general/Text";
-import { AccentButton, InvertedButton } from "../components/general/Button";
+} from "../../components/general/Text";
+import { AccentButton, InvertedButton } from "../../components/general/Button";
 import { colors } from "../../styles/colors";
 import { padding } from "../../styles/spacing";
-import { ImageScroll } from "../components/general/ImageScroll";
-import { BusinessActionLine } from "../components/businessProfiles/BusinessActionLine";
-import { RecommendersDetails } from "../components/businessProfiles/RecommendersDetails";
-import { FullLine } from "../components/general/Line";
+import { ImageScroll } from "../../components/general/ImageScroll";
+import { BusinessActionLine } from "../../components/businessProfiles/BusinessActionLine";
+import { RecommendersDetails } from "../../components/businessProfiles/RecommendersDetails";
+import { FullLine } from "../../components/general/Line";
 import { iconSize, borderRadius, fonts } from "../../styles/base";
 import { useState } from "react";
 import { supabase } from "../../utils/supabase";

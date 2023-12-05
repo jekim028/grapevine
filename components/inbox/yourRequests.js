@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
-import { padding } from "../../../styles/spacing";
-import { colors } from "../../../styles/colors";
+import { padding } from "../../styles/spacing";
+import { colors } from "../../styles/colors";
 import { ProfilePic, ProfileWithDegreeAndTimestamp } from "../general/Profiles";
 import {
   TextLgSecondaryBold,
@@ -13,8 +13,8 @@ import {
 import { BusinessShortcut } from "../businessProfiles/BusinessShortcut";
 import { InvertedButton, AccentButton } from "../general/Button";
 import { PartialLine } from "../general/Line";
-import { useAuth } from "../../../utils/AuthProvider";
-import { supabase } from "../../../utils/supabase";
+import { useAuth } from "../../utils/AuthProvider";
+import { supabase } from "../../utils/supabase";
 
 const RequestButtons = ({ text1, text2 }) => {
   return (

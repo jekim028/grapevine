@@ -1,5 +1,5 @@
 import { View, Image, StyleSheet } from "react-native";
-import { padding } from "../../../styles/spacing";
+import { padding } from "../../styles/spacing";
 import { TextMedPrimaryBold, TextMedSecondary, TextSmSecondary } from "./Text";
 
 export const ProfilePic = ({ size, uri, hasBorder, borderColor }) => {

@@ -12,7 +12,7 @@ import {
   TextLgPrimary,
   TextMedPrimaryBold,
   TextSmPrimaryBold,
-} from "../components/general/Text";
+} from "../../components/general/Text";
 import { iconSize, padding, colors } from "../../styles/base";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";

@@ -1,9 +1,9 @@
 import { Image, View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { supabase } from "../utils/supabase";
+import { supabase } from "../../utils/supabase";
 import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { padding } from "../styles/spacing";
-import { colors } from "../styles/colors";
+import { padding } from "../../styles/spacing";
+import { colors } from "../../styles/colors";
 // Image item component that displays the image from Supabase Storage and a delte button
 const ImageItem = ({ item, userId, onRemoveImage, hasImageSetter }) => {
   const [image, setImage] = useState("");

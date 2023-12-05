@@ -14,7 +14,7 @@ import {
   borderRadius,
   fonts,
 } from "../../styles/base";
-import SearchFilter from "../../components/SearchFilter";
+import SearchFilter from "../../components/search/SearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 

@@ -1,7 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { View, StyleSheet } from "react-native";
 import { TextXsSecondary, TextXsSecondaryUnderline } from "../general/Text";
-import { padding } from "../../../styles/spacing";
+import { padding } from "../../styles/spacing";
 
 export const BusinessActionLine = ({ iconName, iconSize, iconColor, text }) => {
   return (

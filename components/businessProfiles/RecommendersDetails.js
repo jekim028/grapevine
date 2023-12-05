@@ -1,8 +1,8 @@
 import { View, StyleSheet, Text } from "react-native";
 import { OverlappingProfiles } from "../general/Profiles";
-import { padding } from "../../../styles/spacing";
+import { padding } from "../../styles/spacing";
 import { useState, useEffect } from "react";
-import { supabase } from "../../../utils/supabase";
+import { supabase } from "../../utils/supabase";
 
 export const RecommendersDetails = ({ people, num_recs }) => {
   const [profiles, setProfiles] = useState([]);

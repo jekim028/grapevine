@@ -14,10 +14,10 @@ import {
   borderRadius,
   fonts,
 } from "../../styles/base";
-import SearchFilter from "../../components/SearchFilter";
+import SearchFilter from "../../components/search/SearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
-import { TextSmPrimary } from "../components/general/Text";
+import { TextSmPrimary } from "../../components/general/Text";
 
 export default function leaveRecSearch() {
   const [searchQuery, setSearchQuery] = useState("");

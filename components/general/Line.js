@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
-import { colors } from "../../../styles/colors";
-import { padding } from "../../../styles/spacing";
+import { colors } from "../../styles/colors";
+import { padding } from "../../styles/spacing";
 export const PaddedLine = () => {
   return (
     <View style={styles.paddedLineContainer}>

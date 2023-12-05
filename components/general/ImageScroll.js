@@ -1,7 +1,7 @@
 import { View, ScrollView, Image, StyleSheet } from "react-native";
-import { padding } from "../../../styles/spacing";
+import { padding } from "../../styles/spacing";
 import { Dimensions } from "react-native";
-import * as MechPics from "../../../assets/imgs/mechanics";
+import * as MechPics from "../../assets/imgs/mechanics";
 const windowWidth = Dimensions.get("window").width;
 
 export const ImageScroll = ({ images, height }) => {

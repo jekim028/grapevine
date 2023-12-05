@@ -13,10 +13,10 @@ import {
   Title2Primary,
   TextMedSecondaryBold,
   TextMedPrimaryBold,
-} from "../components/general/Text";
+} from "../../components/general/Text";
 
-import { YourRequestsSection } from "../components/inbox/yourRequests";
-import { FriendsRequestsSection } from "../components/inbox/friendsRequests";
+import { YourRequestsSection } from "../../components/inbox/yourRequests";
+import { FriendsRequestsSection } from "../../components/inbox/friendsRequests";
 import {
   yourCompletedRequestsData,
   yourPendingRequestsData,

@@ -22,7 +22,7 @@ import {
   TextSmPrimary,
   TextMedPrimary,
   TextMedSecondary,
-} from "./components/general/Text";
+} from "../components/general/Text";
 import { padding } from "../styles/spacing";
 import { colors } from "../styles/colors";
 const Login = () => {

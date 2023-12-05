@@ -8,7 +8,13 @@ import {
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
-import { iconSize, colors, borderRadius, padding, fonts } from "../styles/base";
+import {
+  iconSize,
+  colors,
+  borderRadius,
+  padding,
+  fonts,
+} from "../../styles/base";
 import { useState } from "react";
 
 const SearchBar = () => {

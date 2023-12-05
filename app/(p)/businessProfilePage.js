@@ -18,19 +18,19 @@ import {
   TextMedPrimaryBold,
   TextLgPrimaryBold,
   Title3PrimaryBold,
-} from "../components/general/Text";
+} from "../../components/general/Text";
 import { colors } from "../../styles/colors";
 import { padding } from "../../styles/spacing";
 
 import {
   ProfilePic,
   OverlappingProfiles,
-} from "../components/general/Profiles";
+} from "../../components/general/Profiles";
 
-import { BusinessActionLine } from "../components/businessProfiles/BusinessActionLine";
-import { RecommendersDetails } from "../components/businessProfiles/RecommendersDetails";
-import { Pill } from "../components/general/Pill";
-import { PaddedLine } from "../components/general/Line";
+import { BusinessActionLine } from "../../components/businessProfiles/BusinessActionLine";
+import { RecommendersDetails } from "../../components/businessProfiles/RecommendersDetails";
+import { Pill } from "../../components/general/Pill";
+import { PaddedLine } from "../../components/general/Line";
 import { Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useState, useEffect } from "react";

@@ -5,14 +5,14 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { colors, fonts } from "../styles/base";
-import { businesses, bizdata } from "../lib/data";
+import { colors, fonts } from "../../styles/base";
+import { businesses, bizdata } from "../../lib/data";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { iconSize, padding } from "../styles/base";
+import { iconSize, padding } from "../../styles/base";
 import { router } from "expo-router";
-import { TextSmPrimary, TextXsSecondary } from "../app/components/general/Text";
+import { TextSmPrimary, TextXsSecondary } from "../general/Text";
 import { useState, useEffect } from "react";
-import { supabase } from "../utils/supabase";
+import { supabase } from "../../utils/supabase";
 
 const SearchResult = ({ business }) => {
   return (
