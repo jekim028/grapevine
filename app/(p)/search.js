@@ -6,7 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
   iconSize,
   colors,
@@ -17,6 +17,7 @@ import {
 import SearchFilter from "../../components/search/SearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
+import debounce from "lodash/debounce";
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");

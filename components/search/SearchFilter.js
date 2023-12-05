@@ -11,8 +11,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { iconSize, padding } from "../../styles/base";
 import { router } from "expo-router";
 import { TextSmPrimary, TextXsSecondary } from "../general/Text";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../../utils/supabase";
+import debounce from "lodash/debounce";
 
 const SearchResult = ({ business }) => {
   return (
@@ -37,12 +38,28 @@ const SearchResult = ({ business }) => {
 const SearchFilter = ({ searchQuery }) => {
   const [data, setData] = useState([]);
 
-  const getBusinesses = async () => {
-    const { data, error } = await supabase.from("businesses").select("*");
-    setData(data);
-  };
+  const debouncedFetchData = useCallback(
+    debounce(async (query) => {
+      const { data, error } = await supabase
+        .from("businesses")
+        .select("name, type, address, id")
+        .ilike("name", `%${query}%`);
+      if (error) {
+        console.log("Debouncing error:", error);
+      }
+      setData(data);
+      console.log(data);
+    }, 300),
+    []
+  );
 
-  getBusinesses();
+  useEffect(() => {
+    if (searchQuery) {
+      debouncedFetchData(searchQuery);
+    } else {
+      setData([]);
+    }
+  }, [searchQuery, debouncedFetchData]);
 
   return (
     <View>

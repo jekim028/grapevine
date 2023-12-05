@@ -142,15 +142,12 @@ const AllResults = ({ searchQuery }) => {
         const { data, error } = await supabase
           .from("businesses")
           .select()
-          .textSearch("name", searchQuery);
+          .ilike("name", `%${searchQuery}%`);
 
         if (error) {
           throw error;
         }
-
-        if (data) {
-          setData(data);
-        }
+        setData(data);
       } catch (error) {
         console.error("Error getting businesses:", error);
       } finally {
