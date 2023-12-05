@@ -9,7 +9,7 @@ import {
   Modal,
   Animated,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "../../styles/colors";
 import { padding } from "../../styles/spacing";
@@ -27,25 +27,29 @@ import {
 import { FullLine, PaddedLine } from "../components/general/Line";
 import { iconSize } from "../../styles/base";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/core";
+import { useAuth } from "../../utils/AuthProvider";
+import { supabase } from "../../utils/supabase";
 
 export default function Page() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [isCategoryFilled, setIsCategoryFilled] = useState(false);
   const [isRequestFilled, setIsRequestFilled] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [message, setMessage] = useState(null);
+  const { user, signOut } = useAuth();
 
   const ToggleButton = () => {
-    const [isToggled, setIsToggled] = useState(false);
-
     const handleToggle = () => {
-      setIsToggled(!isToggled);
+      setIsAnonymous(!isAnonymous);
     };
 
     return (
       <View style={styles.toggleButton}>
         <TouchableOpacity
-          style={isToggled ? styles.buttonOn : styles.buttonOff}
+          style={isAnonymous ? styles.buttonOn : styles.buttonOff}
           onPress={handleToggle}
         >
           <View style={styles.dot} />
@@ -200,7 +204,7 @@ export default function Page() {
           paddingVertical: padding.med,
         }}
       >
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity onPress={() => clearSelectedCategory()}>
           <Ionicons name="close" size={iconSize} color={colors.textPrimary} />
         </TouchableOpacity>
         <TextLgPrimary text={"Request a Recommendation"} />
@@ -209,7 +213,35 @@ export default function Page() {
     );
   };
 
+  const clearSelectedCategory = async () => {
+    try {
+      await AsyncStorage.removeItem("@selectedCategory");
+      router.back();
+    } catch (e) {
+      console.log("Error removing category from async storage:", e);
+    }
+  };
+
   const CategorySearch = () => {
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+      if (isFocused) {
+        const getSelectedCategory = async () => {
+          try {
+            const category = await AsyncStorage.getItem("@selectedCategory");
+            if (category !== null) {
+              setSelectedCategory(category);
+            }
+          } catch (e) {
+            console.log("Error reading category value:", e);
+          }
+        };
+
+        getSelectedCategory();
+      }
+    }, [isFocused]);
+
     return (
       <View style={{ gap: padding.xs, paddingVertical: padding.med }}>
         <TextSmPrimaryBold text={"Category"} />
@@ -223,7 +255,8 @@ export default function Page() {
           </TouchableOpacity>
           <TextInput
             placeholder="E.g. Doctor, Nanny, Mechanic, etc."
-            clearButtonMode="always"
+            clearButtonMode="never"
+            value={selectedCategory ? selectedCategory : ""}
             style={styles.search}
           />
           <Ionicons
@@ -248,23 +281,51 @@ export default function Page() {
     );
   };
 
+  const handleSubmit = async () => {
+    console.log(user.id);
+    const { data, error } = await supabase
+      .from("requests")
+      .insert({
+        user_id: user.id,
+        message: message,
+        category: selectedCategory,
+        isAnonymous: isAnonymous,
+        isPublic: isPublic,
+      })
+      .select();
+
+    console.log("data:", data);
+    console.log("error:", error);
+
+    router.replace("/(home)/inbox");
+  };
+
   const BottomPinned = () => {
     return (
       <View style={{ gap: padding.med, paddingVertical: padding.lg }}>
         <AnonymousSetter />
         <PrivacySetter />
-        {(!isCategoryFilled || !isRequestFilled) && (
+        {(!selectedCategory || !isRequestFilled) && (
           <View style={styles.greyedButton}>
             <TextMedInverted text={"Send"} />
           </View>
         )}
-        {isCategoryFilled && isRequestFilled && (
-          <View style={styles.accentButton}>
+        {selectedCategory && isRequestFilled && (
+          <TouchableOpacity onPress={handleSubmit} style={styles.accentButton}>
             <TextMedInverted text={"Send"} />
-          </View>
+          </TouchableOpacity>
         )}
       </View>
     );
+  };
+
+  const handleMessageChange = (text) => {
+    setMessage(text);
+    if (text) {
+      setIsRequestFilled(true);
+    } else {
+      setIsRequestFilled(false);
+    }
   };
 
   return (
@@ -279,12 +340,16 @@ export default function Page() {
         >
           <View>
             <Header />
-            <CategorySearch />
+            <TouchableOpacity onPress={() => router.push("/(p)/categories")}>
+              <CategorySearch />
+            </TouchableOpacity>
             <RequestPrompt />
             <TextInput
               placeholder="Include the details of your request here "
               clearButtonMode="always"
               style={styles.search}
+              value={message}
+              onChangeText={(text) => handleMessageChange(text)}
               multiline={true}
               numberOfLines={10}
             />
