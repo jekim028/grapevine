@@ -1,6 +1,5 @@
-import { feedData } from "../lib/feed-data";
-import { FlatList, View, Text, StyleSheet, Image } from "react-native";
-import { ProfileWithDegreeAndTimestamp } from "../app/components/general/ProfileWithDegree";
+import { View, StyleSheet, Image } from "react-native";
+import { ProfileWithDegreeAndTimestamp } from "../app/components/general/Profiles";
 import {
   Title3PrimaryBold,
   TextMedPrimary,
@@ -8,8 +7,6 @@ import {
   TextSmSecondary,
 } from "../app/components/general/Text";
 import { BusinessShortcut } from "../app/components/businessProfiles/BusinessShortcut";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { FullLine } from "../app/components/general/Line";
 import { padding } from "../styles/spacing";
 import { colors } from "../styles/colors";
 import * as FeedImgs from "../assets/imgs/feedImgs";
@@ -62,19 +59,14 @@ const FeedPost = ({ item }) => {
   return (
     <View style={styles.post}>
       <View style={styles.colContainerMed}>
-        <ProfileWithDegreeAndTimestamp
-          personPic={profilePic}
-          name={poster}
-          degree={degree}
-          timestamp={timestamp}
-        />
+        <ProfileWithDegreeAndTimestamp user={profile} timestamp={created_at} />
         <TextMedPrimary text={message} />
       </View>
-      {hasPics && <PostImgs images={images} />}
+      {photos && <PostImgs images={images} />}
       <BusinessShortcut
-        businessName={businessName}
-        numRecommendations={numRecommendations}
-        businessType={businessType}
+        businessName={business.name}
+        numRecommendations={business.num_recs}
+        businessType={business.type}
       />
     </View>
   );

@@ -1,4 +1,6 @@
 import { View, Image, StyleSheet } from "react-native";
+import { padding } from "../../../styles/spacing";
+import { TextMedPrimaryBold, TextMedSecondary, TextSmSecondary } from "./Text";
 
 export const ProfilePic = ({ size, uri, hasBorder, borderColor }) => {
   const styles = StyleSheet.create({
@@ -33,9 +35,38 @@ export const OverlappingProfiles = ({ people }) => {
   );
 };
 
+export const ProfileWithDegreeAndTimestamp = ({ user, timestamp }) => {
+  return (
+    <View style={styles.rowContainerMed}>
+      <ProfilePic size={32} uri={user.avatar_url} hasBorder={false} />
+      <View style={styles.colContainerXxs}>
+        <View style={styles.rowContainerSm}>
+          <TextMedPrimaryBold text={user.first_name + " " + user.last_name} />
+          <TextMedSecondary text={user.degree} />
+        </View>
+        <TextSmSecondary text={timestamp} />
+      </View>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   overlappingProfiles: {
     flexDirection: "row-reverse",
     gap: -21,
+  },
+  rowContainerSm: {
+    flexDirection: "row",
+    gap: padding.sm,
+    alignItems: "center",
+  },
+  rowContainerMed: {
+    flexDirection: "row",
+    gap: padding.med,
+  },
+  colContainerXxs: {
+    flexDirection: "col",
+    gap: padding.xxs,
+    flexShrink: 1,
   },
 });

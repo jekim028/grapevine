@@ -37,7 +37,6 @@ const ActionButtons = ({ actions }) => {
     <View style={styles.rowContainerMed}>
       {actions.map((item) => (
         <AccentButton text={item.title} key={item.id} />
-        <AccentButton text={item.title} key={item.id} />
       ))}
     </View>
   );
@@ -76,14 +75,6 @@ const BusinessDetails = ({
             />
           </View>
           <RecommendersDetails people={people} num_recs={num_recs} />
-          {/* <RecommendersDetails
-            person1={photos.first}
-            person2={photos.second}
-            person3={photos.third}
-            first={recommenders.first}
-            second={recommenders.second}
-            third={recommenders.third}
-          /> */}
         </View>
         <ActionButtons actions={actions} />
       </View>
@@ -93,8 +84,7 @@ const BusinessDetails = ({
 
 const BusinessResult = ({ data }) => {
   const [recs, setRecs] = useState([]);
-  const { address, name, id, num_recs, phone, type, website } = data;
-  const hasPics = false;
+  const { address, name, id, num_recs, phone, type, website, photos } = data;
 
   useEffect(() => {
     const getRecs = async () => {
@@ -131,7 +121,7 @@ const BusinessResult = ({ data }) => {
       }
       style={styles.result}
     >
-      {hasPics && <ImageScroll height={100} images={businessImgs} />}
+      {photos && <ImageScroll height={100} images={businessImgs} />}
       <BusinessDetails
         businessName={name}
         address={address}
@@ -185,16 +175,6 @@ const AllResults = ({ searchQuery }) => {
 
   return (
     <View style={styles.allReviews}>
-      <View
-        style={{
-          paddingHorizontal: padding.med,
-          paddingTop: padding.lg,
-        }}
-      >
-        <TextMedPrimaryBold
-          text={`Showing ${numResults} results for '${searchQuery}'`}
-        />
-      </View>
       {isLoading ? (
         <Text>Loading...</Text>
       ) : (
@@ -202,10 +182,10 @@ const AllResults = ({ searchQuery }) => {
           <View
             style={{
               paddingHorizontal: padding.med,
-              paddingVertical: padding.med,
+              paddingVertical: padding.lg,
             }}
           >
-            <TextMedPrimary
+            <TextMedPrimaryBold
               text={`Showing ${numResults} results for '${searchQuery}'`}
             />
           </View>

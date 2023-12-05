@@ -2,8 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { padding } from "../../../styles/spacing";
 import { colors } from "../../../styles/colors";
-import { ProfilePic } from "../general/Profiles";
-import { ProfileWithDegreeAndTimestamp } from "../general/ProfileWithDegree";
+import { ProfilePic, ProfileWithDegreeAndTimestamp } from "../general/Profiles";
 import {
   TextLgSecondaryBold,
   TextMedPrimary,
