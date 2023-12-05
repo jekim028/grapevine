@@ -22,6 +22,9 @@ import { PaddedLine } from "../../components/general/Line";
 import { Title2Primary } from "../../components/general/Text";
 import { ProfilePic } from "../../components/general/Profiles";
 import { useAuth } from "../../utils/AuthProvider";
+import { useState, useEffect } from "react";
+import { supabase } from "../../utils/supabase";
+import { useFeed } from "../../utils/FeedProvider";
 
 const CategoryIconBox = ({ iconName, category }) => {
   return (
@@ -56,7 +59,8 @@ const CategorySection = () => {
 };
 
 export default function Home() {
-  const { profile } = useAuth();
+  const { profile, session } = useAuth();
+  const { recs } = useFeed();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -115,7 +119,7 @@ export default function Home() {
           <PaddedLine />
 
           {/* Activity */}
-          <Feed />
+          <Feed recs={recs} />
         </ScrollView>
       </View>
     </SafeAreaView>
