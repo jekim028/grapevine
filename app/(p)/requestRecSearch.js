@@ -246,23 +246,12 @@ export default function Page() {
       <View style={{ gap: padding.xs, paddingVertical: padding.med }}>
         <TextSmPrimaryBold text={"Category"} />
         <View style={styles.searchBox}>
-          <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons
-              name="search"
-              size={iconSize}
-              color={colors.textPrimary}
-            />
-          </TouchableOpacity>
+          <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
           <TextInput
             placeholder="E.g. Doctor, Nanny, Mechanic, etc."
             clearButtonMode="never"
             value={selectedCategory ? selectedCategory : ""}
             style={styles.search}
-          />
-          <Ionicons
-            name="chevron-down"
-            size={iconSize}
-            color={colors.textPrimary}
           />
         </View>
       </View>
