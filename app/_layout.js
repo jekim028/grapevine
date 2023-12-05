@@ -84,5 +84,13 @@ const styles = StyleSheet.create({
     borderRadius: padding.sm,
     alignItems: "center",
     gap: padding.sm,
+    shadowColor: "#00000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
