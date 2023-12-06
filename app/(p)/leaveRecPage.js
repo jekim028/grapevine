@@ -142,8 +142,12 @@ export default function RecPage() {
       message: message,
       photos: urlArray,
       business_id: business_id,
-      is_public: isPublic,
+      isPublic: isPublic,
     });
+    if (error) {
+      console.error("Error inserting rec:", error);
+    }
+
     router.replace("/(home)");
 
     // showSuccessToast("Here");
