@@ -1,16 +1,26 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { TextSmSecondary, TextMedPrimaryBold } from "../general/Text";
 import { padding } from "../../styles/spacing";
 import { colors } from "../../styles/colors";
+import { router } from "expo-router";
 
 export const BusinessShortcut = ({
+  businessId,
   businessName,
   numRecommendations,
   businessType,
 }) => {
   return (
-    <View style={styles.businessContainer}>
+    <TouchableOpacity
+      onPress={() =>
+        router.push({
+          pathname: "/(p)/businessProfilePage",
+          params: { business_id: businessId },
+        })
+      }
+      style={styles.businessContainer}
+    >
       <View style={styles.businessTextContainer}>
         <TextMedPrimaryBold text={businessName} />
         <View style={styles.rowContainerSm}>
@@ -24,7 +34,7 @@ export const BusinessShortcut = ({
         size={32}
         color={colors.textSecondary}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 
