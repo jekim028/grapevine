@@ -171,7 +171,7 @@ export default function RecPage() {
     // Save image if not cancelled
     if (!result.canceled) {
       const localImages = result.assets.map((img) => img.uri);
-      setImgArray(localImages);
+      setImgArray((prevImages) => [...prevImages, ...localImages]);
     }
   };
 
