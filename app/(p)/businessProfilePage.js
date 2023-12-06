@@ -60,7 +60,7 @@ const BusinessProfileReview = ({ review }) => {
     getProfile();
   }, []);
 
-  const degree = numberToStringWithEnding(profile.degree);
+  const degree = numberToStringWithEnding(profile.degree, true);
 
   return (
     <View style={styles.businessProfileReview}>

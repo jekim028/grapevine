@@ -11,14 +11,11 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../../utils/AuthProvider";
 import { supabase } from "../../../utils/supabase";
 import {
-  TextMedPrimaryBold,
   TextMedPrimary,
-  TextMedSecondary,
-  TextMedSecondaryBold,
   TextSmSecondaryBold,
 } from "../../../components/general/Text";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import ProfileImageItem from "../../../components/general/ImageItems";
+import { ProfileImageItem } from "../../../components/general/ImageItems";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { decode } from "base64-arraybuffer";
@@ -37,7 +34,6 @@ export default function ProfilePage() {
   const [files, setFiles] = useState([]);
   const [hasImage, setHasImage] = useState(false);
 
-  // Get profile info
   useEffect(() => {
     const fetchProfile = async () => {
       const response = await supabase

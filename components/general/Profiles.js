@@ -37,7 +37,7 @@ export const OverlappingProfiles = ({ people }) => {
 };
 
 export const ProfileWithDegreeAndTimestamp = ({ user, timestamp }) => {
-  const degree = numberToStringWithEnding(user.degree);
+  const degree = numberToStringWithEnding(user.degree, true);
   return (
     <View style={styles.rowContainerMed}>
       <ProfilePic size={40} uri={user.avatar_url} hasBorder={false} />
