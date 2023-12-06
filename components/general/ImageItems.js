@@ -4,8 +4,13 @@ import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { padding } from "../../styles/spacing";
 import { colors } from "../../styles/colors";
-// Image item component that displays the image from Supabase Storage and a delte button
-const ImageItem = ({ item, userId, onRemoveImage, hasImageSetter }) => {
+
+export const ProfileImageItem = ({
+  item,
+  userId,
+  onRemoveImage,
+  hasImageSetter,
+}) => {
   const [image, setImage] = useState("");
 
   useEffect(() => {
@@ -36,8 +41,8 @@ const ImageItem = ({ item, userId, onRemoveImage, hasImageSetter }) => {
   }, [userId, item.name]);
 
   return (
-    <View style={styles.container}>
-      {image && <Image style={styles.image} source={{ uri: image }} />}
+    <View style={styles.profileContainer}>
+      {image && <Image style={styles.profileImage} source={{ uri: image }} />}
       <TouchableOpacity
         onPress={() => {
           onRemoveImage(), hasImageSetter(false);
@@ -59,22 +64,62 @@ const ImageItem = ({ item, userId, onRemoveImage, hasImageSetter }) => {
   );
 };
 
-export default ImageItem;
+export const ImageItem = ({ img, onRemoveImage }) => {
+  console.log("img:", img);
+  return (
+    <View style={styles.container}>
+      <Image style={styles.image} source={{ uri: img }} />
+      <TouchableOpacity
+        onPress={() => {
+          onRemoveImage();
+        }}
+        style={{
+          backgroundColor: colors.gray,
+          padding: padding.xs,
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 8,
+          borderWidth: 2,
+          borderColor: "white",
+          marginLeft: 60,
+        }}
+      >
+        <Ionicons
+          name="trash-outline"
+          size={16}
+          color={"#000"}
+          style={styles.clearButton}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-  container: {
+  profileContainer: {
     alignItems: "center",
     gap: -28,
   },
-  image: {
+  container: {
+    alignItems: "flex-start",
+  },
+  profileImage: {
     width: 80,
     height: 80,
     borderRadius: 50,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
   },
   empty: {
     width: 80,
     height: 80,
     borderRadius: 50,
     backgroundColor: "black",
+  },
+  clearButton: {
+    marginLeft: "auto",
   },
 });
