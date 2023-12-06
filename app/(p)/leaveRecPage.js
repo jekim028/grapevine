@@ -219,7 +219,11 @@ export default function RecPage() {
             <Image source={require("../../assets/imgs/plusPhoto.jpg")} />
           </TouchableOpacity>
           {images.map((img, index) => (
-            <ImageItem img={img} onRemoveImage={() => onRemoveImage(index)} />
+            <ImageItem
+              img={img}
+              onRemoveImage={() => onRemoveImage(index)}
+              key={index}
+            />
           ))}
         </ScrollView>
       </View>
