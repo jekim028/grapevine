@@ -101,7 +101,7 @@ const Header = () => {
   );
 };
 
-export const BusinessPhotosScroll = () => {
+export const BusinessPhotosScroll = ({ photos }) => {
   return (
     <View style={styles.imageScrollContainer}>
       <ScrollView
@@ -109,7 +109,17 @@ export const BusinessPhotosScroll = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scroll}
       >
-        <Image
+        {photos &&
+          photos.map((photo, index) => {
+            return (
+              <Image
+                source={{ uri: photo }}
+                style={{ width: 150, height: 150, borderRadius: 8 }}
+                key={index}
+              />
+            );
+          })}
+        {/* <Image
           source={require("../../../assets/imgs/mechanics/mech1.jpg")}
           style={{ width: 150, height: 150 }}
         />
@@ -120,7 +130,7 @@ export const BusinessPhotosScroll = () => {
         <Image
           source={require("../../../assets/imgs/mechanics/mech3.jpg")}
           style={{ width: 150, height: 150, borderRadius: 8 }}
-        />
+        /> */}
       </ScrollView>
     </View>
   );
@@ -269,12 +279,11 @@ export default function businessProfilePage() {
       <View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Header />
-          <BusinessPhotosScroll />
+          <BusinessPhotosScroll photos={data.photos} />
           <BusinessDetails business={data} recs={recs} />
           <PaddedLine />
           <RecommendationsDetails totalNumRecs={recs.length} />
           <ReviewScroll recs={recs} />
-
           {data.address && <Map />}
         </ScrollView>
       </View>

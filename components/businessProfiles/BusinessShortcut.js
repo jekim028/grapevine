@@ -15,7 +15,7 @@ export const BusinessShortcut = ({
     <TouchableOpacity
       onPress={() =>
         router.push({
-          pathname: "../../app/(home)/(pages)/businessProfilePage",
+          pathname: "/(home)/(pages)/businessProfilePage",
           params: { business_id: businessId },
         })
       }
