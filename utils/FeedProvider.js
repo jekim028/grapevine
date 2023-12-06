@@ -10,7 +10,7 @@ export function useFeed() {
 
 export const FeedProvider = ({ children }) => {
   const [recs, setRecs] = useState([]);
-  const { session } = useAuth(); // Assuming useAuth is your custom hook for session management
+  const { session } = useAuth();
 
   // Function to fetch initial data
   useEffect(() => {
@@ -23,7 +23,7 @@ export const FeedProvider = ({ children }) => {
 
   const handleRecordUpdated = (payload) => {
     console.log("Record updated!", payload);
-    setData((oldData) =>
+    setRecs((oldData) =>
       oldData.map((post) => {
         if (post.id === payload.new.id) {
           return payload.new;
@@ -36,12 +36,12 @@ export const FeedProvider = ({ children }) => {
 
   const handleRecordInserted = (payload) => {
     console.log("INSERT", payload);
-    setData((oldData) => [...oldData, payload.new]);
+    setRecs((oldData) => [...oldData, payload.new]);
   };
 
   const handleRecordDeleted = (payload) => {
     console.log("DELETE", payload);
-    setData((oldData) => oldData.filter((post) => post.id !== payload.old.id));
+    setRecs((oldData) => oldData.filter((post) => post.id !== payload.old.id));
   };
 
   useEffect(() => {

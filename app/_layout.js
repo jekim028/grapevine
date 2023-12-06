@@ -10,10 +10,11 @@ import { iconSize } from "../styles/base";
 import { TextMedInvertedBold } from "../components/general/Text";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Dimensions } from "react-native";
+import { FeedProvider } from "../utils/FeedProvider";
+import { RequestProvider } from "../utils/RequestProvider";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-import { FeedProvider } from "../utils/FeedProvider";
 
 const toastConfig = {
   success: ({ props }) => (
@@ -67,7 +68,9 @@ const RootLayout = () => {
     <>
       <AuthProvider>
         <FeedProvider>
-          <InitialLayout />
+          <RequestProvider>
+            <InitialLayout />
+          </RequestProvider>
         </FeedProvider>
       </AuthProvider>
       <Toast config={toastConfig} />
