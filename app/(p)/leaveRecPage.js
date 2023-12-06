@@ -20,7 +20,7 @@ import {
   TextMedSecondary,
   TextMedInverted,
 } from "../../components/general/Text";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { router } from "expo-router";
 import Toast from "react-native-toast-message";
 import { AnonymousSetter } from "../../components/creating/AnonymousSetter";
@@ -90,7 +90,7 @@ export default function RecPage() {
   const [isRequestFilled, setIsRequestFilled] = useState(false);
   const [message, setMessage] = useState(null);
   const [imgArray, setImgArray] = useState([]);
-  const [urlArray, setUrlArray] = useState(null);
+  const [urlArray, setUrlArray] = useState([]);
 
   const { business_id, category, business_name, notifMessage } =
     useLocalSearchParams();
@@ -105,57 +105,47 @@ export default function RecPage() {
     }
   };
 
-  const getImgUrl = async ({ filePath }) => {
+  const getImgUrl = async (filePath) => {
     const { data, error } = await supabase.storage
       .from("rec-photos")
       .getPublicUrl(filePath);
-
     if (error) {
       // Handle the error appropriately
       console.error("Error fetching public URL:", error);
       return;
     }
 
-    const publicUrl = data.publicUrl;
-
-    // Use the setUrlArray function to update the state
-    setUrlArray((prevUrlArray) => [...prevUrlArray, publicUrl]);
+    return data.publicUrl;
   };
+
+  useEffect(() => {
+    console.log("Updated urlArray:", urlArray);
+  }, [urlArray]);
 
   const uploadImagesToSupabase = async () => {
-    for (const localUri of imgArray) {
-      const base64 = await FileSystem.readAsStringAsync(localUri, {
-        encoding: "base64",
-      });
+    const urlPromises = []; // Store promises here
 
-      const filePath = `${business_id}/${new Date().getTime()}.png`;
-      const contentType = "image/png";
+    try {
+      for (const localUri of imgArray) {
+        const base64 = await FileSystem.readAsStringAsync(localUri, {
+          encoding: "base64",
+        });
 
-      await supabase.storage
-        .from("rec-photos")
-        .upload(filePath, decode(base64), { contentType });
+        const filePath = `${business_id}/${new Date().getTime()}.png`;
+        const contentType = "image/png";
 
-      getImgUrl({ filePath });
+        await supabase.storage
+          .from("rec-photos")
+          .upload(filePath, decode(base64), { contentType });
+
+        urlPromises.push(getImgUrl(filePath));
+      }
+
+      const urls = await Promise.all(urlPromises);
+      return urls;
+    } catch (error) {
+      console.error("Error uploading images:", error);
     }
-  };
-
-  const handleSubmit = async () => {
-    uploadImagesToSupabase();
-    const { error } = await supabase.from("recs").insert({
-      user_id: user.id,
-      message: message,
-      photos: urlArray,
-      business_id: business_id,
-      isPublic: isPublic,
-    });
-    if (error) {
-      console.error("Error inserting rec:", error);
-    }
-
-    router.replace("/(home)");
-
-    // showSuccessToast("Here");
-    showSuccessToast(notifMessage);
   };
 
   const onRemoveImage = (index) => {
@@ -264,6 +254,33 @@ export default function RecPage() {
         )}
       </View>
     );
+  };
+
+  const handleSubmit = async () => {
+    let finalUrlArray = [];
+
+    if (imgArray.length > 0) {
+      finalUrlArray = await uploadImagesToSupabase();
+    }
+
+    const { error } = await supabase.from("recs").insert({
+      user_id: user.id,
+      message: message,
+      photos: finalUrlArray,
+      business_id: business_id,
+      isPublic: isPublic,
+    });
+
+    if (error) {
+      console.error("Error inserting rec:", error);
+      // Handle error (e.g., show an error message to the user)
+    }
+
+    // Only navigate if there's no error
+    router.replace("/(home)");
+
+    // Optionally, show a success toast
+    showSuccessToast(notifMessage);
   };
 
   return (
