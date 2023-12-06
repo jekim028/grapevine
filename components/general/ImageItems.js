@@ -65,7 +65,6 @@ export const ProfileImageItem = ({
 };
 
 export const ImageItem = ({ img, onRemoveImage }) => {
-  console.log("img:", img);
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: img }} />
@@ -78,15 +77,17 @@ export const ImageItem = ({ img, onRemoveImage }) => {
           padding: padding.xs,
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: 8,
-          borderWidth: 2,
           borderColor: "white",
-          marginLeft: 60,
+          borderRadius: 50,
+          position: "absolute",
+          right: 4,
+          bottom: 4,
+          overflow: "visible",
         }}
       >
         <Ionicons
           name="trash-outline"
-          size={16}
+          size={20}
           color={"#000"}
           style={styles.clearButton}
         />
@@ -102,6 +103,7 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: "flex-start",
+    overflow: "visible",
   },
   profileImage: {
     width: 80,
@@ -109,8 +111,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   image: {
-    width: 100,
-    height: 100,
+    height: "100%",
+    aspectRatio: 1,
     borderRadius: 8,
   },
   empty: {

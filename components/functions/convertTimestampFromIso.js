@@ -14,6 +14,10 @@ export function convertTimestampFromIso(isoDateString) {
     return `${numMins.toFixed(0)} mins ago`;
   } else if (differenceInMilliseconds < millisecondsIn24Hours) {
     const numHours = differenceInMilliseconds / millisecondsInAnHour;
+    const returnVal = `${numHours.toFixed(0)} hours ago`;
+    if (returnVal === "24 hours ago") {
+      return "1 day ago";
+    }
     return `${numHours.toFixed(0)} hours ago`;
   } else {
     const formatter = new Intl.DateTimeFormat("en-US", {

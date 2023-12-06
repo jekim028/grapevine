@@ -13,6 +13,9 @@ import { useRequest } from "../../utils/RequestProvider";
 import { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabase";
 import { ProfilePic } from "../general/Profiles";
+import { convertTimestampFromIso } from "../functions/convertTimestampFromIso";
+import { numberToStringWithEnding } from "../functions/numberToStringWithEnding";
+import { router } from "expo-router";
 
 function showSuccessToast(text) {
   Toast.show({
@@ -20,7 +23,8 @@ function showSuccessToast(text) {
     props: { text: text },
   });
 }
-const RequestButtons = ({ text1, text2 }) => {
+
+const FriendsRequestButtons = ({ text1, text2 }) => {
   return (
     <View style={styles.rowContainerMed}>
       <TouchableOpacity
@@ -30,7 +34,9 @@ const RequestButtons = ({ text1, text2 }) => {
         <InvertedButton text={text1} />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => showSuccessToast("Request Resent")}
+        onPress={() =>
+          router.push({ pathname: "/(p)/leaveRecSearch", params: {} })
+        }
         style={{ flex: 1 }}
       >
         <AccentButton text={text2} />
@@ -73,15 +79,15 @@ const FriendsPendingRequest = ({
                 <TextMedPrimary text={"requested a"} />
                 <TextMedPrimaryBold text={requestType} />
               </View>
-              <TextSmSecondary text={user.degree} />
+              <TextSmSecondary text={numberToStringWithEnding(user.degree, false)} />
             </View>
 
-            <TextSmSecondary text={timestamp} />
+            <TextSmSecondary text={convertTimestampFromIso(timestamp)} />
           </View>
           <Text style={{ flexWrap: "wrap" }}>{requestText}</Text>
         </View>
       </View>
-      <RequestButtons text1={"Cancel"} text2={"Create"} />
+      <FriendsRequestButtons text1={"Cancel"} text2={"Create"} />
     </View>
   );
 };

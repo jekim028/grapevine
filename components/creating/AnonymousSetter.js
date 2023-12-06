@@ -1,7 +1,8 @@
 import { View } from "react-native";
 import { TextMedSecondary } from "../general/Text";
 import { AnonymousToggleButton } from "../general/Button";
-export const AnonymousSetter = () => {
+
+export const AnonymousSetter = ({ text, setter, isAnonymous }) => {
   return (
     <View
       style={{
@@ -11,8 +12,8 @@ export const AnonymousSetter = () => {
         width: "100%",
       }}
     >
-      <TextMedSecondary text={"Post Anonymously"} />
-      <AnonymousToggleButton />
+      <TextMedSecondary text={`${text} Anonymously`} />
+      <AnonymousToggleButton setter={setter} isAnonymous={isAnonymous} />
     </View>
   );
 };
