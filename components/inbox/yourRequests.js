@@ -18,6 +18,7 @@ import { useAuth } from "../../utils/AuthProvider";
 import { supabase } from "../../utils/supabase";
 import { convertTimestampFromIso } from "../functions/convertTimestampFromIso";
 import Toast from "react-native-toast-message";
+import { useRequest } from "../../utils/RequestProvider";
 
 function showSuccessToast(text) {
   Toast.show({
@@ -70,34 +71,35 @@ const PendingRequest = ({ requestType, timestamp, requestText }) => {
 
 const PendingRequestsSection = ({ data }) => {
   const { profile } = useAuth();
-  const [pendingRequests, setPendingRequests] = useState([]);
+  const { myRequests } = useRequest();
+  // const [pendingRequests, setPendingRequests] = useState([]);
 
-  useEffect(() => {
-    const getPendingRequests = async () => {
-      const { data, error } = await supabase
-        .from("requests")
-        .select("*")
-        .eq("user_id", profile.id)
-        .eq("status", "REQUESTED");
-      if (error) {
-        console.error("Error fetching pending requests:", error);
-      }
-      setPendingRequests(data);
-    };
-    getPendingRequests();
-  }, []);
+  // useEffect(() => {
+  //   const getPendingRequests = async () => {
+  //     const { data, error } = await supabase
+  //       .from("requests")
+  //       .select("*")
+  //       .eq("user_id", profile.id)
+  //       .eq("status", "REQUESTED");
+  //     if (error) {
+  //       console.error("Error fetching pending requests:", error);
+  //     }
+  //     setPendingRequests(data);
+  //   };
+  //   getPendingRequests();
+  // }, []);
 
   return (
     <View>
       <TextLgSecondaryBold text={"Your Pending Requests"} />
-      {pendingRequests.length == 0 && (
+      {myRequests.length == 0 && (
         <View style={{ padding: padding.med }}>
           <TextMedSecondary text={"No pending requests"} />
         </View>
       )}
-      {pendingRequests.length != 0 && (
+      {myRequests.length != 0 && (
         <View style={{ gap: 1, backgroundColor: colors.gray }}>
-          {pendingRequests.map((item) => (
+          {myRequests.map((item) => (
             <PendingRequest
               requestType={item.category}
               timestamp={item.created_at}

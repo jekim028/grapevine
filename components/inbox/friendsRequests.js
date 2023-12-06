@@ -9,6 +9,10 @@ import {
 } from "../general/Text";
 import { InvertedButton, AccentButton } from "../general/Button";
 import Toast from "react-native-toast-message";
+import { useRequest } from "../../utils/RequestProvider";
+import { useEffect, useState } from "react";
+import { supabase } from "../../utils/supabase";
+import { ProfilePic } from "../general/Profiles";
 
 function showSuccessToast(text) {
   Toast.show({
@@ -36,24 +40,40 @@ const RequestButtons = ({ text1, text2 }) => {
 };
 
 const FriendsPendingRequest = ({
-  name,
-  degree,
+  user_id,
   requestType,
   timestamp,
   requestText,
 }) => {
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("first_name, degree")
+        .eq("id", user_id);
+
+      if (error) console.log("error", error);
+
+      setUser(data[0]);
+    };
+    getUser();
+  }, []);
+
   return (
     <View style={styles.pendingRequest}>
       <View style={styles.rowContainerMed}>
+        <ProfilePic size={32} uri={user.avatar_url} />
         <View style={styles.colContainerSm}>
           <View style={styles.colContainerXxs}>
             <View style={styles.rowContainerLg}>
               <View style={styles.rowContainerXsWrap}>
-                <TextMedPrimaryBold text={name} />
+                <TextMedPrimaryBold text={user.first_name} />
                 <TextMedPrimary text={"requested a"} />
                 <TextMedPrimaryBold text={requestType} />
               </View>
-              <TextSmSecondary text={degree} />
+              <TextSmSecondary text={user.degree} />
             </View>
 
             <TextSmSecondary text={timestamp} />
@@ -67,19 +87,19 @@ const FriendsPendingRequest = ({
 };
 
 const FriendsPendingRequestsSection = ({ data }) => {
+  const { friendRequests } = useRequest();
+
   return (
     <View>
       <TextLgSecondaryBold text={"Pending Requests"} />
       <View style={{ gap: 1, backgroundColor: colors.gray }}>
-        {data.map((item) => (
+        {friendRequests.map((item) => (
           <FriendsPendingRequest
-            personPic={item.personPic}
-            name={item.name}
-            degree={item.degree}
-            requestType={item.requestType}
-            timestamp={item.timestamp}
-            requestText={item.requestText}
-            key={item.requestText}
+            user_id={item.user_id}
+            requestType={item.category}
+            timestamp={item.created_at}
+            requestText={item.message}
+            key={item.id}
           />
         ))}
       </View>
