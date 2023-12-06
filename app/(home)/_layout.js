@@ -77,9 +77,10 @@ export default function HomeLayout() {
     </Modal>
   );
 
-  const { friendRequests } = useRequest();
+  // const { friendRequests } = useRequest();
 
-  const totalNotifs = friendRequests.length; // + Unseen Completed Requests?? Not sure how to add this
+  // const totalNotifs = friendRequests.length; // + Unseen Completed Requests?? Not sure how to add this
+  const totalNotifs = 0;
 
   return (
     <>

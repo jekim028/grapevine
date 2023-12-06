@@ -118,10 +118,6 @@ export default function RecPage() {
     return data.publicUrl;
   };
 
-  useEffect(() => {
-    console.log("Updated urlArray:", urlArray);
-  }, [urlArray]);
-
   const uploadImagesToSupabase = async () => {
     const urlPromises = []; // Store promises here
 
@@ -278,6 +274,34 @@ export default function RecPage() {
     if (error) {
       console.error("Error inserting rec:", error);
       // Handle error (e.g., show an error message to the user)
+    }
+
+    // Add photos to business photo array
+    // Fetch current row
+    let { data, error: fetchError } = await supabase
+      .from("businesses")
+      .select("photos")
+      .eq("id", business_id);
+
+    if (fetchError) {
+      console.error("Error fetching row:", fetchError);
+      return;
+    }
+
+    const currRow = data[0].photos ? data[0].photos : [];
+
+    // Update the array with new values
+    const updatedArray = [...currRow, ...finalUrlArray];
+
+    // Update the row in the database
+    const { data: updatedRow, error: updateError } = await supabase
+      .from("businesses")
+      .update({ photos: finalUrlArray })
+      .eq("id", business_id);
+
+    if (updateError) {
+      console.error("Error updating row:", updateError);
+      return;
     }
 
     // Only navigate if there's no error
