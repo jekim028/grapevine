@@ -67,7 +67,7 @@ const FeedPost = ({ item }) => {
         <ProfileWithDegreeAndTimestamp user={profile} timestamp={timestamp} />
         <TextMedPrimary text={message} />
       </View>
-      {photos && <PostImgs images={images} />}
+      {/* {photos && <PostImgs images={images} />} */}
       <BusinessShortcut
         businessId={business.id}
         businessName={business.name}

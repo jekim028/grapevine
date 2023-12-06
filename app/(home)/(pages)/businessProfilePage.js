@@ -110,15 +110,15 @@ export const BusinessPhotosScroll = () => {
         contentContainerStyle={styles.scroll}
       >
         <Image
-          source={require("../../assets/imgs/mechanics/mech1.jpg")}
+          source={require("../../../assets/imgs/mechanics/mech1.jpg")}
           style={{ width: 150, height: 150 }}
         />
         <Image
-          source={require("../../assets/imgs/mechanics/mech2.jpg")}
+          source={require("../../../assets/imgs/mechanics/mech2.jpg")}
           style={{ width: 150, height: 150, borderRadius: 8 }}
         />
         <Image
-          source={require("../../assets/imgs/mechanics/mech3.jpg")}
+          source={require("../../../assets/imgs/mechanics/mech3.jpg")}
           style={{ width: 150, height: 150, borderRadius: 8 }}
         />
       </ScrollView>
@@ -193,7 +193,7 @@ const ReviewScroll = ({ recs }) => {
 };
 
 const Map = () => {
-  return <Image source={require("../../assets/imgs/map.jpg")} />;
+  return <Image source={require("../../../assets/imgs/map.jpg")} />;
 };
 
 const TotalRecommendations = ({ totalNumRecs }) => {
