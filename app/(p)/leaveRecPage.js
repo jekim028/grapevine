@@ -72,31 +72,12 @@ const ReviewPrompt = () => {
   );
 };
 
-const handleSubmit = async () => {
-  // console.log(user.id);
-  // const { data, error } = await supabase
-  //   .from("requests")
-  //   .insert({
-  //     user_id: user.id,
-  //     message: message,
-  //     category: selectedCategory,
-  //     isAnonymous: isAnonymous,
-  //     isPublic: isPublic,
-  //   })
-  //   .select();
-
-  // console.log("data:", data);
-  // console.log("error:", error);
-
-  router.replace("/(home)");
-  showSuccessToast("Recommendation posted");
-};
-
 export default function RecPage() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
   const [isRequestFilled, setIsRequestFilled] = useState(false);
-  const { business_id, category, business_name } = useLocalSearchParams();
+  const { business_id, category, business_name, notifMessage } =
+    useLocalSearchParams();
   const [message, setMessage] = useState(null);
 
   const handleMessageChange = (text) => {
@@ -106,6 +87,13 @@ export default function RecPage() {
     } else {
       setIsRequestFilled(false);
     }
+  };
+
+  const handleSubmit = async () => {
+    router.replace("/(home)");
+    // showSuccessToast("Here");
+
+    showSuccessToast(notifMessage);
   };
 
   const BottomPinned = () => {
@@ -119,7 +107,10 @@ export default function RecPage() {
           </View>
         )}
         {isRequestFilled && (
-          <TouchableOpacity onPress={handleSubmit} style={styles.accentButton}>
+          <TouchableOpacity
+            onPress={() => handleSubmit()}
+            style={styles.accentButton}
+          >
             <TextMedInverted text={"Send"} />
           </TouchableOpacity>
         )}

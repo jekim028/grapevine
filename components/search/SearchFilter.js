@@ -103,6 +103,7 @@ const SearchFilter = ({ searchQuery, isRegSearch, hasAddOption }) => {
                       business_id: item.id,
                       category: item.type,
                       business_name: item.name,
+                      notifMessage: "Recommendation posted",
                     },
                   })
                 }

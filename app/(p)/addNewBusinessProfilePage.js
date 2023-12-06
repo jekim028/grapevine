@@ -244,6 +244,7 @@ export default function addNewBusinessProfilePage() {
                         business_id: null,
                         category: selectedCategory,
                         business_name: businessName,
+                        notifMessage: "Profile created & recommendation posted",
                       },
                     })
                   }
