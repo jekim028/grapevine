@@ -33,6 +33,9 @@ import { decode } from "base64-arraybuffer";
 import { ImageItem } from "../../components/general/ImageItems";
 import { useAuth } from "../../utils/AuthProvider";
 
+import { Dimensions } from "react-native";
+const windowWidth = Dimensions.get("window").width;
+
 function showSuccessToast(text) {
   Toast.show({
     type: "success",
@@ -83,6 +86,7 @@ const ReviewPrompt = () => {
 export default function RecPage() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
+  const [isAnonymous, setIsAnonymous] = useState(false);
   const [isRequestFilled, setIsRequestFilled] = useState(false);
   const [message, setMessage] = useState(null);
   const [imgArray, setImgArray] = useState([]);
@@ -175,20 +179,75 @@ export default function RecPage() {
     }
   };
 
+  const AddImageScroll = ({ images, height }) => {
+    const styles = StyleSheet.create({
+      imageScrollContainer: {
+        height: height,
+        overflow: "visible",
+      },
+      scroll: {
+        display: "flex",
+        gap: padding.sm,
+        height: "auto",
+        overflow: "visible",
+      },
+      squareCameraButton: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        width: height,
+        aspectRatio: 1,
+        paddingVertical: padding.sm,
+        borderRadius: padding.sm,
+        borderWidth: 1,
+        borderStyle: "dashed",
+        borderColor: colors.textSecondary,
+      },
+    });
+
+    return (
+      <View style={styles.imageScrollContainer}>
+        <ScrollView
+          horizontal={true}
+          showsHoriztonalScrollIndicator={false}
+          contentContainerStyle={styles.scroll}
+        >
+          <TouchableOpacity
+            style={styles.squareCameraButton}
+            onPress={onSelectImage}
+          >
+            <Image source={require("../../assets/imgs/plusPhoto.jpg")} />
+          </TouchableOpacity>
+          {images.map((img, index) => (
+            <ImageItem img={img} onRemoveImage={() => onRemoveImage(index)} />
+          ))}
+        </ScrollView>
+      </View>
+    );
+  };
+
   const BottomPinned = () => {
     return (
       <View style={{ gap: padding.med, paddingVertical: padding.lg }}>
-        <TouchableOpacity onPress={onSelectImage}>
-          <Text>Camera Button</Text>
-        </TouchableOpacity>
-        {imgArray && (
-          <View>
-            {imgArray.map((img, index) => (
-              <ImageItem img={img} onRemoveImage={() => onRemoveImage(index)} />
-            ))}
-          </View>
-        )}
-        <AnonymousSetter />
+        <View style={{ overflow: "visible" }}>
+          {imgArray.length == 0 && (
+            <TouchableOpacity
+              style={styles.horizontalCameraButton}
+              onPress={onSelectImage}
+            >
+              <Image source={require("../../assets/imgs/plusPhoto.jpg")} />
+            </TouchableOpacity>
+          )}
+          {imgArray.length > 0 && (
+            <AddImageScroll height={100} images={imgArray} />
+          )}
+        </View>
+
+        <AnonymousSetter
+          text={"Post"}
+          setter={setIsAnonymous}
+          isAnonymous={isAnonymous}
+        />
         <PrivacySetter setter={setModalVisible} isPublic={isPublic} />
         {!isRequestFilled && (
           <View style={styles.greyedButton}>
@@ -285,5 +344,16 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     opacity: 0.5,
     backgroundColor: colors.grapevine,
+  },
+  horizontalCameraButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    paddingVertical: padding.sm,
+    borderRadius: padding.sm,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    borderColor: colors.textSecondary,
   },
 });

@@ -26,7 +26,6 @@ import { AnonymousSetter } from "../../components/creating/AnonymousSetter";
 import { PrivacySetter } from "../../components/creating/PrivacySetter";
 import { PrivacyModal } from "../../components/creating/PrivacyModal";
 import Toast from "react-native-toast-message";
-import { AddPhotoButton } from "../../components/creating/AddPhotoButton";
 
 function showSuccessToast(text) {
   Toast.show({
@@ -144,8 +143,7 @@ export default function Page() {
   const BottomPinned = () => {
     return (
       <View style={{ gap: padding.med, paddingVertical: padding.lg }}>
-        <AddPhotoButton />
-        <AnonymousSetter />
+        <AnonymousSetter text={"Send"} setter={setIsAnonymous} isAnonymous={isAnonymous} />
         <PrivacySetter setter={setModalVisible} isPublic={isPublic} />
         {(!selectedCategory || !isRequestFilled) && (
           <View style={styles.greyedButton}>

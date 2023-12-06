@@ -131,9 +131,6 @@ const BusinessDetails = ({ business, recs }) => {
   recs.map((item) => {
     people.push(item.user_id);
   });
-  console.log("NUmber", business.phone);
-
-  // const convertedNumber = convertNumberstoPhone(business.phone);
 
   return (
     <View style={styles.section}>
@@ -203,11 +200,6 @@ const TotalRecommendations = ({ totalNumRecs }) => {
   return (
     <View>
       <TextLgPrimaryBold text={`${totalNumRecs} recommendations`} />
-      {/* <View style={styles.rowContainerSm}>
-        <TextXsPrimary text={"3 second degree friends"} />
-        <TextXsPrimary text={"•"} />
-        <TextXsPrimary text={"5 third degree friends"} />
-      </View> */}
     </View>
   );
 };
@@ -296,7 +288,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    overflow: "hidden",
   },
   headerBar: {
     display: "flex",

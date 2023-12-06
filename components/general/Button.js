@@ -28,11 +28,11 @@ export const InvertedButton = ({ text, action }) => {
   );
 };
 
-export const AnonymousToggleButton = () => {
-  const [isAnonymous, setIsAnonymous] = useState(false);
+export const AnonymousToggleButton = ({ setter, isAnonymous }) => {
+  // const [isAnonymous, setIsAnonymous] = useState(false);
 
   const handleToggle = () => {
-    setIsAnonymous(!isAnonymous);
+    setter((prevState) => !prevState);
   };
 
   return (
