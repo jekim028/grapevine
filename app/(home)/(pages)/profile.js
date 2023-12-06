@@ -18,7 +18,7 @@ import {
   TextSmSecondaryBold,
 } from "../../../components/general/Text";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import ImageItem from "../../../components/general/ImageItem";
+import ProfileImageItem from "../../../components/general/ImageItems";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { decode } from "base64-arraybuffer";
@@ -249,7 +249,7 @@ export default function ProfilePage() {
               }}
             >
               {files.map((item, index) => (
-                <ImageItem
+                <ProfileImageItem
                   key={item.id}
                   item={item}
                   userId={user.id}
