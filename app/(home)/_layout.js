@@ -13,6 +13,8 @@ import { colors, iconSize, padding } from "../../styles/base";
 import { TextMedPrimaryBold } from "../../components/general/Text";
 import { AccentButton } from "../../components/general/Button";
 import { router } from "expo-router";
+import { TabIconWithBadge } from "../../components/general/TabIconWithBadge";
+import { useRequest } from "../../utils/RequestProvider";
 export default function HomeLayout() {
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -39,9 +41,9 @@ export default function HomeLayout() {
     );
   };
 
-  const MyModal = ({ visible, onClose }) => (
+  const PlusModal = ({ visible, onClose }) => (
     <Modal
-      animationType="slide"
+      animationType="none"
       transparent={true}
       visible={visible}
       onRequestClose={onClose}
@@ -55,11 +57,6 @@ export default function HomeLayout() {
               justifyContent: "space-between",
             }}
           >
-            <Ionicons name="close" size={iconSize} color={"white"} />
-            <View style={{ alignItems: "center" }}>
-              <TextMedPrimaryBold text={"Create or Request a"} />
-              <TextMedPrimaryBold text={"Recommendation"} />
-            </View>
             <TouchableOpacity onPress={onClose}>
               <Ionicons
                 name="close"
@@ -67,12 +64,22 @@ export default function HomeLayout() {
                 color={colors.textPrimary}
               />
             </TouchableOpacity>
+
+            <View style={{ alignItems: "center" }}>
+              <TextMedPrimaryBold text={"Create or Request a"} />
+              <TextMedPrimaryBold text={"Recommendation"} />
+            </View>
+            <Ionicons name="close" size={iconSize} color={"white"} />
           </View>
           <PlusButtons />
         </View>
       </View>
     </Modal>
   );
+
+  const { friendRequests } = useRequest();
+
+  const totalNotifs = friendRequests.length; // + Unseen Completed Requests?? Not sure how to add this
 
   return (
     <>
@@ -83,7 +90,7 @@ export default function HomeLayout() {
           tabBarInactiveTintColor: colors.textInverted,
           tabBarStyle: {
             backgroundColor: colors.textPrimary,
-            paddingVertical: padding.sm,
+            paddingVertical: padding.med,
           },
           tabBarLabelStyle: {
             display: "none",
@@ -121,7 +128,12 @@ export default function HomeLayout() {
           options={{
             tabBarLabel: "Inbox",
             tabBarIcon: ({ size, color }) => (
-              <Ionicons name="archive" size={size} color={color} />
+              <TabIconWithBadge
+                iconName={"archive"}
+                badgeCount={totalNotifs}
+                size={size}
+                color={color}
+              />
             ),
           }}
         />
@@ -132,7 +144,7 @@ export default function HomeLayout() {
           }}
         />
       </Tabs>
-      <MyModal
+      <PlusModal
         visible={isModalVisible}
         onClose={() => setModalVisible(false)}
       />
@@ -145,7 +157,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    marginTop: 22,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
     width: "100%", // Set modal width to 80% of the screen width

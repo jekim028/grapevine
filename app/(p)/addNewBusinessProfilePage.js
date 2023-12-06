@@ -21,10 +21,6 @@ import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/core";
 import { useAuth } from "../../utils/AuthProvider";
-import { supabase } from "../../utils/supabase";
-import { AnonymousSetter } from "../../components/creating/AnonymousSetter";
-import { PrivacySetter } from "../../components/creating/PrivacySetter";
-import { PrivacyModal } from "../../components/creating/PrivacyModal";
 import Toast from "react-native-toast-message";
 import { Dimensions } from "react-native";
 
