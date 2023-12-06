@@ -26,7 +26,7 @@ const SearchBar = () => {
 
   const handleSubmit = () => {
     router.push({
-      pathname: "/(p)/searchResultsPage",
+      pathname: "../../app/(home)/(pages)/searchResultsPage.js",
       params: { searchQuery },
     });
   };

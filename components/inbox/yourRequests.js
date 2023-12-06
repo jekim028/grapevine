@@ -29,11 +29,20 @@ function showSuccessToast(text) {
   });
 }
 
-const RequestButtons = ({ text1, text2 }) => {
+const RequestButtons = ({ text1, text2, id }) => {
+  const { myRequests, setMyRequests } = useRequest();
+
+  const removeItem = (id) => {
+    const filteredItems = myRequests.filter((item) => item.id !== id);
+    setMyRequests(filteredItems);
+  };
+
   return (
     <View style={styles.rowContainerMed}>
       <TouchableOpacity
-        onPress={() => showSuccessToast("Request Cancelled")}
+        onPress={() => {
+          showSuccessToast("Request Cancelled"), removeItem(id);
+        }}
         style={{ flex: 1 }}
       >
         <InvertedButton text={text1} />
@@ -48,12 +57,17 @@ const RequestButtons = ({ text1, text2 }) => {
   );
 };
 
-const PendingRequest = ({ requestType, timestamp, requestText, isPublic }) => {
+const PendingRequest = ({
+  requestType,
+  timestamp,
+  requestText,
+  id,
+  isPublic,
+}) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isPublicState, setIsPublicState] = useState(isPublic);
   //need to add function to change isPublic based on PrivacySetter but just have this for now
   const { profile } = useAuth();
-
   return (
     <>
       <View style={styles.pendingRequest}>
@@ -83,7 +97,7 @@ const PendingRequest = ({ requestType, timestamp, requestText, isPublic }) => {
             <Text style={{ flexWrap: "wrap" }}>{requestText}</Text>
           </View>
         </View>
-        <RequestButtons text1={"Cancel"} text2={"Resend"} />
+        <RequestButtons text1={"Cancel"} text2={"Resend"} id={id} />
       </View>
       <PrivacyModal
         visible={isModalVisible}
@@ -96,7 +110,8 @@ const PendingRequest = ({ requestType, timestamp, requestText, isPublic }) => {
 
 const PendingRequestsSection = ({ data }) => {
   const { profile } = useAuth();
-  const { myRequests } = useRequest();
+  const { myRequests, setMyRequests } = useRequest();
+
   return (
     <View>
       <TextLgSecondaryBold text={"Your Pending Requests"} />
@@ -112,6 +127,7 @@ const PendingRequestsSection = ({ data }) => {
               requestType={item.category}
               timestamp={item.created_at}
               requestText={item.message}
+              id={item.id}
               key={item.id}
               isPublic={item.isPublic}
             />

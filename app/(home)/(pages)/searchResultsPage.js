@@ -12,16 +12,16 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   TextMedPrimaryBold,
   Title3PrimaryBold,
-} from "../../components/general/Text";
-import { AccentButton } from "../../components/general/Button";
-import { colors } from "../../styles/colors";
-import { padding } from "../../styles/spacing";
-import { ImageScroll } from "../../components/general/ImageScroll";
-import { BusinessActionLine } from "../../components/businessProfiles/BusinessActionLine";
-import { RecommendersDetails } from "../../components/businessProfiles/RecommendersDetails";
-import { iconSize, fonts } from "../../styles/base";
+} from "../../../components/general/Text";
+import { AccentButton } from "../../../components/general/Button";
+import { colors } from "../../../styles/colors";
+import { padding } from "../../../styles/spacing";
+import { ImageScroll } from "../../../components/general/ImageScroll";
+import { BusinessActionLine } from "../../../components/businessProfiles/BusinessActionLine";
+import { RecommendersDetails } from "../../../components/businessProfiles/RecommendersDetails";
+import { iconSize, fonts } from "../../../styles/base";
 import { useState } from "react";
-import { supabase } from "../../utils/supabase";
+import { supabase } from "../../../utils/supabase";
 import { useEffect } from "react";
 
 import { Dimensions } from "react-native";
@@ -112,7 +112,7 @@ const BusinessResult = ({ data }) => {
     <TouchableOpacity
       onPress={() =>
         router.push({
-          pathname: "/(p)/businessProfilePage",
+          pathname: "../(pages)/businessProfilePage",
           params: { business_id: id },
         })
       }

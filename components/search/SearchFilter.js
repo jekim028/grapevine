@@ -85,7 +85,7 @@ const SearchFilter = ({ searchQuery, isRegSearch, hasAddOption }) => {
               <TouchableOpacity
                 onPress={() =>
                   router.push({
-                    pathname: "/(p)/businessProfilePage",
+                    pathname: "../../app/(home)/(pages)/businessProfilePage.js",
                     params: { business_id: item.id },
                   })
                 }
