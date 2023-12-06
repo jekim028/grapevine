@@ -62,7 +62,6 @@ const PendingRequest = ({
   timestamp,
   requestText,
   id,
-  key,
   isPublic,
 }) => {
   const [isModalVisible, setModalVisible] = useState(false);

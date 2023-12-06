@@ -50,7 +50,7 @@ export default function Search() {
 
               // Use router.push directly with the extracted query
               router.push({
-                pathname: "/(p)/searchResultsPage",
+                pathname: "../(home)/(pages)/searchResultsPage",
                 params: { query },
               });
             }}
@@ -58,7 +58,11 @@ export default function Search() {
         </View>
 
         {/* Search Results */}
-        <SearchFilter searchQuery={searchQuery} isRegSearch={true} hasAddOption={false}/>
+        <SearchFilter
+          searchQuery={searchQuery}
+          isRegSearch={true}
+          hasAddOption={false}
+        />
       </View>
     </SafeAreaView>
   );
