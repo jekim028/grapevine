@@ -69,6 +69,7 @@ const FeedPost = ({ item }) => {
       </View>
       {photos && <PostImgs images={images} />}
       <BusinessShortcut
+        businessId={business.id}
         businessName={business.name}
         numRecommendations={business.num_recs}
         businessType={business.type}
