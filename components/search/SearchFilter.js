@@ -10,9 +10,16 @@ import { businesses, bizdata } from "../../lib/data";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { iconSize, padding } from "../../styles/base";
 import { router } from "expo-router";
-import { TextSmPrimary, TextXsSecondary } from "../general/Text";
+import {
+  TextSmPrimary,
+  TextSmPrimaryBold,
+  TextXsSecondary,
+} from "../general/Text";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../../utils/supabase";
+import { Dimensions } from "react-native";
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 import debounce from "lodash/debounce";
 
 const SearchResult = ({ business }) => {
@@ -27,7 +34,18 @@ const SearchResult = ({ business }) => {
   );
 };
 
-const SearchFilter = ({ searchQuery, isRegSearch }) => {
+const AddProfileResult = ({ text }) => {
+  return (
+    <View style={styles.resultCell}>
+      <Ionicons name="add" size={iconSize} color={colors.textPrimary} />
+      <View>
+        <TextSmPrimary text={text} />
+      </View>
+    </View>
+  );
+};
+
+const SearchFilter = ({ searchQuery, isRegSearch, hasAddOption }) => {
   const [data, setData] = useState([]);
 
   const debouncedFetchData = useCallback(
@@ -53,7 +71,12 @@ const SearchFilter = ({ searchQuery, isRegSearch }) => {
   }, [searchQuery, debouncedFetchData]);
 
   return (
-    <View>
+    <View
+      style={{
+        justifyContent: "flex-start",
+        flex: 1,
+      }}
+    >
       <FlatList
         data={data}
         renderItem={({ item }) => {
@@ -80,6 +103,7 @@ const SearchFilter = ({ searchQuery, isRegSearch }) => {
                       business_id: item.id,
                       category: item.type,
                       business_name: item.name,
+                      notifMessage: "Recommendation posted",
                     },
                   })
                 }
@@ -91,6 +115,19 @@ const SearchFilter = ({ searchQuery, isRegSearch }) => {
         }}
         keyExtractor={(item, index) => index.toString()}
         style={styles.searchResults}
+        ListFooterComponent={
+          searchQuery != "" && (
+            <TouchableOpacity
+              onPress={() =>
+                router.push({
+                  pathname: "/(p)/addNewBusinessProfilePage",
+                })
+              }
+            >
+              <AddProfileResult text={"Add New Business Profile"} />
+            </TouchableOpacity>
+          )
+        }
       />
     </View>
   );
@@ -110,6 +147,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   searchResults: {
-    paddingVertical: padding.med,
+    flexGrow: 0,
   },
 });

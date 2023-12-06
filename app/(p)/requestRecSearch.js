@@ -1,12 +1,10 @@
 import {
   StyleSheet,
-  Text,
   View,
   SafeAreaView,
   ScrollView,
   TextInput,
   TouchableOpacity,
-  Modal,
 } from "react-native";
 import { useEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -16,19 +14,17 @@ import {
   TextLgPrimary,
   TextSmPrimaryBold,
   TextSmSecondary,
-  TextMedSecondary,
-  TextMedAccentBold,
-  TextMedPrimaryBold,
   TextMedInverted,
-  TextMedPrimary,
 } from "../../components/general/Text";
-import { FullLine } from "../../components/general/Line";
 import { iconSize } from "../../styles/base";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/core";
 import { useAuth } from "../../utils/AuthProvider";
 import { supabase } from "../../utils/supabase";
+import { AnonymousSetter } from "../../components/creating/AnonymousSetter";
+import { PrivacySetter } from "../../components/creating/PrivacySetter";
+import { PrivacyModal } from "../../components/creating/PrivacyModal";
 import Toast from "react-native-toast-message";
 
 function showSuccessToast(text) {
@@ -46,158 +42,6 @@ export default function Page() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [message, setMessage] = useState(null);
   const { user } = useAuth();
-
-  const ToggleButton = () => {
-    const handleToggle = () => {
-      setIsAnonymous(!isAnonymous);
-    };
-
-    return (
-      <View style={styles.toggleButton}>
-        <TouchableOpacity
-          style={isAnonymous ? styles.buttonOn : styles.buttonOff}
-          onPress={handleToggle}
-        >
-          <View style={styles.dot} />
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  const ModalHeader = ({ onClose }) => {
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: padding.med,
-        }}
-      >
-        <TouchableOpacity onPress={onClose}>
-          <Ionicons name="close" size={iconSize} color={colors.textPrimary} />
-        </TouchableOpacity>
-        <View style={{ alignItems: "center" }}>
-          <TextMedPrimaryBold text={"Who can see this?"} />
-        </View>
-        <Ionicons name="close" size={iconSize} color={"white"} />
-      </View>
-    );
-  };
-
-  const PrivacySetter = () => {
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <TextMedSecondary text={"Privacy"} />
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: padding.sm,
-          }}
-          onPress={() => setModalVisible(true)}
-        >
-          {isPublic && (
-            <>
-              <Ionicons name="earth" size={iconSize} color={colors.grapevine} />
-              <TextMedAccentBold text={"Public"} />
-            </>
-          )}
-          {!isPublic && (
-            <>
-              <Ionicons
-                name="people"
-                size={iconSize}
-                color={colors.grapevine}
-              />
-              <TextMedAccentBold text={"Friends"} />
-            </>
-          )}
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  const AnonymousSetter = () => {
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        <TextMedSecondary text={"Post Anonymously"} />
-        <ToggleButton />
-      </View>
-    );
-  };
-
-  const PrivacyModal = ({ visible, onClose }) => (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}
-    >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <ModalHeader onClose={onClose} />
-          <FullLine />
-
-          <View style={{ width: "100%", paddingHorizontal: padding.med }}>
-            <TouchableOpacity
-              onPress={() => {
-                setIsPublic(true), onClose();
-              }}
-            >
-              <View style={styles.privacyBar}>
-                <Ionicons
-                  name="earth"
-                  size={iconSize}
-                  color={colors.grapevine}
-                />
-                <View>
-                  <TextMedPrimary text={"Public"} />
-                  <TextSmSecondary
-                    text={"Visible to your 1st, 2nd, & 3rd degree friends"}
-                  />
-                </View>
-              </View>
-            </TouchableOpacity>
-            <FullLine />
-            <TouchableOpacity
-              onPress={() => {
-                setIsPublic(false), onClose();
-              }}
-            >
-              <View style={styles.privacyBar}>
-                <Ionicons
-                  name="people"
-                  size={iconSize}
-                  color={colors.grapevine}
-                />
-                <View>
-                  <TextMedPrimary text={"Friends"} />
-                  <TextSmSecondary
-                    text={"Visible to your 1st degree friends only."}
-                  />
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    </Modal>
-  );
 
   const Header = () => {
     return (
@@ -300,7 +144,7 @@ export default function Page() {
     return (
       <View style={{ gap: padding.med, paddingVertical: padding.lg }}>
         <AnonymousSetter />
-        <PrivacySetter />
+        <PrivacySetter setter={setModalVisible} isPublic={isPublic} />
         {(!selectedCategory || !isRequestFilled) && (
           <View style={styles.greyedButton}>
             <TextMedInverted text={"Send"} />
@@ -356,6 +200,7 @@ export default function Page() {
       <PrivacyModal
         visible={isModalVisible}
         onClose={() => setModalVisible(false)}
+        publicSetter={setIsPublic}
       />
     </SafeAreaView>
   );
@@ -379,9 +224,6 @@ const styles = StyleSheet.create({
   },
   search: {
     flex: 1,
-  },
-  search: {
-    flex: 1,
     fontSize: padding.med,
   },
   accentButton: {
@@ -402,65 +244,5 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     opacity: 0.5,
     backgroundColor: colors.grapevine,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    width: "100%",
-    paddingBottom: 40,
-    borderRadius: 20,
-    backgroundColor: "white",
-    alignItems: "center",
-    shadowColor: "#00000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  privacyBar: {
-    flexDirection: "row",
-    width: "100%",
-    gap: padding.med,
-    alignItems: "center",
-    paddingVertical: padding.med,
-  },
-  toggleButton: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonOn: {
-    width: 56, // Width of the toggle
-    height: 30,
-    paddingHorizontal: 4,
-    backgroundColor: colors.grapevine,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "flex-end",
-  },
-  buttonOff: {
-    width: 56, // Width of the toggle
-    height: 30,
-    paddingHorizontal: 4,
-    backgroundColor: colors.gray,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "start",
-  },
-  dot: {
-    height: 20, // Height of the dot
-    width: 20, // Width of the dot
-    backgroundColor: "white",
-    borderRadius: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
   },
 });
