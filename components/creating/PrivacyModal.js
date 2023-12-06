@@ -34,7 +34,7 @@ const ModalHeader = ({ onClose }) => {
 
 export const PrivacyModal = ({ visible, onClose, publicSetter }) => (
   <Modal
-    animationType="slide"
+    animationType="none"
     transparent={true}
     visible={visible}
     onRequestClose={onClose}
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    marginTop: 22,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
     width: "100%",

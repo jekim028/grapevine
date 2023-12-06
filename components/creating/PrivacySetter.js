@@ -1,5 +1,9 @@
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { TextMedSecondary, TextMedAccentBold } from "../general/Text";
+import {
+  TextMedSecondary,
+  TextMedAccentBold,
+  TextSmAccentBold,
+} from "../general/Text";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "../../styles/colors";
 import { padding } from "../../styles/spacing";
@@ -37,6 +41,32 @@ export const PrivacySetter = ({ setter, isPublic }) => {
         )}
       </TouchableOpacity>
     </View>
+  );
+};
+
+export const SmallPrivacySetter = ({ setter, isPublic }) => {
+  return (
+    <TouchableOpacity
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: padding.xs,
+      }}
+      onPress={() => setter(true)}
+    >
+      {isPublic && (
+        <>
+          <Ionicons name="earth" size={16} color={colors.grapevine} />
+          <TextSmAccentBold text={"Public"} />
+        </>
+      )}
+      {!isPublic && (
+        <>
+          <Ionicons name="people" size={16} color={colors.grapevine} />
+          <TextSmAccentBold text={"Friends"} />
+        </>
+      )}
+    </TouchableOpacity>
   );
 };
 

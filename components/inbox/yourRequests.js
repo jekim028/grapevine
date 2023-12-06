@@ -19,6 +19,8 @@ import { supabase } from "../../utils/supabase";
 import { convertTimestampFromIso } from "../functions/convertTimestampFromIso";
 import Toast from "react-native-toast-message";
 import { useRequest } from "../../utils/RequestProvider";
+import { SmallPrivacySetter } from "../creating/PrivacySetter";
+import { PrivacyModal } from "../../components/creating/PrivacyModal";
 
 function showSuccessToast(text) {
   Toast.show({
@@ -46,49 +48,55 @@ const RequestButtons = ({ text1, text2 }) => {
   );
 };
 
-const PendingRequest = ({ requestType, timestamp, requestText }) => {
+const PendingRequest = ({ requestType, timestamp, requestText, isPublic }) => {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isPublicState, setIsPublicState] = useState(isPublic);
+  //need to add function to change isPublic based on PrivacySetter but just have this for now
   const { profile } = useAuth();
 
   return (
-    <View style={styles.pendingRequest}>
-      <View style={styles.rowContainerMed}>
-        <ProfilePic size={32} uri={profile.avatar_url} />
-        <View style={styles.colContainerSm}>
-          <View style={styles.colContainerXxs}>
-            <View style={styles.rowContainerXsWrap}>
-              <TextMedPrimary text={"You requested a"} />
-              <TextMedPrimaryBold text={requestType} />
+    <>
+      <View style={styles.pendingRequest}>
+        <View style={styles.rowContainerMed}>
+          <ProfilePic size={32} uri={profile.avatar_url} />
+          <View style={styles.colContainerSm}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "flex-start",
+              }}
+            >
+              <View style={styles.colContainerXxs}>
+                <View style={styles.rowContainerXsWrap}>
+                  <TextMedPrimary text={"You requested a"} />
+                  <TextMedPrimaryBold text={requestType} />
+                </View>
+                <TextSmSecondary text={convertTimestampFromIso(timestamp)} />
+              </View>
+              <SmallPrivacySetter
+                setter={setModalVisible}
+                isPublic={isPublicState}
+              />
             </View>
-            <TextSmSecondary text={convertTimestampFromIso(timestamp)} />
+            <Text style={{ flexWrap: "wrap" }}>{requestText}</Text>
           </View>
-          <Text style={{ flexWrap: "wrap" }}>{requestText}</Text>
         </View>
+        <RequestButtons text1={"Cancel"} text2={"Resend"} />
       </View>
-      <RequestButtons text1={"Cancel"} text2={"Resend"} />
-    </View>
+      <PrivacyModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        publicSetter={setIsPublicState}
+      />
+    </>
   );
 };
 
 const PendingRequestsSection = ({ data }) => {
   const { profile } = useAuth();
   const { myRequests } = useRequest();
-  // const [pendingRequests, setPendingRequests] = useState([]);
-
-  // useEffect(() => {
-  //   const getPendingRequests = async () => {
-  //     const { data, error } = await supabase
-  //       .from("requests")
-  //       .select("*")
-  //       .eq("user_id", profile.id)
-  //       .eq("status", "REQUESTED");
-  //     if (error) {
-  //       console.error("Error fetching pending requests:", error);
-  //     }
-  //     setPendingRequests(data);
-  //   };
-  //   getPendingRequests();
-  // }, []);
-
   return (
     <View>
       <TextLgSecondaryBold text={"Your Pending Requests"} />
@@ -105,6 +113,7 @@ const PendingRequestsSection = ({ data }) => {
               timestamp={item.created_at}
               requestText={item.message}
               key={item.id}
+              isPublic={item.isPublic}
             />
           ))}
         </View>

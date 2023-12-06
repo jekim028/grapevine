@@ -39,9 +39,9 @@ export default function HomeLayout() {
     );
   };
 
-  const MyModal = ({ visible, onClose }) => (
+  const PlusModal = ({ visible, onClose }) => (
     <Modal
-      animationType="slide"
+      animationType="none"
       transparent={true}
       visible={visible}
       onRequestClose={onClose}
@@ -55,11 +55,6 @@ export default function HomeLayout() {
               justifyContent: "space-between",
             }}
           >
-            <Ionicons name="close" size={iconSize} color={"white"} />
-            <View style={{ alignItems: "center" }}>
-              <TextMedPrimaryBold text={"Create or Request a"} />
-              <TextMedPrimaryBold text={"Recommendation"} />
-            </View>
             <TouchableOpacity onPress={onClose}>
               <Ionicons
                 name="close"
@@ -67,6 +62,12 @@ export default function HomeLayout() {
                 color={colors.textPrimary}
               />
             </TouchableOpacity>
+
+            <View style={{ alignItems: "center" }}>
+              <TextMedPrimaryBold text={"Create or Request a"} />
+              <TextMedPrimaryBold text={"Recommendation"} />
+            </View>
+            <Ionicons name="close" size={iconSize} color={"white"} />
           </View>
           <PlusButtons />
         </View>
@@ -132,7 +133,7 @@ export default function HomeLayout() {
           }}
         />
       </Tabs>
-      <MyModal
+      <PlusModal
         visible={isModalVisible}
         onClose={() => setModalVisible(false)}
       />
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    marginTop: 22,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
     width: "100%", // Set modal width to 80% of the screen width
