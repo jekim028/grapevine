@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Touchable,
+  Image,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { padding } from "../../styles/spacing";
@@ -24,6 +26,12 @@ import Toast from "react-native-toast-message";
 import { AnonymousSetter } from "../../components/creating/AnonymousSetter";
 import { PrivacySetter } from "../../components/creating/PrivacySetter";
 import { PrivacyModal } from "../../components/creating/PrivacyModal";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
+import { supabase } from "../../utils/supabase";
+import { decode } from "base64-arraybuffer";
+import { ImageItem } from "../../components/general/ImageItems";
+import { useAuth } from "../../utils/AuthProvider";
 
 function showSuccessToast(text) {
   Toast.show({
@@ -76,9 +84,13 @@ export default function RecPage() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
   const [isRequestFilled, setIsRequestFilled] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [imgArray, setImgArray] = useState([]);
+  const [urlArray, setUrlArray] = useState(null);
+
   const { business_id, category, business_name, notifMessage } =
     useLocalSearchParams();
-  const [message, setMessage] = useState(null);
+  const { user } = useAuth();
 
   const handleMessageChange = (text) => {
     setMessage(text);
@@ -89,16 +101,93 @@ export default function RecPage() {
     }
   };
 
-  const handleSubmit = async () => {
-    router.replace("/(home)");
-    // showSuccessToast("Here");
+  const getImgUrl = async ({ filePath }) => {
+    const { data, error } = await supabase.storage
+      .from("rec-photos")
+      .getPublicUrl(filePath);
 
+    if (error) {
+      // Handle the error appropriately
+      console.error("Error fetching public URL:", error);
+      return;
+    }
+
+    const publicUrl = data.publicUrl;
+
+    // Use the setUrlArray function to update the state
+    setUrlArray((prevUrlArray) => [...prevUrlArray, publicUrl]);
+  };
+
+  const uploadImagesToSupabase = async () => {
+    for (const localUri of imgArray) {
+      const base64 = await FileSystem.readAsStringAsync(localUri, {
+        encoding: "base64",
+      });
+
+      const filePath = `${business_id}/${new Date().getTime()}.png`;
+      const contentType = "image/png";
+
+      await supabase.storage
+        .from("rec-photos")
+        .upload(filePath, decode(base64), { contentType });
+
+      getImgUrl({ filePath });
+    }
+  };
+
+  const handleSubmit = async () => {
+    uploadImagesToSupabase();
+    const { error } = await supabase.from("recs").insert({
+      user_id: user.id,
+      message: message,
+      photos: urlArray,
+      business_id: business_id,
+      isPublic: isPublic,
+    });
+    if (error) {
+      console.error("Error inserting rec:", error);
+    }
+
+    router.replace("/(home)");
+
+    // showSuccessToast("Here");
     showSuccessToast(notifMessage);
+  };
+
+  const onRemoveImage = (index) => {
+    // Remove the image URI at the given index
+    const updatedImages = imgArray.filter((_, i) => i !== index);
+    setImgArray(updatedImages);
+  };
+
+  onSelectImage = async () => {
+    const options = {
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: true,
+    };
+
+    const result = await ImagePicker.launchImageLibraryAsync(options);
+
+    // Save image if not cancelled
+    if (!result.canceled) {
+      const localImages = result.assets.map((img) => img.uri);
+      setImgArray(localImages);
+    }
   };
 
   const BottomPinned = () => {
     return (
       <View style={{ gap: padding.med, paddingVertical: padding.lg }}>
+        <TouchableOpacity onPress={onSelectImage}>
+          <Text>Camera Button</Text>
+        </TouchableOpacity>
+        {imgArray && (
+          <View>
+            {imgArray.map((img, index) => (
+              <ImageItem img={img} onRemoveImage={() => onRemoveImage(index)} />
+            ))}
+          </View>
+        )}
         <AnonymousSetter />
         <PrivacySetter setter={setModalVisible} isPublic={isPublic} />
         {!isRequestFilled && (
@@ -131,7 +220,6 @@ export default function RecPage() {
         >
           <View>
             <Header businessName={business_name} businessCategory={category} />
-
             <ReviewPrompt />
             <TextInput
               placeholder="Write your recommendation here"

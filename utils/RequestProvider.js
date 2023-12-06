@@ -16,7 +16,10 @@ export const RequestProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchRequests = async () => {
-      const { data, error } = await supabase.from("requests").select("*");
+      const { data, error } = await supabase
+        .from("requests")
+        .select("*")
+        .order("created_at", { ascending: false });
       if (error) {
         console.error("Error fetching data:", error);
       }
