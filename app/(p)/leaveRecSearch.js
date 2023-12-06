@@ -60,7 +60,7 @@ export default function leaveRecSearch() {
         }}
       >
         <Header />
-        <View style={{ gap: padding.xxs }}>
+        <View style={{ gap: padding.xxs, }}>
           {/* Search Bar*/}
           <TextSmSecondary text={"Business Name"} />
           <View style={styles.searchBox}>
@@ -80,7 +80,11 @@ export default function leaveRecSearch() {
           </View>
 
           {/* Search Results */}
-          <SearchFilter searchQuery={searchQuery} isRegSearch={false} />
+          <SearchFilter
+            searchQuery={searchQuery}
+            isRegSearch={false}
+            hasAddOption={true}
+          />
         </View>
       </View>
     </SafeAreaView>
