@@ -4,6 +4,7 @@ import {
   View,
   SafeAreaView,
   Text,
+  ScrollView,
   TouchableOpacity,
 } from "react-native";
 import { useState } from "react";
@@ -17,7 +18,31 @@ import {
 import SearchFilter from "../../components/search/SearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
-import { TextSmPrimary } from "../../components/general/Text";
+import {
+  TextSmPrimary,
+  TextSmSecondary,
+  TextLgPrimary,
+} from "../../components/general/Text";
+
+const Header = () => {
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+        paddingVertical: padding.med,
+      }}
+    >
+      <TouchableOpacity onPress={() => router.back()}>
+        <Ionicons name="close" size={iconSize} color={colors.textPrimary} />
+      </TouchableOpacity>
+      <TextLgPrimary text={"Create a Recommendation"} />
+      <Ionicons name="close" size={iconSize} color={"white"} />
+    </View>
+  );
+};
 
 export default function leaveRecSearch() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,28 +53,35 @@ export default function leaveRecSearch() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.page}>
-        {/* Search Bar*/}
-        <View style={styles.searchBox}>
-          <TouchableOpacity onPress={() => router.back()}>
+      <View
+        style={{
+          paddingHorizontal: padding.med,
+          alignItems: "center",
+        }}
+      >
+        <Header />
+        <View style={{ gap: padding.xxs }}>
+          {/* Search Bar*/}
+          <TextSmSecondary text={"Business Name"} />
+          <View style={styles.searchBox}>
             <Ionicons
-              name="chevron-back"
+              name="search"
               size={iconSize}
               color={colors.textPrimary}
             />
-          </TouchableOpacity>
-          <TextInput
-            placeholder="Search for a business to recommend"
-            clearButtonMode="always"
-            value={searchQuery}
-            style={styles.search}
-            onChangeText={(query) => handleSearch(query)}
-            onSubmitEditing={() => {}}
-          />
-        </View>
+            <TextInput
+              placeholder="Search for a business to recommend"
+              clearButtonMode="always"
+              value={searchQuery}
+              style={styles.search}
+              onChangeText={(query) => handleSearch(query)}
+              onSubmitEditing={() => {}}
+            />
+          </View>
 
-        {/* Search Results */}
-        <SearchFilter searchQuery={searchQuery} isRegSearch={false} />
+          {/* Search Results */}
+          <SearchFilter searchQuery={searchQuery} isRegSearch={false} />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -59,7 +91,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
   },
   page: {
     flex: 1,
@@ -77,6 +108,6 @@ const styles = StyleSheet.create({
   },
   search: {
     flex: 1,
-    fontSize: fonts.reg,
+    fontSize: padding.med,
   },
 });
