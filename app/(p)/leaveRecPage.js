@@ -24,7 +24,6 @@ import Toast from "react-native-toast-message";
 import { AnonymousSetter } from "../../components/creating/AnonymousSetter";
 import { PrivacySetter } from "../../components/creating/PrivacySetter";
 import { PrivacyModal } from "../../components/creating/PrivacyModal";
-
 function showSuccessToast(text) {
   Toast.show({
     type: "success",
