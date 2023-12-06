@@ -29,25 +29,6 @@ const PostImgs = ({ images }) => {
   );
 };
 
-// const convertTimestampFromIso = (isoDateString) => {
-//   const dateCreated = new Date(isoDateString);
-//   const currentDate = new Date();
-//   const millisecondsInAnHour = 60 * 60 * 1000;
-//   const millisecondsIn24Hours = 24 * millisecondsInAnHour;
-//   const differenceInMilliseconds = currentDate - dateCreated;
-
-//   if (differenceInMilliseconds < millisecondsIn24Hours) {
-//     const numHours = differenceInMilliseconds / millisecondsInAnHour;
-//     return `${numHours.toFixed(0)} hours`;
-//   } else {
-//     const formatter = new Intl.DateTimeFormat("en-US", {
-//       month: "short",
-//       day: "numeric",
-//     });
-//     return formatter.format(dateCreated);
-//   }
-// };
-
 const FeedPost = ({ item }) => {
   const { business_id, message, created_at, photos, user_id, visibility } =
     item;

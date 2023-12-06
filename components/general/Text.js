@@ -41,6 +41,12 @@ export const TextSmAccent = ({ text }) => {
 export const TextSmAccentBold = ({ text }) => {
   return <Text style={styles.textSmAccentBold}>{text}</Text>;
 };
+export const TextSmInverted = ({ text }) => {
+  return <Text style={styles.textSmInverted}>{text}</Text>;
+};
+export const TextSmInvertedBold = ({ text }) => {
+  return <Text style={styles.textSmInvertedBold}>{text}</Text>;
+};
 export const TextMedPrimary = ({ text }) => {
   return <Text style={styles.textMedPrimary}>{text}</Text>;
 };
@@ -146,6 +152,17 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontWeight: "700",
     color: colors.grapevine,
+  },
+  textSmInverted: {
+    fontSize: 14,
+    lineHeight: 18,
+    color: colors.textInverted,
+  },
+  textSmInvertedBold: {
+    fontSize: 14,
+    lineHeight: 18,
+    fontWeight: "700",
+    color: colors.textInverted,
   },
   textSmSecondary: {
     fontSize: 14,
