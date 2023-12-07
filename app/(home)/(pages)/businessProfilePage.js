@@ -282,7 +282,7 @@ export default function businessProfilePage() {
           <BusinessPhotosScroll photos={data.photos} />
           <BusinessDetails business={data} recs={recs} />
           <PaddedLine />
-          <RecommendationsDetails totalNumRecs={recs.length} />
+          <RecommendationsDetails totalNumRecs={recs ? recs.length : 0} />
           <ReviewScroll recs={recs} />
           {data.address && <Map />}
         </ScrollView>
