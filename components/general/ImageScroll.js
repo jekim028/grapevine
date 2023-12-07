@@ -31,11 +31,7 @@ export const ImageScroll = ({ images, height }) => {
         contentContainerStyle={styles.scroll}
       >
         {images.map((item) => (
-          <Image
-            source={{ uri: item }}
-            style={styles.scrollImage}
-            key={item.id}
-          />
+          <Image source={{ uri: item }} style={styles.scrollImage} key={item} />
         ))}
       </ScrollView>
     </View>
