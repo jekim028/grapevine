@@ -122,7 +122,7 @@ export default function ProfilePage() {
           backgroundColor: "white",
         }}
       >
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity onPress={() => router.replace("/(home)/")}>
           <Ionicons
             name="chevron-back"
             size={iconSize}

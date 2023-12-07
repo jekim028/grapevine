@@ -1,5 +1,3 @@
-
-
 import {
   StyleSheet,
   TextInput,
@@ -33,7 +31,7 @@ export default function Search() {
       <View style={styles.page}>
         {/* Search Bar*/}
         <View style={styles.searchBox}>
-          <TouchableOpacity onPress={() => router.back()}>
+          <TouchableOpacity onPress={() => router.replace("/(home)/")}>
             <Ionicons
               name="chevron-back"
               size={iconSize}
