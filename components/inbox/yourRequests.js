@@ -41,7 +41,9 @@ const RequestButtons = ({ text1, text2, id }) => {
     <View style={styles.rowContainerMed}>
       <TouchableOpacity
         onPress={() => {
-          showSuccessToast("Request Cancelled"), removeRequest();
+          showSuccessToast("Request Cancelled"),
+            removeRequest(),
+            removeItem(id);
         }}
         style={{ flex: 1 }}
       >

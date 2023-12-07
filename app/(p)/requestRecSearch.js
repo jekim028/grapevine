@@ -15,6 +15,9 @@ import {
   TextSmPrimaryBold,
   TextSmSecondary,
   TextMedInverted,
+  TextMedSecondary,
+  TextMedPrimary,
+  TextMedPrimaryBold,
 } from "../../components/general/Text";
 import { iconSize } from "../../styles/base";
 import { router } from "expo-router";
@@ -94,14 +97,18 @@ export default function Page() {
 
     return (
       <View style={{ gap: padding.xs, paddingVertical: padding.med }}>
-        <TextSmPrimaryBold text={"Category"} />
+        <TextSmPrimaryBold text={"Business Category"} />
         <View style={styles.searchBox}>
-          <Ionicons name="search" size={iconSize} color={colors.textPrimary} />
-          <TextInput
-            placeholder="E.g. Doctor, Nanny, Mechanic, etc."
-            clearButtonMode="never"
-            value={selectedCategory ? selectedCategory : ""}
-            style={styles.search}
+          {selectedCategory == null && (
+            <TextMedSecondary text={"Click to Select Business Category"} />
+          )}
+          {selectedCategory != null && (
+            <TextMedPrimary text={selectedCategory} />
+          )}
+          <Ionicons
+            name="chevron-forward"
+            size={iconSize}
+            color={colors.textPrimary}
           />
         </View>
       </View>
@@ -131,6 +138,9 @@ export default function Page() {
         isPublic: isPublic,
       })
       .select();
+
+    console.log("data:", data);
+    console.log("error:", error);
 
     router.replace("/(home)/inbox");
     showSuccessToast("Request sent");
@@ -214,10 +224,13 @@ const styles = StyleSheet.create({
   },
   searchBox: {
     display: "flex",
-    padding: padding.sm,
+    paddingVertical: padding.sm,
+    paddingLeft: padding.med,
+    paddingRight: padding.sm,
     flexDirection: "row",
     borderRadius: padding.sm,
     alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: colors.formBackground,
     width: "100%",
     gap: padding.sm,

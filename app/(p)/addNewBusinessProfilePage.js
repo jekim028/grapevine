@@ -47,8 +47,20 @@ export default function addNewBusinessProfilePage() {
   const [businessAddress, setBusinessAddress] = useState("");
   const { user } = useAuth();
 
-  const handleMessageChange = ({ text, setter }) => {
-    setter(text);
+  const handleWebsiteMessageChange = (text) => {
+    setBusinessWebsite(text);
+  };
+
+  const handleNameMessageChange = (text) => {
+    setBusinessName(text);
+  };
+
+  const handleNumberMessageChange = (text) => {
+    setBusinessNumber(text);
+  };
+
+  const handleAddressMessageChange = (text) => {
+    setBusinessAddress(text);
   };
 
   const Header = () => {
@@ -120,84 +132,6 @@ export default function addNewBusinessProfilePage() {
     );
   };
 
-  const NameInputField = () => {
-    return (
-      <View style={{ gap: padding.xs }}>
-        <TextSmPrimaryBold text={"Business Name"} />
-        <View style={styles.inputBox}>
-          <TextInput
-            placeholder="E.g. Elite Mechanics or John Doe"
-            clearButtonMode="never"
-            value={businessName}
-            style={styles.search}
-            onChangeText={(text) =>
-              handleMessageChange({ text, setter: setBusinessName })
-            }
-          />
-        </View>
-      </View>
-    );
-  };
-
-  const NumberInputField = () => {
-    return (
-      <View style={{ gap: padding.xs }}>
-        <TextSmPrimaryBold text={"Phone Number"} />
-        <View style={styles.inputBox}>
-          <TextInput
-            placeholder="123456789"
-            clearButtonMode="never"
-            value={businessNumber}
-            style={styles.search}
-            onChangeText={(text) =>
-              handleMessageChange({ text, setter: setBusinessNumber })
-            }
-          />
-        </View>
-      </View>
-    );
-  };
-
-  const WebsiteInputField = () => {
-    return (
-      <View style={{ gap: padding.xs }}>
-        <TextSmPrimaryBold text={"Website"} />
-        <View style={styles.inputBox}>
-          <TextInput
-            placeholder="www.elitemechanics.com"
-            clearButtonMode="never"
-            value={businessWebsite}
-            style={styles.search}
-            onChangeText={(text) =>
-              handleMessageChange({ text, setter: setBusinessWebsite })
-            }
-          />
-        </View>
-      </View>
-    );
-  };
-
-  const AddressInputField = () => {
-    return (
-      <View style={{ gap: padding.xs }}>
-        <TextSmPrimaryBold text={"Address"} />
-        <View style={styles.inputBox}>
-          <TextInput
-            placeholder="123 Stanford Ave, Palo Alto, CA 94305"
-            clearButtonMode="never"
-            value={businessAddress}
-            style={styles.search}
-            onChangeText={(text) =>
-              handleMessageChange({ text, setter: setBusinessAddress })
-            }
-          />
-        </View>
-      </View>
-    );
-  };
-
-  const handleSubmit = async () => {};
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ height: "100%" }}>
@@ -214,10 +148,54 @@ export default function addNewBusinessProfilePage() {
               <CategorySearch />
             </TouchableOpacity>
             <View style={{ gap: padding.med }}>
-              <NameInputField />
-              <NumberInputField />
-              <WebsiteInputField />
-              <AddressInputField />
+              <View style={{ gap: padding.xs }}>
+                <TextSmPrimaryBold text={"Business Name"} />
+                <View style={styles.inputBox}>
+                  <TextInput
+                    placeholder="E.g. Elite Mechanics or John Doe"
+                    clearButtonMode="never"
+                    value={businessName}
+                    style={styles.search}
+                    onChangeText={(text) => handleNameMessageChange(text)}
+                  />
+                </View>
+              </View>
+              <View style={{ gap: padding.xs }}>
+                <TextSmPrimaryBold text={"Phone Number"} />
+                <View style={styles.inputBox}>
+                  <TextInput
+                    placeholder="123456789"
+                    clearButtonMode="never"
+                    value={businessNumber}
+                    style={styles.search}
+                    onChangeText={(text) => handleNumberMessageChange(text)}
+                  />
+                </View>
+              </View>
+              <View style={{ gap: padding.xs }}>
+                <TextSmPrimaryBold text={"Website"} />
+                <View style={styles.inputBox}>
+                  <TextInput
+                    placeholder="www.elitemechanics.com"
+                    clearButtonMode="never"
+                    value={businessWebsite}
+                    style={styles.search}
+                    onChangeText={(text) => handleWebsiteMessageChange(text)}
+                  />
+                </View>
+              </View>
+              <View style={{ gap: padding.xs }}>
+                <TextSmPrimaryBold text={"Address"} />
+                <View style={styles.inputBox}>
+                  <TextInput
+                    placeholder="123 Stanford Ave, Palo Alto, CA 94305"
+                    clearButtonMode="never"
+                    value={businessAddress}
+                    style={styles.search}
+                    onChangeText={(text) => handleAddressMessageChange(text)}
+                  />
+                </View>
+              </View>
             </View>
           </View>
           <View style={{ gap: padding.med, paddingVertical: padding.lg }}>
