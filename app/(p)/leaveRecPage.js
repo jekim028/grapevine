@@ -278,13 +278,16 @@ export default function RecPage() {
       finalUrlArray = await uploadImagesToSupabase();
     }
 
-    const { error } = await supabase.from("recs").insert({
-      user_id: user.id,
-      message: message,
-      photos: finalUrlArray,
-      business_id: business_id,
-      isPublic: isPublic,
-    });
+    const { data: insertedData, error } = await supabase
+      .from("recs")
+      .upsert({
+        user_id: user.id,
+        message: message,
+        photos: finalUrlArray,
+        business_id: business_id,
+        isPublic: isPublic,
+      })
+      .select();
 
     if (error) {
       console.error("Error inserting rec:", error);
@@ -320,6 +323,45 @@ export default function RecPage() {
     }
 
     // removeItem(friendRequestId);
+    // Update friend requests as necessary
+    if (friendRequestId) {
+      // Add rec id to friend request
+      // Add user name to friend request
+      console.log("friend request id", friendRequestId);
+      const { data: selectedRows } = await supabase
+        .from("requests")
+        .select("responses, seen_by")
+        .eq("id", friendRequestId);
+
+      const responses = [...selectedRows[0].responses, insertedData[0].id];
+      console.log(responses);
+      const seen_by = [...selectedRows[0].seen_by, user.id];
+      console.log(seen_by);
+      let data = {
+        id: friendRequestId,
+        responses: responses,
+        seen_by: seen_by,
+      };
+      let cleanData = Object.fromEntries(
+        Object.entries(data).filter(([_, v]) => v != null)
+      );
+      console.log(cleanData);
+      try {
+        const { data, error } = await supabase
+          .from("requests")
+          .upsert(cleanData);
+        //.eq("id", friendRequestId);
+        console.log(data);
+        if (error) {
+          console.error(error);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      //console.log(error);
+      // console.log(updateData);
+      //console.log(updateError);
+    }
 
     // Only navigate if there's no error
     router.replace("/(home)");
