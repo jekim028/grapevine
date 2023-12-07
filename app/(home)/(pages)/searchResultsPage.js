@@ -118,7 +118,7 @@ const BusinessResult = ({ data }) => {
       }
       style={styles.result}
     >
-      {photos && <ImageScroll height={100} images={businessImgs} />}
+      {photos && <ImageScroll height={100} images={photos} />}
       <BusinessDetails
         businessName={name}
         address={address}

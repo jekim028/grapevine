@@ -32,7 +32,7 @@ export const ImageScroll = ({ images, height }) => {
       >
         {images.map((item) => (
           <Image
-            source={MechPics[`${item.pic}`]}
+            source={{ uri: item }}
             style={styles.scrollImage}
             key={item.id}
           />
