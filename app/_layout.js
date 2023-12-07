@@ -59,7 +59,18 @@ const InitialLayout = () => {
     }
   }, [session, initialized]);
 
-  return <Slot />;
+  // Conditionally render based on session
+  if (session) {
+    return (
+      <FeedProvider>
+        <RequestProvider>
+          <Slot />
+        </RequestProvider>
+      </FeedProvider>
+    );
+  } else {
+    return <Slot />;
+  }
 };
 
 // Wrap the app with the AuthProvider
@@ -67,11 +78,7 @@ const RootLayout = () => {
   return (
     <>
       <AuthProvider>
-        <FeedProvider>
-          <RequestProvider>
-            <InitialLayout />
-          </RequestProvider>
-        </FeedProvider>
+        <InitialLayout />
       </AuthProvider>
       <Toast config={toastConfig} />
     </>

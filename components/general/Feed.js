@@ -14,16 +14,13 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../utils/supabase";
 import { convertTimestampFromIso } from "../functions/convertTimestampFromIso";
 import { useAuth } from "../../utils/AuthProvider";
+import { useFeed } from "../../utils/FeedProvider";
 
 const PostImgs = ({ images }) => {
   return (
     <View style={styles.rowContainerSm}>
-      {images.map((item) => (
-        <Image
-          source={FeedImgs[`${item.pic}`]}
-          style={styles.businessImg}
-          key={item.pic}
-        />
+      {images.map((item, index) => (
+        <Image source={{ uri: item }} style={styles.businessImg} key={index} />
       ))}
     </View>
   );
@@ -67,7 +64,7 @@ const FeedPost = ({ item }) => {
         <ProfileWithDegreeAndTimestamp user={profile} timestamp={timestamp} />
         <TextMedPrimary text={message} />
       </View>
-      {/* {photos && <PostImgs images={images} />} */}
+      {photos && <PostImgs images={photos} />}
       <BusinessShortcut
         businessId={business.id}
         businessName={business.name}
@@ -78,7 +75,8 @@ const FeedPost = ({ item }) => {
   );
 };
 
-const Feed = ({ recs }) => {
+const Feed = () => {
+  const { recs } = useFeed();
   return (
     <View style={styles.feed}>
       <View style={{ paddingHorizontal: padding.med }}>
@@ -138,6 +136,7 @@ const styles = StyleSheet.create({
   },
   businessImg: {
     width: 80,
+    height: 80,
     aspectRatio: 1,
     borderRadius: padding.xs,
   },
