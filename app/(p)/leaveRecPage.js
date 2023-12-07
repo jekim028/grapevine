@@ -268,7 +268,7 @@ export default function RecPage() {
     const filteredItems = friendRequests.filter((item) => item.id !== numId);
 
     setFriendRequests(filteredItems);
-    console.log("FILTERED", filteredItems);
+    // console.log("FILTERED", filteredItems);
   };
 
   const handleSubmit = async () => {
