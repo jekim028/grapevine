@@ -241,6 +241,8 @@ export default function addNewBusinessProfilePage() {
                         category: selectedCategory,
                         business_name: businessName,
                         notifMessage: "Profile created & recommendation posted",
+                        fromFriendRequests: false,
+                        friendRequestId: null,
                       },
                     })
                   }

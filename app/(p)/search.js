@@ -1,3 +1,5 @@
+
+
 import {
   StyleSheet,
   TextInput,
@@ -62,6 +64,8 @@ export default function Search() {
           searchQuery={searchQuery}
           isRegSearch={true}
           hasAddOption={false}
+          fromFriendRequests={false}
+          friendRequestId={null}
         />
       </View>
     </SafeAreaView>

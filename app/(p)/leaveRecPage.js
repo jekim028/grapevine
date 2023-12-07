@@ -32,6 +32,7 @@ import { supabase } from "../../utils/supabase";
 import { decode } from "base64-arraybuffer";
 import { ImageItem } from "../../components/general/ImageItems";
 import { useAuth } from "../../utils/AuthProvider";
+import { useRequest } from "../../utils/RequestProvider";
 
 import { Dimensions } from "react-native";
 const windowWidth = Dimensions.get("window").width;
@@ -92,8 +93,14 @@ export default function RecPage() {
   const [imgArray, setImgArray] = useState([]);
   const [urlArray, setUrlArray] = useState(null);
 
-  const { business_id, category, business_name, notifMessage } =
-    useLocalSearchParams();
+  const {
+    business_id,
+    category,
+    business_name,
+    notifMessage,
+    fromFriendRequests,
+    friendRequestId,
+  } = useLocalSearchParams();
   const { user } = useAuth();
 
   const handleMessageChange = (text) => {
@@ -139,6 +146,17 @@ export default function RecPage() {
     }
   };
 
+  const { friendRequests, setFriendRequests } = useRequest();
+
+  const removeItem = (id) => {
+    const numId = parseInt(id);
+
+    const filteredItems = friendRequests.filter((item) => item.id !== numId);
+
+    setFriendRequests(filteredItems);
+    console.log("FILTERED", filteredItems);
+  };
+
   const handleSubmit = async () => {
     uploadImagesToSupabase();
     const { error } = await supabase.from("recs").insert({
@@ -151,10 +169,10 @@ export default function RecPage() {
     if (error) {
       console.error("Error inserting rec:", error);
     }
-
+    console.log("ID", friendRequestId);
+    removeItem(friendRequestId);
+    console.log("AFTER", friendRequests);
     router.replace("/(home)");
-
-    // showSuccessToast("Here");
     showSuccessToast(notifMessage);
   };
 

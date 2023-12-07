@@ -24,18 +24,34 @@ function showSuccessToast(text) {
   });
 }
 
-const FriendsRequestButtons = ({ text1, text2 }) => {
+const FriendsRequestButtons = ({ text1, text2, friendRequestId }) => {
+  const { friendRequests, setFriendRequests } = useRequest();
+
+  const removeItem = (id) => {
+    const filteredItems = friendRequests.filter((item) => item.id !== id);
+    setFriendRequests(filteredItems);
+  };
+
   return (
     <View style={styles.rowContainerMed}>
       <TouchableOpacity
-        onPress={() => showSuccessToast("Request Cancelled")}
+        onPress={() => {
+          showSuccessToast("Friend's Request Cancelled");
+          removeItem(friendRequestId);
+        }}
         style={{ flex: 1 }}
       >
         <InvertedButton text={text1} />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
-          router.push({ pathname: "/(p)/leaveRecSearch", params: {} })
+          router.push({
+            pathname: "/(p)/leaveRecSearch",
+            params: {
+              fromFriendRequests: true,
+              friendRequestId: friendRequestId,
+            },
+          })
         }
         style={{ flex: 1 }}
       >
@@ -50,6 +66,7 @@ const FriendsPendingRequest = ({
   requestType,
   timestamp,
   requestText,
+  id,
 }) => {
   const [user, setUser] = useState([]);
 
@@ -79,7 +96,9 @@ const FriendsPendingRequest = ({
                 <TextMedPrimary text={"requested a"} />
                 <TextMedPrimaryBold text={requestType} />
               </View>
-              <TextSmSecondary text={numberToStringWithEnding(user.degree, false)} />
+              <TextSmSecondary
+                text={numberToStringWithEnding(user.degree, false)}
+              />
             </View>
 
             <TextSmSecondary text={convertTimestampFromIso(timestamp)} />
@@ -87,7 +106,11 @@ const FriendsPendingRequest = ({
           <Text style={{ flexWrap: "wrap" }}>{requestText}</Text>
         </View>
       </View>
-      <FriendsRequestButtons text1={"Cancel"} text2={"Create"} />
+      <FriendsRequestButtons
+        text1={"Cancel"}
+        text2={"Create"}
+        friendRequestId={id}
+      />
     </View>
   );
 };
@@ -105,6 +128,7 @@ const FriendsPendingRequestsSection = ({ data }) => {
             requestType={item.category}
             timestamp={item.created_at}
             requestText={item.message}
+            id={item.id}
             key={item.id}
           />
         ))}
