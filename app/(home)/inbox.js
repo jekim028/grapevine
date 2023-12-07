@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { padding } from "../../styles/spacing";
 import { colors } from "../../styles/colors";
 import {
@@ -23,9 +23,29 @@ import {
   friendsCompletedRequestsData,
   friendsPendingRequestsData,
 } from "../../lib/inbox-data";
+import { useRequests } from "../../utils/RequestProvider";
+import { useAuth } from "../../utils/AuthProvider";
+import { supabase } from "../../utils/supabase";
 
 export default function Page() {
   const [isOnYours, setIsOnYours] = useState(true);
+  const { requests } = useRequests();
+  const { user } = useAuth();
+
+  const [yourRequests, setYourRequests] = useState([]);
+  const [friendRequests, setFriendRequests] = useState([]);
+
+  useEffect(() => {
+    const newYourRequests = requests.filter(
+      (request) => request.user_id === user.id
+    );
+    const newFriendRequests = requests.filter(
+      (request) => request.user_id !== user.id
+    );
+
+    setYourRequests(newYourRequests);
+    setFriendRequests(newFriendRequests);
+  }, [requests, user.id]);
 
   const Toggle = () => {
     return (
@@ -87,13 +107,13 @@ export default function Page() {
             {isOnYours && (
               <YourRequestsSection
                 yourCompletedRequestsData={yourCompletedRequestsData}
-                yourPendingRequestsData={yourPendingRequestsData}
+                yourPendingRequestsData={yourRequests}
               />
             )}
             {!isOnYours && (
               <FriendsRequestsSection
                 friendsCompletedRequestsData={friendsCompletedRequestsData}
-                friendsPendingRequestsData={friendsPendingRequestsData}
+                friendsPendingRequestsData={friendRequests}
               />
             )}
           </View>

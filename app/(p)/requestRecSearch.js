@@ -121,7 +121,6 @@ export default function Page() {
   };
 
   const handleSubmit = async () => {
-    console.log(user.id);
     const { data, error } = await supabase
       .from("requests")
       .insert({
@@ -133,9 +132,6 @@ export default function Page() {
       })
       .select();
 
-    console.log("data:", data);
-    console.log("error:", error);
-
     router.replace("/(home)/inbox");
     showSuccessToast("Request sent");
   };
@@ -143,7 +139,11 @@ export default function Page() {
   const BottomPinned = () => {
     return (
       <View style={{ gap: padding.med, paddingVertical: padding.lg }}>
-        <AnonymousSetter text={"Send"} setter={setIsAnonymous} isAnonymous={isAnonymous} />
+        <AnonymousSetter
+          text={"Send"}
+          setter={setIsAnonymous}
+          isAnonymous={isAnonymous}
+        />
         <PrivacySetter setter={setModalVisible} isPublic={isPublic} />
         {(!selectedCategory || !isRequestFilled) && (
           <View style={styles.greyedButton}>

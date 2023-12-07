@@ -18,7 +18,6 @@ import { useAuth } from "../../utils/AuthProvider";
 import { supabase } from "../../utils/supabase";
 import { convertTimestampFromIso } from "../functions/convertTimestampFromIso";
 import Toast from "react-native-toast-message";
-import { useRequest } from "../../utils/RequestProvider";
 import { SmallPrivacySetter } from "../creating/PrivacySetter";
 import { PrivacyModal } from "../../components/creating/PrivacyModal";
 
@@ -30,13 +29,6 @@ function showSuccessToast(text) {
 }
 
 const RequestButtons = ({ text1, text2, id }) => {
-  const { myRequests, setMyRequests } = useRequest();
-
-  const removeItem = (id) => {
-    const filteredItems = myRequests.filter((item) => item.id !== id);
-    setMyRequests(filteredItems);
-  };
-
   const removeRequest = async () => {
     const { error } = await supabase.from("requests").delete().eq("id", id);
 
@@ -118,19 +110,18 @@ const PendingRequest = ({
 
 const PendingRequestsSection = ({ data }) => {
   const { profile } = useAuth();
-  const { myRequests, setMyRequests } = useRequest();
 
   return (
     <View>
       <TextLgSecondaryBold text={"Your Pending Requests"} />
-      {myRequests.length == 0 && (
+      {data.length == 0 && (
         <View style={{ padding: padding.med }}>
           <TextMedSecondary text={"No pending requests"} />
         </View>
       )}
-      {myRequests.length != 0 && (
+      {data.length != 0 && (
         <View style={{ gap: 1, backgroundColor: colors.gray }}>
-          {myRequests.map((item) => (
+          {data.map((item) => (
             <PendingRequest
               requestType={item.category}
               timestamp={item.created_at}
