@@ -55,42 +55,42 @@ export const RequestProvider = ({ children }) => {
     );
   };
 
-  const handleRecordInserted = (payload) => {
-    console.log("INSERT", payload);
-    setRequests((oldData) => [...oldData, payload.new]);
-  };
+  // const handleRecordInserted = (payload) => {
+  //   console.log("INSERT", payload);
+  //   setRequests((oldData) => [...oldData, payload.new]);
+  // };
 
-  const handleRecordDeleted = (payload) => {
-    console.log("DELETE", payload);
-    setRequests((oldData) =>
-      oldData.filter((post) => post.id !== payload.old.id)
-    );
-  };
+  // const handleRecordDeleted = (payload) => {
+  //   console.log("DELETE", payload);
+  //   setRequests((oldData) =>
+  //     oldData.filter((post) => post.id !== payload.old.id)
+  //   );
+  // };
 
-  useEffect(() => {
-    if (session) {
-      const subscription = supabase
-        .channel("schema-db-changes")
-        .on(
-          "postgres_changes",
-          { event: "UPDATE", schema: "public", table: "requests" },
-          handleRecordUpdated
-        )
-        .on(
-          "postgres_changes",
-          { event: "INSERT", schema: "public", table: "requests" },
-          handleRecordInserted
-        )
-        .on(
-          "postgres_changes",
-          { event: "DELETE", schema: "public", table: "requests" },
-          handleRecordDeleted
-        )
-        .subscribe();
+  // useEffect(() => {
+  //   if (session) {
+  //     const subscription = supabase
+  //       .channel("schema-db-changes")
+  //       .on(
+  //         "postgres_changes",
+  //         { event: "UPDATE", schema: "public", table: "requests" },
+  //         handleRecordUpdated
+  //       )
+  //       .on(
+  //         "postgres_changes",
+  //         { event: "INSERT", schema: "public", table: "requests" },
+  //         handleRecordInserted
+  //       )
+  //       .on(
+  //         "postgres_changes",
+  //         { event: "DELETE", schema: "public", table: "requests" },
+  //         handleRecordDeleted
+  //       )
+  //       .subscribe();
 
-      return () => supabase.removeAllChannels();
-    }
-  }, [session]);
+  //     return () => supabase.removeAllChannels();
+  //   }
+  // }, [session]);
 
   return (
     <RequestContext.Provider
