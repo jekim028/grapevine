@@ -34,19 +34,6 @@ import { ImageItem } from "../../components/general/ImageItems";
 import { useAuth } from "../../utils/AuthProvider";
 import { useRequest } from "../../utils/RequestProvider";
 
-import { Dimensions } from "react-native";
-const windowWidth = Dimensions.get("window").width;
-
-    const { friendRequests, setFriendRequests } = useRequest();
-
-  const removeItem = (id) => {
-    const numId = parseInt(id);
-
-    const filteredItems = friendRequests.filter((item) => item.id !== numId);
-
-    setFriendRequests(filteredItems);
-  };
-
 function showSuccessToast(text) {
   Toast.show({
     type: "success",
@@ -273,6 +260,17 @@ export default function RecPage() {
     );
   };
 
+  const { friendRequests, setFriendRequests } = useRequest();
+
+  const removeItem = (id) => {
+    const numId = parseInt(id);
+
+    const filteredItems = friendRequests.filter((item) => item.id !== numId);
+
+    setFriendRequests(filteredItems);
+    console.log("FILTERED", filteredItems);
+  };
+
   const handleSubmit = async () => {
     let finalUrlArray = [];
 
@@ -320,7 +318,7 @@ export default function RecPage() {
       console.error("Error updating row:", updateError);
       return;
     }
-    
+
     removeItem(friendRequestId);
 
     // Only navigate if there's no error
