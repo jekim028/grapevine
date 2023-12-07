@@ -15,14 +15,12 @@ export const FeedProvider = ({ children }) => {
   // Function to fetch initial data
   useEffect(() => {
     const fetchInitialData = async () => {
-      const { data, error } = await supabase
+      const response = await supabase
         .from("recs")
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (data) {
-        setRecs(data);
-      }
+      setRecs(response.data);
     };
     fetchInitialData();
   }, []);
