@@ -182,7 +182,7 @@ export const FriendsRequestsSection = ({
 }) => {
   return (
     <View style={styles.colContainerMed}>
-      <FriendsPendingRequestsSection data={friendsPendingRequestsData} />
+      {/* <FriendsPendingRequestsSection data={friendsPendingRequestsData} /> */}
       <FriendsCompletedRequestsSection data={friendsCompletedRequestsData} />
     </View>
   );
