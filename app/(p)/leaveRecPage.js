@@ -32,9 +32,20 @@ import { supabase } from "../../utils/supabase";
 import { decode } from "base64-arraybuffer";
 import { ImageItem } from "../../components/general/ImageItems";
 import { useAuth } from "../../utils/AuthProvider";
+import { useRequest } from "../../utils/RequestProvider";
 
 import { Dimensions } from "react-native";
 const windowWidth = Dimensions.get("window").width;
+
+    const { friendRequests, setFriendRequests } = useRequest();
+
+  const removeItem = (id) => {
+    const numId = parseInt(id);
+
+    const filteredItems = friendRequests.filter((item) => item.id !== numId);
+
+    setFriendRequests(filteredItems);
+  };
 
 function showSuccessToast(text) {
   Toast.show({
@@ -92,8 +103,14 @@ export default function RecPage() {
   const [imgArray, setImgArray] = useState([]);
   const [urlArray, setUrlArray] = useState([]);
 
-  const { business_id, category, business_name, notifMessage } =
-    useLocalSearchParams();
+  const {
+    business_id,
+    category,
+    business_name,
+    notifMessage,
+    fromFriendRequests,
+    friendRequestId,
+  } = useLocalSearchParams();
   const { user } = useAuth();
 
   const handleMessageChange = (text) => {
@@ -303,6 +320,8 @@ export default function RecPage() {
       console.error("Error updating row:", updateError);
       return;
     }
+    
+    removeItem(friendRequestId);
 
     // Only navigate if there's no error
     router.replace("/(home)");

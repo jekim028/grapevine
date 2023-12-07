@@ -24,7 +24,13 @@ export default function HomeLayout() {
         <TouchableOpacity
           style={{ flex: 1, height: 44 }}
           onPress={() =>
-            router.push({ pathname: "/(p)/leaveRecSearch", params: {} })
+            router.push({
+              pathname: "/(p)/leaveRecSearch",
+              params: {
+                fromFriendRequests: false,
+                friendRequestId: null,
+              },
+            })
           }
         >
           <AccentButton text={"Create"} />

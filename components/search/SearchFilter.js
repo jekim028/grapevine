@@ -6,20 +6,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { colors, fonts } from "../../styles/base";
-import { businesses, bizdata } from "../../lib/data";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { iconSize, padding } from "../../styles/base";
 import { router } from "expo-router";
-import {
-  TextSmPrimary,
-  TextSmPrimaryBold,
-  TextXsSecondary,
-} from "../general/Text";
+import { TextSmPrimary, TextXsSecondary } from "../general/Text";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../../utils/supabase";
-import { Dimensions } from "react-native";
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
+import { useRequest } from "../../utils/RequestProvider";
+
 import debounce from "lodash/debounce";
 
 const SearchResult = ({ business }) => {
@@ -45,7 +39,13 @@ const AddProfileResult = ({ text }) => {
   );
 };
 
-const SearchFilter = ({ searchQuery, isRegSearch, hasAddOption }) => {
+const SearchFilter = ({
+  searchQuery,
+  isRegSearch,
+  hasAddOption,
+  fromFriendRequests,
+  friendRequestId,
+}) => {
   const [data, setData] = useState([]);
 
   const debouncedFetchData = useCallback(
@@ -93,7 +93,8 @@ const SearchFilter = ({ searchQuery, isRegSearch, hasAddOption }) => {
                 <SearchResult business={item} />
               </TouchableOpacity>
             );
-          } else {
+          }
+          else {
             return (
               <TouchableOpacity
                 onPress={() =>
@@ -104,6 +105,8 @@ const SearchFilter = ({ searchQuery, isRegSearch, hasAddOption }) => {
                       category: item.type,
                       business_name: item.name,
                       notifMessage: "Recommendation posted",
+                      fromFriendRequests: fromFriendRequests,
+                      friendRequestId: friendRequestId,
                     },
                   })
                 }

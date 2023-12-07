@@ -17,7 +17,7 @@ import {
 } from "../../styles/base";
 import SearchFilter from "../../components/search/SearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import {
   TextSmPrimary,
   TextSmSecondary,
@@ -46,6 +46,7 @@ const Header = () => {
 
 export default function leaveRecSearch() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { fromFriendRequests, friendRequestId } = useLocalSearchParams();
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -60,7 +61,7 @@ export default function leaveRecSearch() {
         }}
       >
         <Header />
-        <View style={{ gap: padding.xxs, }}>
+        <View style={{ gap: padding.xxs }}>
           {/* Search Bar*/}
           <TextSmSecondary text={"Business Name"} />
           <View style={styles.searchBox}>
@@ -84,6 +85,8 @@ export default function leaveRecSearch() {
             searchQuery={searchQuery}
             isRegSearch={false}
             hasAddOption={true}
+            fromFriendRequests={fromFriendRequests}
+            friendRequestId={friendRequestId}
           />
         </View>
       </View>
