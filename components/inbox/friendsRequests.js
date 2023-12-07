@@ -9,7 +9,6 @@ import {
 } from "../general/Text";
 import { InvertedButton, AccentButton } from "../general/Button";
 import Toast from "react-native-toast-message";
-import { useRequest } from "../../utils/RequestProvider";
 import { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabase";
 import { ProfilePic } from "../general/Profiles";
@@ -25,8 +24,6 @@ function showSuccessToast(text) {
 }
 
 const FriendsRequestButtons = ({ text1, text2, friendRequestId }) => {
-  const { friendRequests, setFriendRequests } = useRequest();
-
   const removeItem = (id) => {
     const filteredItems = friendRequests.filter((item) => item.id !== id);
     setFriendRequests(filteredItems);
@@ -116,13 +113,11 @@ const FriendsPendingRequest = ({
 };
 
 const FriendsPendingRequestsSection = ({ data }) => {
-  const { friendRequests } = useRequest();
-
   return (
     <View>
       <TextLgSecondaryBold text={"Pending Requests"} />
       <View style={{ gap: 1, backgroundColor: colors.gray }}>
-        {friendRequests.map((item) => (
+        {data.map((item) => (
           <FriendsPendingRequest
             user_id={item.user_id}
             requestType={item.category}
@@ -182,7 +177,7 @@ export const FriendsRequestsSection = ({
 }) => {
   return (
     <View style={styles.colContainerMed}>
-      {/* <FriendsPendingRequestsSection data={friendsPendingRequestsData} /> */}
+      <FriendsPendingRequestsSection data={friendsPendingRequestsData} />
       <FriendsCompletedRequestsSection data={friendsCompletedRequestsData} />
     </View>
   );
