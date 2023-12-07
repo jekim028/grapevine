@@ -37,11 +37,19 @@ const RequestButtons = ({ text1, text2, id }) => {
     setMyRequests(filteredItems);
   };
 
+  const removeRequest = async () => {
+    const { error } = await supabase.from("requests").delete().eq("id", id);
+
+    if (error) {
+      console.log("Error removing request:", error);
+    }
+  };
+
   return (
     <View style={styles.rowContainerMed}>
       <TouchableOpacity
         onPress={() => {
-          showSuccessToast("Request Cancelled"), removeItem(id);
+          showSuccessToast("Request Cancelled"), removeRequest();
         }}
         style={{ flex: 1 }}
       >

@@ -77,6 +77,7 @@ const FeedPost = ({ item }) => {
 
 const Feed = () => {
   const { recs } = useFeed();
+
   return (
     <View style={styles.feed}>
       <View style={{ paddingHorizontal: padding.med }}>
