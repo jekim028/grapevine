@@ -57,7 +57,7 @@ const FriendsPendingRequest = ({
     const getUser = async () => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("first_name, degree")
+        .select("first_name, degree, avatar_url")
         .eq("id", user_id);
 
       if (error) console.log("error", error);
@@ -79,7 +79,9 @@ const FriendsPendingRequest = ({
                 <TextMedPrimary text={"requested a"} />
                 <TextMedPrimaryBold text={requestType} />
               </View>
-              <TextSmSecondary text={numberToStringWithEnding(user.degree, false)} />
+              <TextSmSecondary
+                text={numberToStringWithEnding(user.degree, false)}
+              />
             </View>
 
             <TextSmSecondary text={convertTimestampFromIso(timestamp)} />
