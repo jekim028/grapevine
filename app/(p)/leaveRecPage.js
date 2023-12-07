@@ -260,16 +260,16 @@ export default function RecPage() {
     );
   };
 
-  const { friendRequests, setFriendRequests } = useRequest();
+  // const { friendRequests, setFriendRequests } = useRequest();
 
-  const removeItem = (id) => {
-    const numId = parseInt(id);
+  // const removeItem = (id) => {
+  //   const numId = parseInt(id);
 
-    const filteredItems = friendRequests.filter((item) => item.id !== numId);
+  //   const filteredItems = friendRequests.filter((item) => item.id !== numId);
 
-    setFriendRequests(filteredItems);
-    // console.log("FILTERED", filteredItems);
-  };
+  //   setFriendRequests(filteredItems);
+  //   // console.log("FILTERED", filteredItems);
+  // };
 
   const handleSubmit = async () => {
     let finalUrlArray = [];
@@ -319,7 +319,7 @@ export default function RecPage() {
       return;
     }
 
-    removeItem(friendRequestId);
+    // removeItem(friendRequestId);
 
     // Only navigate if there's no error
     router.replace("/(home)");
