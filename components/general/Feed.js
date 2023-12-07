@@ -35,11 +35,16 @@ const FeedPost = ({ item }) => {
 
   useEffect(() => {
     const fetchBusiness = async () => {
-      const response = await supabase
+      const { data, error } = await supabase
         .from("businesses")
         .select()
         .eq("id", business_id);
-      setBusiness(response.data[0]);
+
+      if (error) {
+        console.log("Fetch business feed error: ", error);
+      }
+
+      setBusiness(data[0]);
     };
     fetchBusiness();
   }, []);
@@ -47,11 +52,15 @@ const FeedPost = ({ item }) => {
   useEffect(() => {
     if (user_id) {
       const fetchProfile = async () => {
-        const response = await supabase
+        const { data, error } = await supabase
           .from("profiles")
           .select()
           .eq("id", user_id);
-        setProfile(response.data[0]);
+
+        if (error) {
+          console.log("Fetch profile feed error: ", error);
+        }
+        setProfile(data[0]);
       };
       fetchProfile();
     }

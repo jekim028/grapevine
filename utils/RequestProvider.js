@@ -42,18 +42,18 @@ export const RequestProvider = ({ children }) => {
     }
   }, [requests]);
 
-  const handleRecordUpdated = (payload) => {
-    console.log("Record updated!", payload);
-    setRequests((oldData) =>
-      oldData.map((post) => {
-        if (post.id === payload.new.id) {
-          return payload.new;
-        } else {
-          return post;
-        }
-      })
-    );
-  };
+  // const handleRecordUpdated = (payload) => {
+  //   console.log("Record updated!", payload);
+  //   setRequests((oldData) =>
+  //     oldData.map((post) => {
+  //       if (post.id === payload.new.id) {
+  //         return payload.new;
+  //       } else {
+  //         return post;
+  //       }
+  //     })
+  //   );
+  // };
 
   // const handleRecordInserted = (payload) => {
   //   console.log("INSERT", payload);
