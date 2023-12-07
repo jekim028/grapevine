@@ -40,7 +40,7 @@ export const FeedProvider = ({ children }) => {
 
   const handleRecordInserted = (payload) => {
     console.log("INSERT", payload);
-    setRecs((oldData) => [...oldData, payload.new]);
+    setRecs((oldData) => [payload.new, ...oldData]);
   };
 
   const handleRecordDeleted = (payload) => {

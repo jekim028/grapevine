@@ -60,6 +60,7 @@ const CategorySection = () => {
 
 export default function Home() {
   const { profile, session } = useAuth();
+  const { recs, setRecs } = useFeed();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -118,7 +119,7 @@ export default function Home() {
           <PaddedLine />
 
           {/* Activity */}
-          <Feed />
+          <Feed recs={recs} />
         </ScrollView>
       </View>
     </SafeAreaView>
