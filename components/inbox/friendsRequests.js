@@ -197,6 +197,7 @@ const FriendsCompletedRequestsSection = ({
               <FriendsCompletedRequest
                 request={item}
                 rec_id={matchingRow.rec_id}
+                key={matchingRow.rec_id}
               />
             );
           })}

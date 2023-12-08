@@ -231,7 +231,18 @@ export const YourRequestsSection = ({
   yourPendingRequestsData,
   setYourRequests,
 }) => {
-  // If your request id is in request-responses, then move it to completed
+  useEffect(() => {
+    const getResponses = async () => {
+      const { data, error } = await supabase
+        .from("request-responses")
+        .select("request_id, rec_id");
+
+      console.log(data, error);
+      // If one of your request ids is in the response table, then request should be moved to completed
+    };
+    getResponses();
+  }, []);
+
   return (
     <View style={styles.colContainerMed}>
       <PendingRequestsSection data={yourPendingRequestsData} />
