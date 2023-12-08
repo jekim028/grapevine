@@ -26,8 +26,7 @@ function showSuccessToast(text) {
 
 const FriendsRequestButtons = ({ text1, text2, friendRequestId }) => {
   const removeItem = (id) => {
-    const filteredItems = friendRequests.filter((item) => item.id !== id);
-    setFriendRequests(filteredItems);
+    console.log("cancel request!");
   };
 
   return (
@@ -161,16 +160,17 @@ const FriendsCompletedRequestsSection = ({
     <View>
       <TextLgSecondaryBold text={"Completed Requests"} />
       <View style={{ gap: 1, backgroundColor: colors.gray }}>
-        {data.map((item) => (
-          <FriendsCompletedRequest
-            personPic={item.personPic}
-            name={item.name}
-            degree={item.degree}
-            requestType={item.requestType}
-            timestamp={item.timestamp}
-            key={item.requestType}
-          />
-        ))}
+        {data &&
+          data.map((item) => (
+            <FriendsCompletedRequest
+              personPic={item.personPic}
+              name={item.name}
+              degree={item.degree}
+              requestType={item.requestType}
+              timestamp={item.timestamp}
+              key={item.requestType}
+            />
+          ))}
       </View>
     </View>
   );
@@ -197,8 +197,6 @@ export const FriendsRequestsSection = ({
         console.error(error);
       }
       setFriendRecs(data);
-
-      console.log("data", data);
     };
 
     getRequestResponses();
@@ -261,15 +259,10 @@ export const FriendsRequestsSection = ({
         ? friendRequests.filter((request) => !requestIds.includes(request.id))
         : [];
       setPendingRequests(unseen);
-
-      console.log("requestIds", requestIds);
-
       const seen = requestIds
         ? friendRequests.filter((request) => requestIds.includes(request.id))
         : [];
       setCompletedRequests(seen);
-
-      console.log(completedRequests);
     }
   }, [friendRecs]);
 

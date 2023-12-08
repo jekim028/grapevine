@@ -18,7 +18,8 @@ export const FeedProvider = ({ children }) => {
       const response = await supabase
         .from("recs")
         .select("*")
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .limit(20);
 
       setRecs(response.data);
     };
