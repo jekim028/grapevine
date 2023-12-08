@@ -254,7 +254,7 @@ export default function businessProfilePage() {
     };
 
     getBusiness();
-  }, []);
+  }, [business_id]);
 
   useEffect(() => {
     const getRecs = async () => {
@@ -272,14 +272,14 @@ export default function businessProfilePage() {
     };
 
     getRecs();
-  }, []);
+  }, [business_id]);
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Header />
-          <BusinessPhotosScroll photos={data.photos} />
+          {data.photos && <BusinessPhotosScroll photos={data.photos} />}
           <BusinessDetails business={data} recs={recs} />
           <PaddedLine />
           <RecommendationsDetails totalNumRecs={recs ? recs.length : 0} />

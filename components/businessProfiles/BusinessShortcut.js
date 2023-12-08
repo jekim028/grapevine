@@ -13,12 +13,12 @@ export const BusinessShortcut = ({
 }) => {
   return (
     <TouchableOpacity
-      onPress={() =>
+      onPress={() => {
         router.push({
           pathname: "./(pages)/businessProfilePage",
           params: { business_id: businessId },
-        })
-      }
+        });
+      }}
       style={styles.businessContainer}
     >
       <View style={styles.businessTextContainer}>
