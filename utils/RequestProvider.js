@@ -10,9 +10,6 @@ export function useRequests() {
 
 export const RequestProvider = ({ children }) => {
   const [requests, setRequests] = useState([]);
-  // const [myRequests, setMyRequests] = useState([]);
-  // const [friendRequests, setFriendRequests] = useState([]);
-
   const { session } = useAuth();
 
   useEffect(() => {
@@ -29,18 +26,6 @@ export const RequestProvider = ({ children }) => {
 
     fetchRequests();
   }, []);
-
-  // useEffect(() => {
-  //   if (requests) {
-  //     const myReqs = requests.filter((req) => req.user_id === session.user.id);
-  //     const friendReqs = requests.filter(
-  //       (req) => req.user_id !== session.user.id
-  //     );
-
-  //     setMyRequests(myReqs);
-  //     setFriendRequests(friendReqs);
-  //   }
-  // }, [requests]);
 
   const handleRecordUpdated = (payload) => {
     console.log("Record updated!", payload);
