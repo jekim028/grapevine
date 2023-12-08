@@ -132,19 +132,38 @@ const FriendsPendingRequestsSection = ({ data }) => {
   );
 };
 
-const FriendsCompletedRequest = ({ name, degree, requestType, timestamp }) => {
+const FriendsCompletedRequest = ({ request }) => {
+  const [profile, setProfile] = useState([]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("first_name, degree, avatar_url")
+        .eq("id", request.user_id);
+
+      if (error) console.log("error", error);
+
+      setProfile(data[0]);
+    };
+    getUser();
+  }, []);
+
   return (
     <View style={styles.completedRequest}>
       <View style={styles.rowContainerMed}>
+        <ProfilePic size={32} uri={profile.avatar_url} />
         <View style={styles.colContainerXxs}>
           <View style={styles.rowContainerLg}>
             <View style={styles.rowContainerXsWrap}>
-              <TextMedPrimaryBold text={`${name}'s`} />
-              <TextMedPrimary text={`${requestType} request`} />
+              <TextMedPrimaryBold text={`${profile.first_name}'s`} />
+              <TextMedPrimary text={`${request.category} request`} />
             </View>
-            <TextSmSecondary text={degree} />
+            <TextSmSecondary
+              text={numberToStringWithEnding(profile.degree, false)}
+            />
           </View>
-          <TextSmSecondary text={timestamp} />
+          <TextSmSecondary text={profile.created_at} />
         </View>
       </View>
     </View>
@@ -160,17 +179,18 @@ const FriendsCompletedRequestsSection = ({
     <View>
       <TextLgSecondaryBold text={"Completed Requests"} />
       <View style={{ gap: 1, backgroundColor: colors.gray }}>
-        {data &&
-          data.map((item) => (
-            <FriendsCompletedRequest
-              personPic={item.personPic}
-              name={item.name}
-              degree={item.degree}
-              requestType={item.requestType}
-              timestamp={item.timestamp}
-              key={item.requestType}
-            />
-          ))}
+        {completedRequests &&
+          completedRequests.map((item) => {
+            const matchingRow = friendRecs.find(
+              (rec) => rec.request_id === item.id
+            );
+            return (
+              <FriendsCompletedRequest
+                request={item}
+                rec_id={matchingRow.rec_id}
+              />
+            );
+          })}
       </View>
     </View>
   );
@@ -200,7 +220,7 @@ export const FriendsRequestsSection = ({
     };
 
     getRequestResponses();
-  }, [friendRequests, friendRecs]);
+  }, [friendRequests]);
 
   const handleRecordUpdated = (payload) => {
     console.log("Record updated!", payload);

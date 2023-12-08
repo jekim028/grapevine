@@ -198,14 +198,7 @@ const RequestResponse = (props) => {
   } = props.item;
   return (
     <View style={styles.colContainerMed}>
-      <View style={styles.colContainerMed}>
-        {/* <ProfileWithDegreeAndTimestamp
-          personPic={personPic}
-          name={name}
-          degree={degree}
-          timestamp={timestamp}
-        /> */}
-      </View>
+      <View style={styles.colContainerMed}></View>
       <BusinessShortcut
         businessName={businessName}
         numRecommendations={numRecommendations}
