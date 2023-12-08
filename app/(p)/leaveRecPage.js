@@ -278,13 +278,16 @@ export default function RecPage() {
       finalUrlArray = await uploadImagesToSupabase();
     }
 
-    const { error } = await supabase.from("recs").insert({
-      user_id: user.id,
-      message: message,
-      photos: finalUrlArray,
-      business_id: business_id,
-      isPublic: isPublic,
-    });
+    const { data: addedRec, error } = await supabase
+      .from("recs")
+      .upsert({
+        user_id: user.id,
+        message: message,
+        photos: finalUrlArray,
+        business_id: business_id,
+        isPublic: isPublic,
+      })
+      .select();
 
     if (error) {
       console.error("Error inserting rec:", error);
@@ -311,7 +314,7 @@ export default function RecPage() {
     // Update the row in the database
     const { data: updatedRow, error: updateError } = await supabase
       .from("businesses")
-      .update({ photos: finalUrlArray })
+      .update({ photos: updatedArray })
       .eq("id", business_id);
 
     if (updateError) {
@@ -320,6 +323,23 @@ export default function RecPage() {
     }
 
     // removeItem(friendRequestId);
+
+    if (friendRequestId) {
+      const { data: requestResponseData, error: requestResponseError } =
+        await supabase
+          .from("request-responses")
+          .upsert({ request_id: friendRequestId, rec_id: addedRec[0].id })
+          .select();
+
+      if (requestResponseError) {
+        console.error(
+          "Error inserting request response:",
+          requestResponseError
+        );
+      }
+
+      console.log(requestResponseData);
+    }
 
     // Only navigate if there's no error
     router.replace("/(home)");

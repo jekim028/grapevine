@@ -114,6 +114,7 @@ export default function Page() {
               <FriendsRequestsSection
                 friendsCompletedRequestsData={friendsCompletedRequestsData}
                 friendsPendingRequestsData={friendRequests}
+                friendRequests={friendRequests}
               />
             )}
           </View>

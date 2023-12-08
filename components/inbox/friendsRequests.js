@@ -15,6 +15,7 @@ import { ProfilePic } from "../general/Profiles";
 import { convertTimestampFromIso } from "../functions/convertTimestampFromIso";
 import { numberToStringWithEnding } from "../functions/numberToStringWithEnding";
 import { router } from "expo-router";
+import { useAuth } from "../../utils/AuthProvider";
 
 function showSuccessToast(text) {
   Toast.show({
@@ -151,7 +152,11 @@ const FriendsCompletedRequest = ({ name, degree, requestType, timestamp }) => {
   );
 };
 
-const FriendsCompletedRequestsSection = ({ data }) => {
+const FriendsCompletedRequestsSection = ({
+  data,
+  completedRequests,
+  friendRecs,
+}) => {
   return (
     <View>
       <TextLgSecondaryBold text={"Completed Requests"} />
@@ -174,11 +179,108 @@ const FriendsCompletedRequestsSection = ({ data }) => {
 export const FriendsRequestsSection = ({
   friendsCompletedRequestsData,
   friendsPendingRequestsData,
+  friendRequests,
 }) => {
+  const [pendingRequests, setPendingRequests] = useState(friendRequests);
+  const [completedRequests, setCompletedRequests] = useState([]);
+  const [friendRecs, setFriendRecs] = useState([]);
+  const { session, user } = useAuth();
+
+  useEffect(() => {
+    const getRequestResponses = async () => {
+      const { data, error } = await supabase
+        .from("request-responses")
+        .select("*")
+        .eq("user_id", user.id);
+
+      if (error) {
+        console.error(error);
+      }
+      setFriendRecs(data);
+
+      console.log("data", data);
+    };
+
+    getRequestResponses();
+  }, [friendRequests, friendRecs]);
+
+  const handleRecordUpdated = (payload) => {
+    console.log("Record updated!", payload);
+    setfriendRecs((oldData) =>
+      oldData.map((post) => {
+        if (post.id === payload.new.id) {
+          return payload.new;
+        } else {
+          return post;
+        }
+      })
+    );
+  };
+
+  const handleRecordInserted = (payload) => {
+    console.log("INSERT", payload);
+    setFriendRecs((oldData) => [payload.new, ...oldData]);
+  };
+
+  const handleRecordDeleted = (payload) => {
+    console.log("DELETE", payload);
+    setFriendRecs((oldData) =>
+      oldData.filter((post) => post.id !== payload.old.id)
+    );
+  };
+
+  useEffect(() => {
+    if (session) {
+      const subscription = supabase
+        .channel("schema-db-changes")
+        .on(
+          "postgres_changes",
+          { event: "UPDATE", schema: "public", table: "request-responses" },
+          handleRecordUpdated
+        )
+        .on(
+          "postgres_changes",
+          { event: "INSERT", schema: "public", table: "request-responses" },
+          handleRecordInserted
+        )
+        .on(
+          "postgres_changes",
+          { event: "DELETE", schema: "public", table: "request-responses" },
+          handleRecordDeleted
+        )
+        .subscribe();
+
+      return () => supabase.removeAllChannels();
+    }
+  }, [session]);
+
+  useEffect(() => {
+    if (friendRecs) {
+      const requestIds = friendRecs.map((request) => request.request_id);
+      const unseen = requestIds
+        ? friendRequests.filter((request) => !requestIds.includes(request.id))
+        : [];
+      setPendingRequests(unseen);
+
+      console.log("requestIds", requestIds);
+
+      const seen = requestIds
+        ? friendRequests.filter((request) => requestIds.includes(request.id))
+        : [];
+      setCompletedRequests(seen);
+
+      console.log(completedRequests);
+    }
+  }, [friendRecs]);
+
   return (
     <View style={styles.colContainerMed}>
-      <FriendsPendingRequestsSection data={friendsPendingRequestsData} />
-      <FriendsCompletedRequestsSection data={friendsCompletedRequestsData} />
+      <FriendsPendingRequestsSection data={pendingRequests} />
+      <FriendsCompletedRequestsSection
+        data={friendsCompletedRequestsData}
+        completedRequests={completedRequests}
+        friendRecs={friendRecs}
+      />
     </View>
   );
 };
