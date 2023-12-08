@@ -26,6 +26,56 @@ import { useState, useEffect } from "react";
 import { supabase } from "../../utils/supabase";
 import { useFeed } from "../../utils/FeedProvider";
 
+// Use for refreshing purposes if photo updating not working
+async function updateBusinessPhotos() {
+  let { data: businesses, error: businessError } = await supabase
+    .from("businesses")
+    .select("name, id, photos");
+
+  if (businessError) {
+    console.error(businessError);
+  }
+
+  for (const business of businesses) {
+    let { data: storageFiles, error: storageError } = await supabase.storage
+      .from("rec-photos")
+      .list(`${business.id}`);
+
+    if (storageError) {
+      console.error(business.name, ":", storageError);
+    }
+
+    const existingUrls = business.photos ? business.photos : [];
+    const storageUrls = await Promise.all(
+      storageFiles.map(async (file) => {
+        const { data: url, error: urlError } = await supabase.storage
+          .from("rec-photos")
+          .getPublicUrl(`${business.id}/${file.name}`);
+
+        if (url) {
+          return url.publicUrl;
+        }
+      })
+    );
+    // Find URLs that are in storage but not in the database
+    const missingUrls = storageUrls.filter(
+      (url) => !existingUrls.includes(url)
+    );
+
+    if (missingUrls.length > 0) {
+      let { data: updatedData, error: updateError } = await supabase
+        .from("businesses")
+        .update({ photos: [...existingUrls, ...missingUrls] })
+        .eq("id", business.id)
+        .select();
+
+      if (updateError) {
+        console.error(updateError);
+      }
+    }
+  }
+}
+
 const CategoryIconBox = ({ iconName, category }) => {
   return (
     <View style={styles.categoryBox}>
@@ -61,7 +111,6 @@ const CategorySection = () => {
 export default function Home() {
   const { profile, session } = useAuth();
   const { recs, setRecs } = useFeed();
-
   return (
     <SafeAreaView style={styles.container}>
       <View>
