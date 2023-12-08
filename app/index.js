@@ -72,7 +72,7 @@ const Login = () => {
           />
           <Text
             style={{
-              // fontFamily: "LobsterTwo_400Regular",
+              fontFamily: "LobsterTwo_400Regular",
               fontSize: 60,
 
               // lineHeight: 36,
