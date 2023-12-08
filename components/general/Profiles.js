@@ -2,6 +2,8 @@ import { View, Image, StyleSheet } from "react-native";
 import { padding } from "../../styles/spacing";
 import { TextMedPrimaryBold, TextMedSecondary, TextSmSecondary } from "./Text";
 import { numberToStringWithEnding } from "../functions/numberToStringWithEnding";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../utils/AuthProvider";
 
 export const ProfilePic = ({ size, uri, hasBorder, borderColor }) => {
   const styles = StyleSheet.create({
@@ -38,13 +40,23 @@ export const OverlappingProfiles = ({ people }) => {
 
 export const ProfileWithDegreeAndTimestamp = ({ user, timestamp }) => {
   const degree = numberToStringWithEnding(user.degree, true);
+  const { profile } = useAuth();
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  useEffect(() => {
+    if (user && profile) {
+      if (user.id == profile.id) {
+        setIsCurrentUser(true);
+      }
+    }
+  }, [profile, user]);
+
   return (
     <View style={styles.rowContainerMed}>
       <ProfilePic size={40} uri={user.avatar_url} hasBorder={false} />
       <View style={{ gap: 2 }}>
         <View style={styles.rowContainerSm}>
           <TextMedPrimaryBold text={user.first_name + " " + user.last_name} />
-          <TextMedSecondary text={degree} />
+          {!isCurrentUser && <TextMedSecondary text={degree} />}
         </View>
         <TextSmSecondary text={timestamp} />
       </View>
