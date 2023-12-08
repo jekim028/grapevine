@@ -229,7 +229,9 @@ const CompletedRequestsSection = ({ data }) => {
 export const YourRequestsSection = ({
   yourCompletedRequestsData,
   yourPendingRequestsData,
+  setYourRequests,
 }) => {
+  // If your request id is in request-responses, then move it to completed
   return (
     <View style={styles.colContainerMed}>
       <PendingRequestsSection data={yourPendingRequestsData} />

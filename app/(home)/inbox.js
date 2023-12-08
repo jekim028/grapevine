@@ -108,6 +108,7 @@ export default function Page() {
               <YourRequestsSection
                 yourCompletedRequestsData={yourCompletedRequestsData}
                 yourPendingRequestsData={yourRequests}
+                setYourRequests={setYourRequests}
               />
             )}
             {!isOnYours && (
@@ -115,6 +116,7 @@ export default function Page() {
                 friendsCompletedRequestsData={friendsCompletedRequestsData}
                 friendsPendingRequestsData={friendRequests}
                 friendRequests={friendRequests}
+                setFriendRequests={setFriendRequests}
               />
             )}
           </View>

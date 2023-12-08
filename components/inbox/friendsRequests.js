@@ -24,8 +24,14 @@ function showSuccessToast(text) {
   });
 }
 
-const FriendsRequestButtons = ({ text1, text2, friendRequestId }) => {
+const FriendsRequestButtons = ({
+  text1,
+  text2,
+  friendRequestId,
+  setFriendRequests,
+}) => {
   const removeItem = (id) => {
+    setFriendRequests((oldData) => oldData.filter((item) => item.id !== id));
     console.log("cancel request!");
   };
 
@@ -64,6 +70,7 @@ const FriendsPendingRequest = ({
   timestamp,
   requestText,
   id,
+  setFriendRequests,
 }) => {
   const [user, setUser] = useState([]);
 
@@ -107,12 +114,13 @@ const FriendsPendingRequest = ({
         text1={"Cancel"}
         text2={"Create"}
         friendRequestId={id}
+        setFriendRequests={setFriendRequests}
       />
     </View>
   );
 };
 
-const FriendsPendingRequestsSection = ({ data }) => {
+const FriendsPendingRequestsSection = ({ data, setFriendRequests }) => {
   return (
     <View>
       <TextLgSecondaryBold text={"Pending Requests"} />
@@ -124,6 +132,7 @@ const FriendsPendingRequestsSection = ({ data }) => {
             timestamp={item.created_at}
             requestText={item.message}
             id={item.id}
+            setFriendRequests={setFriendRequests}
             key={item.id}
           />
         ))}
@@ -200,6 +209,7 @@ export const FriendsRequestsSection = ({
   friendsCompletedRequestsData,
   friendsPendingRequestsData,
   friendRequests,
+  setFriendRequests,
 }) => {
   const [pendingRequests, setPendingRequests] = useState(friendRequests);
   const [completedRequests, setCompletedRequests] = useState([]);
@@ -288,7 +298,10 @@ export const FriendsRequestsSection = ({
 
   return (
     <View style={styles.colContainerMed}>
-      <FriendsPendingRequestsSection data={pendingRequests} />
+      <FriendsPendingRequestsSection
+        data={pendingRequests}
+        setFriendRequests={setFriendRequests}
+      />
       <FriendsCompletedRequestsSection
         data={friendsCompletedRequestsData}
         completedRequests={completedRequests}
