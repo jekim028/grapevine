@@ -79,15 +79,26 @@ async function updateBusinessPhotos() {
 
 const CategoryIconBox = ({ iconName, category }) => {
   return (
-    <View style={styles.categoryBox}>
+    <TouchableOpacity
+      style={styles.categoryBox}
+      onPress={() => handleSearch({ query: category })}
+    >
       <FontAwesome5
         name={iconName}
         size={iconSize}
         color={colors.textPrimary}
       />
       <Text style={styles.categoryDesc}>{category}</Text>
-    </View>
+    </TouchableOpacity>
   );
+};
+
+const handleSearch = ({ query }) => {
+  console.log(query);
+  router.push({
+    pathname: "../(home)/(pages)/searchResultsPage",
+    params: { query },
+  });
 };
 
 const CategorySection = () => {
