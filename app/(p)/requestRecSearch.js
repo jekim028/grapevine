@@ -141,7 +141,7 @@ export default function Page() {
 
     console.log("data:", data);
     console.log("error:", error);
-
+    clearSelectedCategory();
     router.replace("/(home)/inbox");
     showSuccessToast("Request sent");
   };
