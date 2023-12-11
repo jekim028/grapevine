@@ -5,8 +5,9 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { padding } from "../../styles/spacing";
 import { colors } from "../../styles/colors";
 import {
@@ -34,6 +35,13 @@ export default function Page() {
 
   const [yourRequests, setYourRequests] = useState([]);
   const [friendRequests, setFriendRequests] = useState([]);
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 2000);
+  }, []);
 
   useEffect(() => {
     const newYourRequests = requests.filter(
@@ -87,7 +95,12 @@ export default function Page() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ width: "100%" }}>
-        <ScrollView style={{ width: "100%" }}>
+        <ScrollView
+          style={{ width: "100%" }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <View style={styles.header}>
             <View
               style={{

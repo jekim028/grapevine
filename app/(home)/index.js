@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  RefreshControl,
 } from "react-native";
 import {
   iconSize,
@@ -22,7 +23,7 @@ import { PaddedLine } from "../../components/general/Line";
 import { Title2Primary } from "../../components/general/Text";
 import { ProfilePic } from "../../components/general/Profiles";
 import { useAuth } from "../../utils/AuthProvider";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../../utils/supabase";
 import { useFeed } from "../../utils/FeedProvider";
 
@@ -111,10 +112,21 @@ const CategorySection = () => {
 export default function Home() {
   const { profile, session } = useAuth();
   const { recs, setRecs } = useFeed();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 2000);
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <View
             style={{
               flexDirection: "row",
