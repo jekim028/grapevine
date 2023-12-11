@@ -52,8 +52,8 @@ const SearchFilter = ({
     debounce(async (query) => {
       const { data, error } = await supabase
         .from("businesses")
-        .select("name, type, address, id")
-        .ilike("name", `%${query}%`);
+        .select()
+        .ilike("search_businesses", `%${query}%`);
       if (error) {
         console.log("Debouncing error:", error);
       }
