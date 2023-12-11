@@ -140,7 +140,7 @@ const AllResults = ({ searchQuery }) => {
         const { data, error } = await supabase
           .from("businesses")
           .select()
-          .ilike("name", `%${searchQuery}%`);
+          .ilike("search_businesses", `%${searchQuery}%`);
 
         if (error) {
           throw error;
@@ -156,16 +156,7 @@ const AllResults = ({ searchQuery }) => {
     getBusinesses();
   }, []);
 
-  let numResults = 0;
-
-  data.map((item) => {
-    if (
-      searchQuery &&
-      item.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      numResults += 1;
-    }
-  });
+  let numResults = data.length;
 
   return (
     <View style={styles.allReviews}>
@@ -192,14 +183,9 @@ const AllResults = ({ searchQuery }) => {
           </View>
           <View style={{ gap: 2, backgroundColor: colors.gray, paddingTop: 2 }}>
             {data.map((item) => {
-              if (
-                searchQuery &&
-                item.name.toLowerCase().includes(searchQuery.toLowerCase())
-              ) {
-                return (
-                  <BusinessResult data={item} id={item.name} key={item.id} />
-                );
-              }
+              return (
+                <BusinessResult data={item} id={item.name} key={item.id} />
+              );
             })}
           </View>
         </View>
